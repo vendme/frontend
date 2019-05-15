@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { Suspense, Component } from 'react'
 
-function App() {
-  return <div className="App">Hello World</div>
+import { Login, SignUp, NavBar } from './services/lazyImporter'
+
+class App extends Component {
+  render() {
+    return (
+      <>
+        <Suspense fallback="loading...">
+          <Login />
+          <SignUp />
+          <NavBar />
+        </Suspense>
+      </>
+    )
+  }
 }
 
 export default App
