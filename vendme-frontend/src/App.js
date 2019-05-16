@@ -1,6 +1,22 @@
 import React, { Suspense, Component } from 'react'
 
-import { Login, SignUp, NavBar } from './services/lazyImporter'
+import {
+  Login,
+  SignUp,
+  NavBar,
+  SearchPage,
+  SearchBar,
+  Card,
+  CardInfo,
+  MarketEdit,
+  MarketProfile,
+  VendorProfile,
+  AddStalls,
+  RentStall,
+  ItemListing,
+  ItemListings,
+  Map
+} from './services/lazyImporter'
 
 class App extends Component {
   render() {
@@ -10,6 +26,18 @@ class App extends Component {
           <Login />
           <SignUp />
           <NavBar />
+          <SearchPage />
+          <SearchBar />
+          <Card />
+          <CardInfo />
+          <MarketEdit />
+          <MarketProfile />
+          <VendorProfile />
+          <AddStalls />
+          <RentStall />
+          <ItemListing />
+          <ItemListings />
+          <Map />
         </Suspense>
       </>
     )
