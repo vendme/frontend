@@ -1,4 +1,3 @@
 [build]
-base = "vendme-frontend/"
-publish = "vendme-frontend/build"
+publish = "build"
 command = "yarn build"
