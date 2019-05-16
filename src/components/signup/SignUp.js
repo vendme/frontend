@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, TextField, Button } from '@material-ui/core'
+import { Grid, TextField, Button, FormControlLabel, Switch } from '@material-ui/core'
 
 import styles from './signup.module.css'
 
@@ -29,6 +29,14 @@ const SignUp = props => {
               className={styles.textField}
               margin="normal"
               variant="outlined"
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  value="checkedA"
+                />
+              }
+              label="Secondary"
             />
             <Button variant="contained" className={styles.button}>
               Submit
