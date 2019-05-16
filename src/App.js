@@ -23,9 +23,9 @@ class App extends Component {
     return (
       <>
         <Suspense fallback="loading...">
-          <Login />
+          {/* <Login /> */}
           <SignUp />
-          <NavBar />
+          {/* <NavBar />
           <SearchPage />
           <SearchBar />
           <Card />
@@ -37,7 +37,7 @@ class App extends Component {
           <RentStall />
           <ItemListing />
           <ItemListings />
-          <Map />
+          <Map /> */}
         </Suspense>
       </>
     )
