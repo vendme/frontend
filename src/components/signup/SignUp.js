@@ -1,43 +1,63 @@
 import React from 'react'
-import { Grid, TextField, Button } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import {
+  Button,
+  CssBaseline,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+  Input,
+  InputLabel,
+  Paper,
+  Typography,
+  withStyles
+} from '@material-ui/core'
 
-import styles from './signup.module.css'
+import styles from './signup.styles'
 
-const SignUp = props => {
+function SignUp(props) {
+  const { classes } = props
   return (
-    <>
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-        spacing={16}
-        className={styles.signup}>
-        <Grid item>
-          <form action="" className={styles.container}>
-            <TextField
-              id="outlined-name"
-              label="email"
-              className={styles.textField}
-              margin="normal"
-              variant="outlined"
-            />
-            <TextField
-              id="outlined-name"
-              label="password"
+    <main className={classes.main}>
+      <CssBaseline />
+      <Paper className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <form className={classes.form}>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <Input id="email" name="email" autoComplete="email" autoFocus />
+          </FormControl>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input
+              name="password"
               type="password"
-              className={styles.textField}
-              margin="normal"
-              variant="outlined"
+              id="password"
+              autoComplete="current-password"
             />
-            <Button variant="contained" className={styles.button}>
-              Submit
-            </Button>
-          </form>
-        </Grid>
-      </Grid>
-    </>
+          </FormControl>
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Sign up
+          </Button>
+        </form>
+      </Paper>
+    </main>
   )
 }
 
-export default SignUp
+SignUp.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(SignUp)
