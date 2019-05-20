@@ -11,8 +11,8 @@ export const SearchPage = lazy(() =>
   import('../components/searchpage/SearchPage')
 )
 export const SearchBar = lazy(() => import('../components/searchbar/SearchBar'))
-export const MarketEdit = lazy(() =>
-  import('../components/marketedit/MarketEdit')
+export const MarketEditss = lazy(() =>
+  import('../components/marketedit/MarketEditss')
 )
 export const AddStalls = lazy(() => import('../components/addstalls/AddStalls'))
 export const RentStall = lazy(() => import('../components/rentstall/RentStall'))

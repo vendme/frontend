@@ -8,10 +8,10 @@ import {
   SearchBar,
   Card,
   CardInfo,
-  MarketEdit,
+  MarketEditss,
   MarketProfile,
   VendorProfile,
-  AddStalls,
+  // AddStalls,
   RentStall,
   ItemListing,
   ItemListings,
@@ -23,15 +23,15 @@ class App extends Component {
     return (
       <>
         <Suspense fallback="loading...">
-          {/* <Login /> */}
-          <SignUp />
-          {/* <NavBar />
+          {/* <Login />? */}
+          {/* <SignUp />
+          <NavBar />
           <SearchPage />
           <SearchBar />
           <Card />
-          <CardInfo />
-          <MarketEdit />
-          <MarketProfile />
+          <CardInfo />*/}
+          <MarketEditss />
+          {/*<MarketProfile />
           <VendorProfile />
           <AddStalls />
           <RentStall />
