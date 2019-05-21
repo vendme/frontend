@@ -97,14 +97,7 @@ class NavBar extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Typography variant="h4" gutterBottom component="h2">
-            Stalls
-          </Typography>
-          <Typography component="div" className={classes.chartContainer} />
-          <Typography variant="h4" gutterBottom component="h2">
-            Products
-          </Typography>
-          <div className={classes.tableContainer} />
+          {this.props.children}
         </main>
       </div>
     )

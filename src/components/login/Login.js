@@ -1,48 +1,63 @@
 import React from 'react'
-import { Grid, TextField, Button, Card, CardContent } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import {
+  Button,
+  CssBaseline,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+  Input,
+  InputLabel,
+  Paper,
+  Typography,
+  withStyles
+} from '@material-ui/core'
 
-import styles from './login.module.css'
+import styles from './login.styles'
 
-const Login = props => {
+function Login(props) {
+  const { classes } = props
   return (
-    <>
-      <Grid 
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-        spacing={16}
-        className={styles.login}>
-        <Grid item >
-          <Card className={styles.card}>
-            <CardContent>
-              <h1>Login</h1>
-              <form action="" className={styles.formContainer}>
-                <TextField
-                  id="outlined-name"
-                  label="email"
-                  className={styles.textField}
-                  margin="normal"
-                  variant="outlined"
-                />
-                <TextField
-                  id="outlined-name"
-                  label="password"
-                  type="password"
-                  className={styles.textField}
-                  margin="normal"
-                  variant="outlined"
-                />
-                <Button variant="contained" className={styles.button}>
-                  Login
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </>
+    <main className={classes.main}>
+      <CssBaseline />
+      <Paper className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Sign In
+        </Typography>
+        <form className={classes.form}>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <Input id="email" name="email" autoComplete="email" autoFocus />
+          </FormControl>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input
+              name="password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+          </FormControl>
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Sign In
+          </Button>
+        </form>
+      </Paper>
+    </main>
   )
 }
 
-export default Login
+Login.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(Login)
