@@ -11,10 +11,10 @@ export const SearchPage = lazy(() =>
   import('../components/searchpage/SearchPage')
 )
 export const SearchBar = lazy(() => import('../components/searchbar/SearchBar'))
-export const MarketEditss = lazy(() =>
-  import('../components/marketedit/MarketEditss')
+export const MarketEdit = lazy(() =>
+  import('../components/marketedit/MarketEdit')
 )
-export const AddStalls = lazy(() => import('../components/addstalls/AddStalls'))
+export const AddStall = lazy(() => import('../components/addstalls/AddStall'))
 export const RentStall = lazy(() => import('../components/rentstall/RentStall'))
 export const MarketProfile = lazy(() =>
   import('../components/marketprofile/MarketProfile')

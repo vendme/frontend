@@ -8,10 +8,10 @@ import {
   SearchBar,
   Card,
   CardInfo,
-  MarketEditss,
+  MarketEdit,
   MarketProfile,
   VendorProfile,
-  // AddStalls,
+  AddStall,
   RentStall,
   ItemListing,
   ItemListings,
@@ -30,7 +30,7 @@ class App extends Component {
           <SearchBar />
           <Card />
           <CardInfo />*/}
-          <MarketEditss />
+          <MarketEdit />
           {/*<MarketProfile />
           <VendorProfile />
           <AddStalls />
