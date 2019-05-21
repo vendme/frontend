@@ -23,21 +23,22 @@ class App extends Component {
     return (
       <>
         <Suspense fallback="loading...">
-          {/* <Login />
-          <SignUp /> */}
-          <NavBar />
-          {/* <SearchPage />
-          <SearchBar />
-          <Card />
-          <CardInfo /> */}
-          {/* <MarketEdit /> */}
-          {/*<MarketProfile />
-          <VendorProfile />
-          <AddStalls />
-          <RentStall />
-          <ItemListing />
-          <ItemListings />
-          <Map /> */}
+          <NavBar>
+            <SignUp />
+            {/* <Login /> */}
+            {/* <SearchPage /> */}
+            {/* <SearchBar /> */}
+            {/* <Card /> */}
+            {/* <CardInfo /> */}
+            {/* <MarketEdit /> */}
+            {/* <MarketProfile /> */}
+            {/* <VendorProfile /> */}
+            {/* <AddStall /> */}
+            {/* <RentStall /> */}
+            {/* <ItemListing /> */}
+            {/* <ItemListings /> */}
+            {/* <Map /> */}
+          </NavBar>
         </Suspense>
       </>
     )
