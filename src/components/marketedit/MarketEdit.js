@@ -1,75 +1,91 @@
 import React, { Component } from 'react'
-import AddStall from "../addstalls/AddStall";
-import styles from "./marketedit.module.css";
+import AddStall from '../addstalls/AddStall'
+import styles from './marketedit.module.css'
 
 class MarketEdit extends Component {
-  constructor() {
-    super();
-    this.state = {
-      addStallList: [],
-      submittedStallList: []
-    };
+  state = {
+    submittedStallList: [],
+    quantity: '',
+    width: '',
+    length: ''
   }
 
-  addStall = event => {
-    event.preventDefault();
-    const addNewStall = [];
-    addNewStall.push(this.state.addStallList);
-    addNewStall.push(<AddStall key={Math.random()} submitStallToAdd={this.submitStallToAdd} removeStall={this.removeStall}/>);
-    this.setState({ addStallList: addNewStall })
-  };
-  // addStall = event => {  ORIGINAL
-  //   event.preventDefault();
-  //   const addNewStall = [];
-  //   addNewStall.push(this.state.addStallList);
-  //   addNewStall.push(<AddStalls key={Math.random()} submitStallToAdd={this.submitStallToAdd} removeStall={this.removeStall}/>);
-  //   this.setState({ addStallList: addNewStall })
-  // };
+  changeHandler = event => {
+    event.preventDefault()
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
-  submitStallToAdd = added => {
-    const updatedList = this.state.submittedStallList;
-    const add = {
-      id: Math.random(),
-      quantity: added.quantity,
-      size: added.size
+  submitStallToAdd = () => {
+    if (this.state.quantity && this.state.width && this.state.length) {
+      const updatedList = this.state.submittedStallList
+      const add = {
+        quantity: this.state.quantity,
+        width: this.state.width,
+        length: this.state.length
+      }
+      updatedList.push(add)
+      this.setState({
+        submittedStallList: updatedList,
+        quantity: '',
+        width: '',
+        length: ''
+      })
     }
-
-    updatedList.push(add);
-    this.setState({ submittedStallList: updatedList })
-    this.state.props.update(this.state);
   }
-  // removeStall = event => {
-  //   const remove = [];
-  //   remove.push(this.state.addStallList);
-  //   remove.unshift(event.target);
-  //   this.setState({ addStallList: remove })
-  // }
   render() {
-    return ( 
+    return (
       <div>
-        <form action="">
+        <form action="" id="form1">
           <label>
             Market Name
-            <input type="text"/>
+            <input
+              type="text"
+              name="name"
+              value={this.state.name}
+              onChange={this.changeHandler}
+            />
           </label>
           <label>
             Address
-            <input type="text"/>
+            <input
+              type="text"
+              name="address"
+              value={this.state.address}
+              onChange={this.changeHandler}
+            />
           </label>
         </form>
-        <h3>Available Stalls</h3>
+        <form action="">
+          <h3>Available Stalls</h3>
+          <AddStall
+            mystate={this.state}
+            changeHandler={this.changeHandler}
+            submitStallToAdd={this.submitStallToAdd}
+            removeStall={this.removeStall}
+            quantity={this.state.quantity}
+            width={this.state.width}
+            length={this.state.length}
+          />
+          <div className={styles.addContainer}>
+            <h3>Add Stall</h3>
+            <button
+              type="button"
+              className={styles.add}
+              onClick={this.submitStallToAdd}>
+              +
+            </button>
+          </div>
+        </form>
         <div>
-          <div>{this.state.submitedStallList}</div>
-          {this.state.addStallList}
+          {this.state.submittedStallList.map(stall => (
+            <div>
+              Quantity: {stall.quantity}
+              Size: {`${stall.width} x ${stall.length}`}
+            </div>
+          ))}
         </div>
-        <div className={styles.addContainer}>
-          <h3>Add Stalls</h3>
-          <button type="button" className={styles.add} onClick={this.addStall}>+</button>
-        </div>
-        <button type="button">{"<"} Back</button>
-        <button type="submit" onClick={this.submitStallToAdd}>Submit</button>
       </div>
-    );
+    )
   }
 }
 
