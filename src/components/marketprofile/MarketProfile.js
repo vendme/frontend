@@ -1,17 +1,19 @@
 import React from 'react'
-import  { Button } from "@material-ui/core";
-import StallsTable from "./stallstable/StallsTable";
+import { Button, Typography, withStyles } from '@material-ui/core'
+import StallsTable from './stallstable/StallsTable'
 
-import styles from "./marketprofile.module.css";
+import styles from './marketprofile.styles.js'
 
 const MarketProfile = props => {
+  const { classes } = props
+
   const marketObj = {
-    marketname: "Vendme Market",
+    marketname: 'Vendme Market',
     marketaddress: {
-      street: "123 MyMarket St",
-      state: "North, State 12345"
+      street: '123 MyMarket St',
+      state: 'North, State 12345'
     },
-    markethours: "9am-4:30pm",
+    markethours: '9am-4:30pm',
     availableStalls: [
       {
         quantity: 1,
@@ -29,25 +31,33 @@ const MarketProfile = props => {
         length: 109
       }
     ]
-  };
+  }
 
   return (
     <div>
-      <div className={styles.marketcard}>
-         <img src={props.profileImage} alt="Market Logo" className={styles.profimg} />
-         <ul className={styles.marketinfo}>
-           <h3>{marketObj.marketname}</h3>
-           <li>{marketObj.marketaddress.street}</li>
-           <li>{marketObj.marketaddress.state}</li>
-           <li>{marketObj.markethours}</li>
-         </ul>
+      <div className={classes.marketcard}>
+        <img
+          src={props.profileImage}
+          alt="Market Logo"
+          className={classes.profimg}
+        />
+        <ul className={classes.marketinfo}>
+          <h3>{marketObj.marketname}</h3>
+          <li>{marketObj.marketaddress.street}</li>
+          <li>{marketObj.marketaddress.state}</li>
+          <li>{marketObj.markethours}</li>
+        </ul>
       </div>
-      <div className={styles.availinfo}>
-        <h3>Available Stalls</h3>
-        <StallsTable stalls={marketObj.availableStalls}/>
+      <div className={classes.availinfo}>
+        <Typography component="h3" variant="h3">
+          Available Stalls
+        </Typography>
+        <div className={classes.table}>
+          <StallsTable stalls={marketObj.availableStalls} />
+        </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default MarketProfile
+export default withStyles(styles)(MarketProfile)
