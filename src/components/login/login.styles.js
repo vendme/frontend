@@ -1,4 +1,4 @@
-const styles = ({ spacing, breakpoints }) => ({
+const styles = ({ spacing, breakpoints, palette }) => ({
   main: {
     width: 'auto',
     display: 'block',
@@ -22,7 +22,8 @@ const styles = ({ spacing, breakpoints }) => ({
     marginTop: spacing.unit
   },
   submit: {
-    marginTop: spacing.unit * 3
+    marginTop: spacing.unit * 3,
+    backgroundColor: palette.primary.dark
   }
 })
 export default styles

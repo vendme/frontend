@@ -5,7 +5,8 @@ const styles = theme => ({
     display: 'flex'
   },
   toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
+    paddingRight: 24, // keep right padding when drawer closed
+    backgroundColor: theme.palette.primary.dark
   },
   toolbarIcon: {
     display: 'flex',
@@ -37,7 +38,9 @@ const styles = theme => ({
     display: 'none'
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    fontFamily: 'Pacifico',
+    fontSize: 30
   },
   drawerPaper: {
     position: 'relative',
