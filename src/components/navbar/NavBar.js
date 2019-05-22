@@ -62,6 +62,7 @@ class NavBar extends React.Component {
               component="h1"
               variant="h6"
               color="inherit"
+              fontFamily="Pacifico"
               noWrap
               className={classes.title}>
               Vendme

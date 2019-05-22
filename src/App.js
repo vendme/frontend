@@ -1,5 +1,7 @@
 import React, { Suspense, Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import theme from './styles/maintheme'
 
 import {
   Login,
@@ -22,7 +24,7 @@ import {
 class App extends Component {
   render() {
     return (
-      <>
+      <MuiThemeProvider theme={theme}>
         <Suspense fallback="loading...">
           <NavBar>
             <Switch>
@@ -43,7 +45,7 @@ class App extends Component {
             </Switch>
           </NavBar>
         </Suspense>
-      </>
+      </MuiThemeProvider>
     )
   }
 }
