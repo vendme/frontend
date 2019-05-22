@@ -2,11 +2,10 @@ import React, { Suspense, Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import theme from './styles/maintheme'
-
+import NavBar from './components/navbar/NavBar'
 import {
   Login,
   SignUp,
-  NavBar,
   SearchPage,
   SearchBar,
   Card,
@@ -25,8 +24,8 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Suspense fallback="loading...">
-          <NavBar>
+        <NavBar>
+          <Suspense fallback={'loading'}>
             <Switch>
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={Login} />
@@ -43,8 +42,8 @@ class App extends Component {
               <Route path="/itemlistings" component={ItemListings} />
               <Route path="/map" component={Map} />
             </Switch>
-          </NavBar>
-        </Suspense>
+          </Suspense>
+        </NavBar>
       </MuiThemeProvider>
     )
   }
