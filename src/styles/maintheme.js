@@ -15,6 +15,7 @@ const theme = createMuiTheme({
       contrastText: '#272F32'
     },
     typography: {
+      useNextVariants: true,
       // Use the system font instead of the default Roboto font.
       fontFamily: [
         '-apple-system',

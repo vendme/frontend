@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Typography, withStyles } from '@material-ui/core'
+import { Typography, withStyles } from '@material-ui/core'
 import StallsTable from './stallstable/StallsTable'
 
 import styles from './marketprofile.styles.js'
