@@ -11,12 +11,11 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center'
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
-  },
   title: {
+    position: 'relative',
+    top: -theme.spacing.unit
+  },
+  addy: {
     fontSize: 14
   },
   pos: {
@@ -26,28 +25,26 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   cover: {
-    height: '125px',
-    width: '125px',
-    marginRight: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit
+    height: '160px',
+    width: '160px',
+    marginRight: theme.spacing.unit * 2
   }
 })
 
 function CardInfo(props) {
   const { classes } = props
-
   return (
     <CardContent className={classes.content}>
       <CardMedia
         className={classes.cover}
-        image="http://lorempixel.com/200/200/business"
+        image="http://lorempixel.com/160/160/business"
         title="Nice Market"
       />
       <div>
-        <Typography variant="h5" component="h2">
+        <Typography className={classes.title} variant="h5" component="h2">
           Nice Market
         </Typography>
-        <Typography className={classes.title} color="textSecondary">
+        <Typography className={classes.addy} color="textSecondary">
           123 Address St.
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
