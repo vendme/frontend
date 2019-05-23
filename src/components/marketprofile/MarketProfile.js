@@ -1,6 +1,14 @@
 import React from 'react'
-import { Typography, withStyles } from '@material-ui/core'
+import {
+  Typography,
+  withStyles,
+  Paper,
+  InputBase,
+  IconButton
+} from '@material-ui/core'
+import SearchIcon from '@material-ui/icons/Search'
 import StallsTable from './stallstable/StallsTable'
+import CardInfo from '../card/cardinfo/CardInfo'
 
 import styles from './marketprofile.styles.js'
 
@@ -34,20 +42,14 @@ const MarketProfile = props => {
   }
 
   return (
-    <div>
-      <div className={classes.marketcard}>
-        <img
-          src={props.profileImage}
-          alt="Market Logo"
-          className={classes.profimg}
-        />
-        <ul className={classes.marketinfo}>
-          <h3>{marketObj.marketname}</h3>
-          <li>{marketObj.marketaddress.street}</li>
-          <li>{marketObj.marketaddress.state}</li>
-          <li>{marketObj.markethours}</li>
-        </ul>
-      </div>
+    <div className={classes.root}>
+      <CardInfo />
+      <Paper className={classes.searchbar} color="primary" elevation={1}>
+        <InputBase className={classes.input} placeholder="Search..." />
+        <IconButton className={classes.iconButton} aria-label="Search">
+          <SearchIcon />
+        </IconButton>
+      </Paper>
       <div className={classes.availinfo}>
         <Typography component="h3" variant="h3">
           Available Stalls
