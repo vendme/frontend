@@ -79,12 +79,7 @@ const styles = theme => {
       }),
       width: 0
     },
-    appBarSpacer: {
-      ...theme.mixins.toolbar,
-      flexGrow: 1,
-      width: `calc(100% - ${drawerWidth}px)`,
-      overflow: 'auto'
-    },
+    appBarSpacer: theme.mixins.toolbar,
     content: {
       width: '100%',
       padding: theme.spacing.unit * 3,
@@ -166,7 +161,7 @@ class NavBar extends React.Component {
           <List>{secondaryListItems}</List>
         </Drawer>
         <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
+          {/* <div className={classes.appBarSpacer} /> */}
           {this.props.children}
         </main>
       </div>
