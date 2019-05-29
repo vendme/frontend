@@ -150,12 +150,12 @@ class NavBar extends React.Component {
             )
           }}
           open={this.state.open}>
-          {/* <div className={classes.toolbarIcon}>
+          <div className={classes.toolbarIcon}>
             <IconButton onClick={this.handleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
           </div>
-          <Divider />
+          {/* <Divider />
           <List>{mainListItems}</List>
           <Divider />
           <List>{secondaryListItems}</List> */}
