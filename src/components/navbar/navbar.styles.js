@@ -46,7 +46,7 @@ const styles = theme => {
     drawerPaper: {
       position: 'relative',
       whiteSpace: 'nowrap',
-      width: drawerWidth,
+      width: 240,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen
@@ -58,9 +58,9 @@ const styles = theme => {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       }),
-      width: theme.spacing.unit * 0,
-      [theme.breakpoints.up('xs')]: {
-        width: theme.spacing.unit * 7
+      width: 0,
+      [theme.breakpoints.up('sm')]: {
+        width: 56
       }
     },
     appBarSpacer: theme.mixins.toolbar,
