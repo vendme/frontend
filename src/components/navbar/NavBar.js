@@ -82,10 +82,11 @@ const styles = theme => {
     appBarSpacer: {
       ...theme.mixins.toolbar,
       flexGrow: 1,
+      width: `calc(100% - ${drawerWidth}px)`,
       overflow: 'auto'
     },
     content: {
-      flexGrow: 1,
+      width: '100%',
       padding: theme.spacing.unit * 3,
       height: '100vh',
       overflow: 'auto'
