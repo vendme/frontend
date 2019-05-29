@@ -141,7 +141,7 @@ class NavBar extends React.Component {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer
+        {/* <Drawer
           variant="permanent"
           classes={{
             paper: classNames(
@@ -159,9 +159,9 @@ class NavBar extends React.Component {
           <List>{mainListItems}</List>
           <Divider />
           <List>{secondaryListItems}</List>
-        </Drawer>
+        </Drawer> */}
         <main className={classes.content}>
-          {/* <div className={classes.appBarSpacer} /> */}
+          <div className={classes.appBarSpacer} />
           {this.props.children}
         </main>
       </div>
