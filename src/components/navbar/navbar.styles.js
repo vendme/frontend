@@ -58,14 +58,18 @@ const styles = theme => {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       }),
-      width: 0
+      width: 0,
+      [theme.breakpoints.up('sm')]: {
+        width: theme.spacing.unit * 7
+      }
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
       padding: theme.spacing.unit * 3,
       height: '100vh',
-      overflow: 'auto'
+      overflow: 'auto',
+      overflowX: 'hidden'
     }
   }
 }
