@@ -18,7 +18,7 @@ import styles from './navbar.styles.js'
 
 class NavBar extends React.Component {
   state = {
-    open: true
+    open: false
   }
 
   handleDrawerOpen = () => {
@@ -77,15 +77,17 @@ class NavBar extends React.Component {
             )
           }}
           open={this.state.open}>
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
+          <div style={{ width: `${!this.state.open ? '0px' : '100%'}` }}>
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={this.handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+            <Divider />
+            <List>{mainListItems}</List>
+            <Divider />
+            <List>{secondaryListItems}</List>
           </div>
-          <Divider />
-          <List>{mainListItems}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
