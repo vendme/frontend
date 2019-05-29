@@ -1,7 +1,6 @@
 const drawerWidth = 240
 
 const styles = theme => {
-  theme.breakpoints.values.sm = 640
   return {
     root: {
       display: 'flex'
@@ -60,7 +59,7 @@ const styles = theme => {
         duration: theme.transitions.duration.leavingScreen
       }),
       width: theme.spacing.unit * 0,
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('xs')]: {
         width: theme.spacing.unit * 7
       }
     },
