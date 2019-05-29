@@ -1,4 +1,4 @@
-const drawerWidth = 0
+const drawerWidth = 240
 
 const styles = theme => ({
   root: {
@@ -58,15 +58,14 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen
     }),
     width: theme.spacing.unit * 0,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('xs')]: {
       width: theme.spacing.unit * 7
     }
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    // flexGrow: 1,
+    flexGrow: 1,
     padding: theme.spacing.unit * 3,
-    width: '100%',
     height: '100vh',
     overflow: 'auto'
   }
