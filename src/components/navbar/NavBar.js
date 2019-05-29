@@ -19,6 +19,7 @@ import { mainListItems, secondaryListItems } from './navlist/NavItems'
 let drawerWidth = 240
 
 const styles = theme => {
+  console.log(theme.mixins.toolbar)
   return {
     root: {
       display: 'flex'
@@ -72,15 +73,17 @@ const styles = theme => {
     },
     drawerPaperClose: {
       overflowX: 'hidden',
-      transition: theme.transitions.create(['width', 'opacity', 'height'], {
+      transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       }),
-      width: 0,
-      height: 0,
-      opacity: 0
+      width: 0
     },
-    appBarSpacer: theme.mixins.toolbar,
+    appBarSpacer: {
+      ...theme.mixins.toolbar,
+      flexGrow: 1,
+      overflow: 'auto'
+    },
     content: {
       flexGrow: 1,
       padding: theme.spacing.unit * 3,
