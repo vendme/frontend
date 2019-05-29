@@ -27,6 +27,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => ({
     marginTop: spacing.unit * 4
   },
   searchbar: {
+    minWidth: '280px',
     backgroundColor: fade(palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(palette.common.white, 0.25)

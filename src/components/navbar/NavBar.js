@@ -18,7 +18,7 @@ import styles from './navbar.styles.js'
 
 class NavBar extends React.Component {
   state = {
-    open: true
+    open: false
   }
 
   handleDrawerOpen = () => {
