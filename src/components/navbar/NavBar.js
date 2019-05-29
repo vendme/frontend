@@ -141,7 +141,7 @@ class NavBar extends React.Component {
             </IconButton>
           </Toolbar>
         </AppBar>
-        {/* <Drawer
+        <Drawer
           variant="permanent"
           classes={{
             paper: classNames(
@@ -150,7 +150,7 @@ class NavBar extends React.Component {
             )
           }}
           open={this.state.open}>
-          <div className={classes.toolbarIcon}>
+          {/* <div className={classes.toolbarIcon}>
             <IconButton onClick={this.handleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
@@ -158,8 +158,8 @@ class NavBar extends React.Component {
           <Divider />
           <List>{mainListItems}</List>
           <Divider />
-          <List>{secondaryListItems}</List>
-        </Drawer> */}
+          <List>{secondaryListItems}</List> */}
+        </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           {this.props.children}
