@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
-import { IconButton, Typography, withStyles, TextField } from '@material-ui/core'
-import Axios from "axios"
+import PropTypes from 'prop-types'
+import { Typography, withStyles, TextField, Paper } from '@material-ui/core'
+import Axios from 'axios'
 import AddStall from '../addstalls/AddStall'
-import EditStallsTable from './editstallstable/EditStallsTable'
+import StallsTable from '../marketprofile/stallstable/StallsTable'
 
 import styles from './marketedit.style.js'
 
@@ -21,17 +21,18 @@ class MarketEdit extends Component {
     length: ''
   }
 
-  componentDidMount = async (id) => {
+  componentDidMount = async id => {
     try {
-      const { data } = await Axios.get('https://vendme.herokuapp.com/api/market/1')
+      const { data } = await Axios.get(
+        'https://vendme.herokuapp.com/api/market/1'
+      )
       const { market_name, id, address, city, state, zip_code } = data
 
-      this.setState({market_name, id, address, city, state, zip_code})
+      this.setState({ market_name, id, address, city, state, zip_code })
+    } catch (error) {
+      console.log('Message: ', error)
     }
-    catch (error) {
-      console.log("Message: ", error)
-    }
-  } 
+  }
 
   changeHandler = event => {
     event.preventDefault()
@@ -58,87 +59,86 @@ class MarketEdit extends Component {
   render() {
     const { classes } = this.props
 
-    // const marketObj = {
-    //   marketname: 'Vendme Market',
-    //   marketaddress: {
-    //     street: '123 MyMarket St',
-    //     state: 'North, State 12345'
-    //   },
-    //   markethours: '9am-4:30pm',
-    //   availableStalls: [
-    //     {
-    //       quantity: 1,
-    //       width: 20,
-    //       length: 189
-    //     },
-    //     {
-    //       quantity: 3,
-    //       width: 30,
-    //       length: 89
-    //     },
-    //     {
-    //       quantity: 5,
-    //       width: 120,
-    //       length: 109
-    //     }
-    //   ]
-    // }
+    const marketObj = {
+      marketname: 'Vendme Market',
+      marketaddress: {
+        street: '123 MyMarket St',
+        state: 'North, State 12345'
+      },
+      markethours: '9am-4:30pm',
+      availableStalls: [
+        {
+          quantity: 1,
+          width: 20,
+          length: 189
+        },
+        {
+          quantity: 3,
+          width: 30,
+          length: 89
+        },
+        {
+          quantity: 5,
+          width: 120,
+          length: 109
+        }
+      ]
+    }
 
     return (
-      <div>
-        <form action="" id="form1">
+      <div className={classes.root}>
+        <Paper className={classes.profile}>
+          <Typography variant="h6" gutterBottom>
+            Profile Info
+          </Typography>
+          <TextField
+            id="standard-dense"
+            label="Market Name"
+            margin="dense"
+            name="market_name"
+            value={this.state.market_name}
+            onChange={this.changeHandler}
+          />
+          <div>
             <TextField
               id="standard-dense"
-              label="Market Name"
+              label="Street"
               margin="dense"
-              name="market_name"
-              value={this.state.market_name}
+              name="address"
+              value={this.state.address}
               onChange={this.changeHandler}
+              className={classes.textField}
             />
-            <div>
-            <Typography variant="h6" gutterBottom align="center">
-              Address
-            </Typography>
-              <TextField
-                id="standard-dense" 
-                label="Street"
-                margin="dense"
-                name="address"
-                value={this.state.address}
-                onChange={this.changeHandler}
-              />
-              <TextField
-                id="standard-dense"
-                label="State"
-                margin="dense"
-                name="state"
-                value={this.state.state}
-                onChange={this.changeHandler}
-              />
-              <TextField
-                id="standard-dense"
-                label="City"
-                margin="dense"
-                name="city"
-                value={this.state.city}
-                onChange={this.changeHandler}
-              />
-              <TextField
-                id="standard-dense"
-                label="Zipcode"
-                margin="dense"
-                name="zip_code"
-                value={this.state.zip_code}
-                onChange={this.changeHandler}
-              />
-            </div>
-        </form>
-        <form action="">
-          <Typography variant="h6" gutterBottom align="center">
-            Available Stalls
-          </Typography>
-          {/* <EditStallsTable stalls={marketObj.availableStalls} /> */}
-          <EditStallsTable stalls={this.state.submittedStallList} />
+            <TextField
+              id="standard-dense"
+              label="State"
+              margin="dense"
+              name="state"
+              value={this.state.state}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
+            <TextField
+              id="standard-dense"
+              label="City"
+              margin="dense"
+              name="city"
+              value={this.state.city}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
+            <TextField
+              id="standard-dense"
+              label="Zipcode"
+              margin="dense"
+              name="zip_code"
+              value={this.state.zip_code}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
+          </div>
+        </Paper>
+        <>
           <Typography variant="h6" gutterBottom align="center">
             Add Stalls
           </Typography>
@@ -151,13 +151,20 @@ class MarketEdit extends Component {
             width={this.state.width}
             length={this.state.length}
           />
-        </form>
+          <Typography variant="h6" gutterBottom align="center">
+            Available Stalls
+          </Typography>
+          <div className={classes.table}>
+            <StallsTable stalls={marketObj.availableStalls} />
+            {/* <StallsTable stalls={this.state.submittedStallList} /> */}
+          </div>
+        </>
       </div>
     )
   }
 }
 MarketEdit.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+  classes: PropTypes.object.isRequired
+}
 
 export default withStyles(styles)(MarketEdit)
