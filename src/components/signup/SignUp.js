@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Button,
+  Link,
   CssBaseline,
   FormControl,
   FormControlLabel,
@@ -12,6 +13,8 @@ import {
   Typography,
   withStyles
 } from '@material-ui/core'
+
+import gooogleButton2 from './btn_google_signin_light_normal_web@2x.png'
 
 import styles from './signup.styles'
 
@@ -50,6 +53,16 @@ function SignUp(props) {
             className={classes.submit}>
             Sign up
           </Button>
+          <Link
+            href="http://vendme.herokuapp.com/auth/google"
+            variant="body2"
+            className={classes.google}>
+            <img
+              src={gooogleButton2}
+              className={classes.googleButton}
+              alt="Google Sign In"
+            />
+          </Link>
         </form>
       </Paper>
     </main>
