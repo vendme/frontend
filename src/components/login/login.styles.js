@@ -24,6 +24,15 @@ const styles = ({ spacing, breakpoints, palette }) => ({
   submit: {
     marginTop: spacing.unit * 3,
     backgroundColor: palette.primary.dark
+  },
+  google: {
+    display: 'block',
+    width: '50%',
+    marginTop: '1rem'
+  },
+  googleButton: {
+    width: '100%',
+    borderRadius: 4
   }
 })
 export default styles
