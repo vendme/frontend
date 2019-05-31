@@ -11,6 +11,7 @@ class MarketEdit extends Component {
   state = {
     id: null,
     market_name: '',
+    bio: '',
     zip_code: '',
     address: '',
     state: '',
@@ -26,9 +27,9 @@ class MarketEdit extends Component {
       const { data } = await Axios.get(
         'https://vendme.herokuapp.com/api/market/1'
       )
-      const { market_name, id, address, city, state, zip_code } = data
+      const { market_name, id, address, city, state, zip_code, bio } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code })
+      this.setState({ market_name, id, address, city, state, zip_code, bio })
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -98,8 +99,9 @@ class MarketEdit extends Component {
             name="market_name"
             value={this.state.market_name}
             onChange={this.changeHandler}
+            className={classes.textField}
           />
-          <div>
+          <div className={classes.address}>
             <TextField
               id="standard-dense"
               label="Street"
