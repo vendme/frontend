@@ -14,8 +14,7 @@ import {
   withStyles
 } from '@material-ui/core'
 
-import gooogleButton from '../../images/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png'
-import gooogleButton2 from '../../images/google_signin_buttons/web/2x/btn_google_signin_light_normal_web@2x.png'
+import gooogleButton2 from './btn_google_signin_light_normal_web@2x.png'
 import styles from './login.styles'
 
 function Login(props) {

@@ -27,11 +27,14 @@ const styles = ({ spacing, breakpoints, palette }) => ({
   },
   google: {
     display: 'block',
+    position: 'space-between',
     width: '50%',
+    margin: 0,
     marginTop: '1rem'
   },
   googleButton: {
-    width: '100%',
+    width: '90%',
+    height: '100%',
     borderRadius: 4
   }
 })
