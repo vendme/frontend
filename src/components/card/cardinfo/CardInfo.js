@@ -32,23 +32,24 @@ const styles = theme => ({
 })
 
 function CardInfo(props) {
-  const { classes } = props
+  const { classes, mktInfo } = props
+  console.log(props.mktInfo)
   return (
     <CardContent className={classes.content}>
       <CardMedia
         className={classes.cover}
         image="http://lorempixel.com/160/160/business"
-        title="Nice Market"
+        title="Market"
       />
       <div>
         <Typography className={classes.title} variant="h5" component="h2">
-          Nice Market
+          {mktInfo.market_name}
         </Typography>
         <Typography className={classes.addy} color="textSecondary">
-          123 Address St.
+          {mktInfo.address}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Nice City, State
+          {`${mktInfo.city}, ${mktInfo.state} ${mktInfo.zip_code}`}
         </Typography>
         <Chip
           className={classes.chip}
@@ -57,6 +58,12 @@ function CardInfo(props) {
           label="Open: 9am-6pm"
         />
       </div>
+      <CardContent>
+        <Typography className={classes.pos} color="textSecondary">
+          {mktInfo.bio}
+        </Typography>
+      </CardContent>
+
     </CardContent>
   )
 }
