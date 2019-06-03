@@ -8,14 +8,13 @@ import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
 
 const styles = theme => {
+  let type = theme.palette.type === 'dark'
   let chipTheme = {
-    color: theme.palette.grey['A700'],
-    border: theme.palette.type === 'light' && 'none',
+    color: !type ? theme.palette.grey['A700'] : theme.palette.secondary.main,
+    border: !type && 'none',
     backgroundColor: fade(
-      theme.palette.type === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.common.black,
-      0.15
+      type ? '#000' : theme.palette.common.black,
+      type ? 0 : 0.15
     )
   }
   return {
