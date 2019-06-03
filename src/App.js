@@ -22,13 +22,21 @@ import {
 
 class App extends Component {
   state = {
-    theme: 1
+    theme: 0
   }
-  handleTheme = _ => this.setState(prevState => ({ theme: !prevState.theme }))
+  handleTheme = _ => {
+    window.localStorage.setItem('theme', `${!this.state.theme}`)
+    this.setState(prevState => ({ theme: !prevState.theme }))
+  }
+  componentDidMount() {
+    this.setState({
+      theme: window.localStorage.getItem('theme') === 'true' ? 1 : 0
+    })
+  }
   render() {
     return (
-      <MuiThemeProvider theme={this.state.theme ? lightTheme : darkTheme}>
-        <NavBar handleTheme={this.handleTheme}>
+      <MuiThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
+        <NavBar handleTheme={this.handleTheme} checked={this.state.theme}>
           <Suspense fallback={'loading'}>
             <Switch>
               <Route path="/signup" component={SignUp} />

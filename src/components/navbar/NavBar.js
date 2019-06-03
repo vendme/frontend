@@ -67,6 +67,7 @@ class NavBar extends React.Component {
             <FormControlLabel
               control={
                 <Switch
+                  checked={this.props.checked ? true : false}
                   onChange={this.props.handleTheme}
                   value="checked"
                   color="secondary"
@@ -111,7 +112,8 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  checked: PropTypes.number
 }
 
 export default withStyles(styles)(NavBar)
