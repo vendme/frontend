@@ -31,7 +31,7 @@ const theme = createMuiTheme({
         'Pacifico'
       ].join(',')
     },
-    type: 'dark'
+    type: 'light'
   }
 })
 

@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Typography, withStyles, TextField, Paper } from '@material-ui/core'
+import {
+  Typography,
+  withStyles,
+  TextField,
+  Paper,
+  Button
+} from '@material-ui/core'
 import Axios from 'axios'
 import AddStall from '../addstalls/AddStall'
 import StallsTable from '../marketprofile/stallstable/StallsTable'
@@ -138,6 +144,17 @@ class MarketEdit extends Component {
               onChange={this.changeHandler}
               className={classes.textField}
             />
+            <div className={classes.buttons}>
+              <Button variant="contained" className={classes.button}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}>
+                Save Changes
+              </Button>
+            </div>
           </div>
         </Paper>
         <>

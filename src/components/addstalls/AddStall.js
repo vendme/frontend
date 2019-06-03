@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { IconButton, withStyles, TextField } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/AddCircle';
+import AddIcon from '@material-ui/icons/AddCircle'
 import styles from './addstalls.module.css'
 
 const AddStall = props => {
@@ -43,7 +43,12 @@ const AddStall = props => {
           value={props.length}
           onChange={props.changeHandler}
         />
-        <IconButton size="small" color="primary" aria-label="Add" className={styles.addButton} onClick={props.submitStallToAdd}>
+        <IconButton
+          size="small"
+          color="primary"
+          aria-label="Add"
+          className={styles.addButton}
+          onClick={props.submitStallToAdd}>
           <AddIcon />
         </IconButton>
       </div>

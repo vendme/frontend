@@ -1,35 +1,48 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { fade } from '@material-ui/core/styles/colorManipulator'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
 
-const styles = theme => ({
-  content: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  title: {
-    position: 'relative',
-    top: -theme.spacing.unit
-  },
-  addy: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 8
-  },
-  chip: {
-    cursor: 'pointer'
-  },
-  cover: {
-    height: '160px',
-    width: '160px',
-    marginRight: theme.spacing.unit * 2
+const styles = theme => {
+  let chipTheme = {
+    color: theme.palette.grey['A700'],
+    border: theme.palette.type === 'light' && 'none',
+    backgroundColor: fade(
+      theme.palette.type === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+      0.15
+    )
   }
-})
+  return {
+    content: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    title: {
+      position: 'relative',
+      top: -theme.spacing.unit
+    },
+    addy: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 8
+    },
+    chip: {
+      ...chipTheme
+    },
+    cover: {
+      height: '160px',
+      width: '160px',
+      marginRight: theme.spacing.unit * 2
+    }
+  }
+}
 
 function CardInfo(props) {
   const { classes, mktInfo } = props
