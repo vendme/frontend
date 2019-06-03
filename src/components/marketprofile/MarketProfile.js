@@ -40,51 +40,25 @@ class MarketProfile extends Component {
       }
     ]
   }
-  
-  componentDidMount = async (id) => {
+
+  componentDidMount = async id => {
     try {
-      const { data } = await Axios.get('https://vendme.herokuapp.com/api/market/1')
+      const { data } = await Axios.get(
+        'https://vendme.herokuapp.com/api/market/1'
+      )
       const { market_name, id, address, city, state, zip_code, bio } = data
-      
-      this.setState({market_name, id, address, city, state, zip_code, bio})
+
+      this.setState({ market_name, id, address, city, state, zip_code, bio })
+    } catch (error) {
+      console.log('Message: ', error)
     }
-    catch (error) {
-      console.log("Message: ", error)
-    }
-  } 
+  }
 
   render() {
-    const { classes } = this.props  
-
-    // const marketObj = {
-    //   marketname: 'Vendme Market',
-    //   marketaddress: {
-    //     street: '123 MyMarket St',
-    //     state: 'North, State 12345'
-    //   },
-    //   markethours: '9am-4:30pm',
-    //   availableStalls: [
-    //     {
-    //       quantity: 1,
-    //       width: 20,
-    //       length: 189
-    //     },
-    //     {
-    //       quantity: 3,
-    //       width: 30,
-    //       length: 89
-    //     },
-    //     {
-    //       quantity: 5,
-    //       width: 120,
-    //       length: 109
-    //     }
-    //   ]
-    // } 
-
+    const { classes } = this.props
     return (
       <div className={classes.root}>
-        <CardInfo mktInfo={this.state}/>
+        <CardInfo mktInfo={this.state} />
         <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
@@ -96,7 +70,10 @@ class MarketProfile extends Component {
             Available Stalls
           </Typography>
           <div className={classes.table}>
-            <StallsTable stalls={this.state.submittedStallList} id={this.state.id} />
+            <StallsTable
+              stalls={this.state.submittedStallList}
+              id={this.state.id}
+            />
           </div>
         </div>
       </div>

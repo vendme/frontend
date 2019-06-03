@@ -60,9 +60,11 @@ function CardInfo(props) {
           {mktInfo && mktInfo.address}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {`${mktInfo ? mktInfo.city + ' ,' : 'city'} ${
+          {`${mktInfo ? mktInfo.city + ',' : 'city'} ${
             mktInfo ? mktInfo.state : 'state'
-          } ${mktInfo ? mktInfo.zip_code : 'zip code'}`}
+          } ${
+            mktInfo ? mktInfo.zip_code.split``.splice(0, 5).join`` : 'zip code'
+          }`}
         </Typography>
         <Chip
           className={classes.chip}
