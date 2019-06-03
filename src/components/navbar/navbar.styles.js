@@ -70,6 +70,9 @@ const styles = theme => {
       height: '100vh',
       overflow: 'auto',
       overflowX: 'hidden'
+    },
+    switchLabel: {
+      '& span': { color: theme.palette.common.white }
     }
   }
 }

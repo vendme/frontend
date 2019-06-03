@@ -1,39 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { fade } from '@material-ui/core/styles/colorManipulator'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
 
-const styles = theme => ({
-  content: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  title: {
-    position: 'relative',
-    top: -theme.spacing.unit
-  },
-  addy: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 8
-  },
-  chip: {
-    cursor: 'pointer'
-  },
-  cover: {
-    height: '160px',
-    width: '160px',
-    marginRight: theme.spacing.unit * 2
+const styles = theme => {
+  let type = theme.palette.type === 'dark'
+  let chipTheme = {
+    color: !type ? theme.palette.grey['A700'] : theme.palette.secondary.main,
+    border: !type && 'none',
+    backgroundColor: fade(
+      type ? '#000' : theme.palette.common.black,
+      type ? 0 : 0.15
+    )
   }
-})
+  return {
+    content: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    title: {
+      position: 'relative',
+      top: -theme.spacing.unit
+    },
+    addy: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 8
+    },
+    chip: {
+      ...chipTheme
+    },
+    cover: {
+      height: '160px',
+      width: '160px',
+      marginRight: theme.spacing.unit * 2
+    }
+  }
+}
 
 function CardInfo(props) {
   const { classes, mktInfo } = props
-  console.log(props.mktInfo)
   return (
     <CardContent className={classes.content}>
       <CardMedia
@@ -43,13 +54,17 @@ function CardInfo(props) {
       />
       <div>
         <Typography className={classes.title} variant="h5" component="h2">
-          {mktInfo.market_name}
+          {mktInfo && mktInfo.market_name}
         </Typography>
         <Typography className={classes.addy} color="textSecondary">
-          {mktInfo.address}
+          {mktInfo && mktInfo.address}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {`${mktInfo.city}, ${mktInfo.state} ${mktInfo.zip_code}`}
+          {`${mktInfo ? mktInfo.city + ',' : 'city'} ${
+            mktInfo ? mktInfo.state : 'state'
+          } ${
+            mktInfo ? mktInfo.zip_code.split``.splice(0, 5).join`` : 'zip code'
+          }`}
         </Typography>
         <Chip
           className={classes.chip}
@@ -60,10 +75,9 @@ function CardInfo(props) {
       </div>
       <CardContent>
         <Typography className={classes.pos} color="textSecondary">
-          {mktInfo.bio}
+          {mktInfo && mktInfo.bio}
         </Typography>
       </CardContent>
-
     </CardContent>
   )
 }

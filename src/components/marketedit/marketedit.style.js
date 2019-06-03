@@ -17,7 +17,8 @@ const styles = ({ spacing, theme }) => ({
   },
   profile: {
     width: '50%',
-    padding: spacing.unit * 2
+    padding: spacing.unit * 2,
+    marginBottom: spacing.unit * 4
   },
   address: {
     display: 'flex',
@@ -26,6 +27,16 @@ const styles = ({ spacing, theme }) => ({
   },
   textField: {
     width: `calc(50% - ${spacing.unit * 2}px)`
+  },
+  buttons: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  button: {
+    margin: spacing.unit,
+    marginTop: spacing.unit * 2,
+    marginRight: 0
   }
 })
 

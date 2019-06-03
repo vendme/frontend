@@ -13,19 +13,20 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 import { mainListItems, secondaryListItems } from './navlist/NavItems'
 import styles from './navbar.styles.js'
-
 class NavBar extends React.Component {
   state = {
     open: false
   }
 
-  handleDrawerOpen = () => {
+  handleDrawerOpen = _ => {
     this.setState({ open: true })
   }
 
-  handleDrawerClose = () => {
+  handleDrawerClose = _ => {
     this.setState({ open: false })
   }
 
@@ -63,6 +64,18 @@ class NavBar extends React.Component {
               className={classes.title}>
               Vendme
             </Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.props.checked ? true : false}
+                  onChange={this.props.handleTheme}
+                  value="checked"
+                  color="secondary"
+                />
+              }
+              label="Theme"
+              className={classes.switchLabel}
+            />
             <IconButton color="inherit" aria-label="Account">
               <AccountCircleIcon style={{ fontSize: 30 }} />
             </IconButton>
@@ -99,7 +112,8 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  checked: PropTypes.number
 }
 
 export default withStyles(styles)(NavBar)

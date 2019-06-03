@@ -1,7 +1,7 @@
 import React, { Suspense, Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import theme from './styles/maintheme'
+import { lightTheme, darkTheme } from './styles/maintheme'
 import NavBar from './components/navbar/NavBar'
 import {
   Login,
@@ -21,10 +21,22 @@ import {
 } from './services/lazyImporter'
 
 class App extends Component {
+  state = {
+    theme: 0
+  }
+  handleTheme = _ => {
+    window.localStorage.setItem('theme', `${!this.state.theme}`)
+    this.setState(prevState => ({ theme: !prevState.theme }))
+  }
+  componentDidMount() {
+    this.setState({
+      theme: window.localStorage.getItem('theme') === 'true' ? 1 : 0
+    })
+  }
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <NavBar>
+      <MuiThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
+        <NavBar handleTheme={this.handleTheme} checked={this.state.theme}>
           <Suspense fallback={'loading'}>
             <Switch>
               <Route path="/signup" component={SignUp} />
