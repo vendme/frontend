@@ -36,6 +36,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       marginTop: spacing.unit * 4
     },
     table: {
+      width: '100%',
       maxWidth: 600
     },
     titles: {
