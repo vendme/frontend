@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 const styles = theme => {
   let type = theme.palette.type === 'dark'
   let chipTheme = {
-    color: !type ? theme.palette.grey['A700'] : theme.palette.secondary.main,
+    color: !type ? theme.palette.grey['A700'] : theme.palette.secondary.light,
     border: !type && 'none',
     backgroundColor: fade(
       type ? '#000' : theme.palette.common.black,
@@ -73,11 +73,6 @@ function CardInfo(props) {
           label="Open: 9am-6pm"
         />
       </div>
-      <CardContent>
-        <Typography className={classes.pos} color="textSecondary">
-          {mktInfo && mktInfo.bio}
-        </Typography>
-      </CardContent>
     </CardContent>
   )
 }

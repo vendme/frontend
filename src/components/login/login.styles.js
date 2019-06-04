@@ -1,13 +1,10 @@
 const styles = ({ spacing, breakpoints, palette }) => ({
   main: {
-    width: 'auto',
+    width: '100%',
     display: 'block',
-    marginLeft: spacing.unit * 3,
-    marginRight: spacing.unit * 3,
+    margin: 'auto',
     [breakpoints.up(400 + spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto'
+      width: 400
     }
   },
   paper: {
@@ -23,19 +20,30 @@ const styles = ({ spacing, breakpoints, palette }) => ({
   },
   submit: {
     marginTop: spacing.unit * 3,
+    height: 36,
     backgroundColor: palette.primary.dark
   },
   google: {
     display: 'block',
     position: 'space-between',
+    backgroundColor: 'white',
+    borderRadius: 4,
     width: '50%',
+    height: 36,
     margin: 0,
-    marginTop: '1rem'
+    marginTop: '1rem',
+    [breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
   googleButton: {
     width: '90%',
     height: '100%',
-    borderRadius: 4
+    objectFit: 'contain',
+    borderRadius: 4,
+    [breakpoints.down('sm')]: {
+      width: '100%'
+    }
   }
 })
 export default styles
