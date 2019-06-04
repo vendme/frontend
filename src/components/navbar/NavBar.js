@@ -71,6 +71,7 @@ class NavBar extends React.Component {
                   onChange={this.props.handleTheme}
                   value="checked"
                   color="secondary"
+                  className={classes.switch}
                 />
               }
               label="Theme"
@@ -90,7 +91,12 @@ class NavBar extends React.Component {
             )
           }}
           open={this.state.open}>
-          <div style={{ width: `${!this.state.open ? '0px' : '100%'}` }}>
+          <div
+            style={{
+              width: `${
+                !this.state.open && window.innerWidth < 600 ? '0px' : '100%'
+              }`
+            }}>
             <div className={classes.toolbarIcon}>
               <IconButton onClick={this.handleDrawerClose}>
                 <ChevronLeftIcon />

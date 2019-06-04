@@ -36,7 +36,9 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
-        <NavBar handleTheme={this.handleTheme} checked={this.state.theme}>
+        <NavBar
+          handleTheme={this.handleTheme}
+          checked={this.state.theme ? 1 : 0}>
           <Suspense fallback={'loading'}>
             <Switch>
               <Route path="/signup" component={SignUp} />
