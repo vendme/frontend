@@ -32,7 +32,7 @@ const styles = ({ spacing, breakpoints, palette }) => ({
     height: 36,
     margin: 0,
     marginTop: '1rem',
-    [breakpoints.down('sm')]: {
+    [breakpoints.down(400)]: {
       width: '100%'
     }
   },
@@ -41,7 +41,7 @@ const styles = ({ spacing, breakpoints, palette }) => ({
     height: '100%',
     objectFit: 'contain',
     borderRadius: 4,
-    [breakpoints.down('sm')]: {
+    [breakpoints.down(400)]: {
       width: '100%'
     }
   }

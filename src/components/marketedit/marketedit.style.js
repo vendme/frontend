@@ -1,4 +1,4 @@
-const styles = ({ spacing, theme }) => ({
+const styles = ({ spacing, palette }) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -12,11 +12,23 @@ const styles = ({ spacing, theme }) => ({
     alignItems: 'center'
   },
   table: {
-    maxWidth: 1000,
-    marginTop: spacing.unit * 4
+    maxWidth: 600
+  },
+  titles: {
+    display: 'block',
+    width: '100%',
+    maxWidth: 600
+  },
+  subtitles: {
+    display: 'block',
+    width: '100%',
+    maxWidth: 600,
+    marginBottom: spacing.unit * 2,
+    color: palette.grey['600']
   },
   profile: {
-    width: '50%',
+    width: '100%',
+    maxWidth: 600,
     padding: spacing.unit * 2,
     marginBottom: spacing.unit * 4
   },

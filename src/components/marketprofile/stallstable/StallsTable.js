@@ -39,7 +39,6 @@ function StallsTable(props) {
   const data = props.stalls.map(stall => {
     return createData(stall.quantity, stall.width, stall.length)
   })
-  console.log(data)
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>

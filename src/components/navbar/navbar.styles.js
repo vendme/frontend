@@ -1,9 +1,15 @@
+import { fade } from '@material-ui/core/styles/colorManipulator'
 const drawerWidth = 240
 
 const styles = theme => {
   return {
     root: {
-      display: 'flex'
+      display: 'flex',
+      // backgroundColor: fade('#fff7f7', 0.5),
+      // backgroundImage:
+      //   'url("https://www.transparenttextures.com/patterns/egg-shell.png")'
+      backgroundImage:
+        'url("https://www.transparenttextures.com/patterns/handmade-paper.png")'
     },
     toolbar: {
       paddingRight: 24, // keep right padding when drawer closed
