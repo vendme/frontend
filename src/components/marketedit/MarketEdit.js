@@ -43,7 +43,9 @@ class MarketEdit extends Component {
 
   changeHandler = event => {
     event.preventDefault()
-    this.setState({ [event.target.name]: event.target.value })
+    if (event.target.value > 0) {
+      this.setState({ [event.target.name]: event.target.value })
+    }
   }
 
   submitStallToAdd = () => {
@@ -94,6 +96,16 @@ class MarketEdit extends Component {
 
     return (
       <div className={classes.root}>
+        <Typography variant="h6" align="left" className={classes.titles}>
+          Edit Profile
+        </Typography>
+        <Typography
+          variant="subtitle-1"
+          gutterBottom
+          align="left"
+          className={classes.subtitles}>
+          Your profile information
+        </Typography>
         <Paper className={classes.profile}>
           <Typography variant="h6" gutterBottom>
             Profile Info
@@ -152,14 +164,20 @@ class MarketEdit extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.button}>
-                Save Changes
+                Save
               </Button>
             </div>
           </div>
         </Paper>
         <>
-          <Typography variant="h6" gutterBottom align="center">
+          <Typography variant="h6" align="left" className={classes.titles}>
             Add Stalls
+          </Typography>
+          <Typography
+            variant="subtitle-1"
+            align="left"
+            className={classes.subtitles}>
+            Add a stall for vendors to rent
           </Typography>
           <AddStall
             mystate={this.state}
@@ -170,12 +188,23 @@ class MarketEdit extends Component {
             width={this.state.width}
             length={this.state.length}
           />
-          <Typography variant="h6" gutterBottom align="center">
+          <Typography variant="h6" align="left" className={classes.titles}>
             Available Stalls
           </Typography>
+          <Typography
+            variant="subtitle-1"
+            gutterBottom
+            align="left"
+            className={classes.subtitles}>
+            All of your available stalls
+          </Typography>
           <div className={classes.table}>
-            <StallsTable stalls={marketObj.availableStalls} />
-            {/* <StallsTable stalls={this.state.submittedStallList} /> */}
+            <StallsTable
+              stalls={[
+                ...marketObj.availableStalls,
+                ...this.state.submittedStallList
+              ]}
+            />
           </div>
         </>
       </div>

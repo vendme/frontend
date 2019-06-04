@@ -66,8 +66,15 @@ class MarketProfile extends Component {
           </IconButton>
         </Paper>
         <div className={classes.availinfo}>
-          <Typography component="h3" variant="h3">
+          <Typography variant="h6" align="left" className={classes.titles}>
             Available Stalls
+          </Typography>
+          <Typography
+            variant="subtitle-1"
+            gutterBottom
+            align="left"
+            className={classes.subtitles}>
+            All of your available stalls
           </Typography>
           <div className={classes.table}>
             <StallsTable

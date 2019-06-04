@@ -36,8 +36,19 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       marginTop: spacing.unit * 4
     },
     table: {
-      maxWidth: 1000,
-      marginTop: spacing.unit * 4
+      maxWidth: 600
+    },
+    titles: {
+      display: 'block',
+      width: '100%',
+      maxWidth: 600
+    },
+    subtitles: {
+      display: 'block',
+      width: '100%',
+      maxWidth: 600,
+      marginBottom: spacing.unit * 2,
+      color: palette.grey['600']
     },
     searchbar: {
       minWidth: '280px',
