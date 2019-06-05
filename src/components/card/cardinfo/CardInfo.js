@@ -13,8 +13,8 @@ const styles = theme => {
     color: !type ? theme.palette.grey['A700'] : theme.palette.secondary.light,
     border: !type && 'none',
     backgroundColor: fade(
-      type ? '#000' : theme.palette.common.black,
-      type ? 0 : 0.15
+      type ? '#000' : theme.palette.secondary.light,
+      type ? 0 : 0.35
     )
   }
   return {
