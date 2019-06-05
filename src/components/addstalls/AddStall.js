@@ -28,7 +28,6 @@ const AddStall = props => {
           type="number"
           min="1"
           required
-          className={classes.textField}
           value={props.width}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
