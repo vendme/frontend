@@ -44,7 +44,8 @@ const styles = theme => {
 }
 
 function CardInfo(props) {
-  const { classes, mktInfo } = props
+  const { classes, Info } = props
+  console.log(Info)
   return (
     <CardContent className={classes.content}>
       <CardMedia
@@ -54,18 +55,18 @@ function CardInfo(props) {
       />
       <div>
         <Typography className={classes.title} variant="h5" component="h2">
-          {mktInfo && mktInfo.market_name}
+          {`${Info && Info.market_name} `||` ${Info && Info.user_vendor}`}
         </Typography>
         <Typography className={classes.addy} color="textSecondary">
-          {mktInfo && mktInfo.address}
+          {Info && Info.address}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {`${mktInfo ? mktInfo.city + ',' : 'city'} ${
-            mktInfo ? mktInfo.state : 'state'
+        {/* <Typography className={classes.pos} color="textSecondary">
+          {`${Info ? Info.city + ',' : 'city'} ${
+            Info ? Info.state : 'state'
           } ${
-            mktInfo ? mktInfo.zip_code.split``.splice(0, 5).join`` : 'zip code'
+            Info ? Info.zip_code.split``.splice(0, 5).join`` : 'zip code'
           }`}
-        </Typography>
+        </Typography> */}
         <Chip
           className={classes.chip}
           color="secondary"
