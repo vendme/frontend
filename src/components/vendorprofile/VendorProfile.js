@@ -20,7 +20,7 @@ class VendorProfile extends Component {
     market_name: 'Unnamed Market',
     market_id: null,
     bio: 'No bio',
-    zip_code: '12345',
+    zip_code: 'No zipcode',
     address: 'No address',
     state: 'No state',
     city: 'No city',
