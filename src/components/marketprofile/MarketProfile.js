@@ -58,7 +58,7 @@ class MarketProfile extends Component {
     const { classes } = this.props
     return (
       <div className={classes.root}>
-        <CardInfo mktInfo={this.state} />
+        <CardInfo Info={this.state} />
         <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
