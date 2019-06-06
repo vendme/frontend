@@ -22,11 +22,16 @@ const styles = theme => {
     content: {
       display: 'flex',
       alignItems: 'center',
-      maxWidth: 400
+      maxWidth: 400,
+      padding: 0
     },
     info: {
-      maxWidth: 200,
-      wordWrap: 'break-word'
+      width: 200,
+      wordWrap: 'break-word',
+      [theme.breakpoints.down(800)]: {
+        width: 'auto',
+        maxWidth: 200
+      }
     },
     title: {
       position: 'relative',
@@ -47,7 +52,12 @@ const styles = theme => {
       width: 160,
       minWidth: 160,
       minHeight: 160,
-      marginRight: theme.spacing.unit * 2
+      marginRight: theme.spacing.unit * 2,
+      [theme.breakpoints.down(800)]: {
+        height: 'auto',
+        width: 'auto',
+        minWidth: 120
+      }
     }
   }
 }
