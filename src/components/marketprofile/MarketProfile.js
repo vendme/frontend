@@ -70,7 +70,7 @@ class MarketProfile extends Component {
             Available Stalls
           </Typography>
           <Typography
-            variant="subtitle-1"
+            variant="subtitle1"
             gutterBottom
             align="left"
             className={classes.subtitles}>

@@ -8,17 +8,24 @@ import styles from './card.module.css'
 const style = theme => ({
   motto: {
     color: theme.palette.secondary.light,
-    margin: 'auto'
+    margin: 'auto',
+    maxWidth: 400,
+    paddingLeft: theme.spacing.unit * 4,
+    paddingRight: theme.spacing.unit * 4
   }
 })
 
 const Card = props => {
-  const { classes, mktInfo } = props
+  const { classes, info } = props
   return (
     <CardUI className={styles.card}>
-      <CardInfo />
+      <CardInfo info={info} />
       <Typography className={classes.motto} color="secondary">
-        {mktInfo ? mktInfo.bio : 'This is a nice vendor that sells nice things'}
+        {(info && info.bio && info.bio.substring(0, 100) + '...') ||
+          (info &&
+            info.market_info &&
+            info.market_info.substring(0, 100) + '...') ||
+          'This is a nice vendor that sells nice things'}
       </Typography>
     </CardUI>
   )
