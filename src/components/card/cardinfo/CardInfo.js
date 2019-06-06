@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { fade } from '@material-ui/core/styles/colorManipulator'
@@ -20,11 +21,17 @@ const styles = theme => {
   return {
     content: {
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      maxWidth: 400
+    },
+    info: {
+      maxWidth: 200,
+      wordWrap: 'break-word'
     },
     title: {
       position: 'relative',
-      top: -theme.spacing.unit
+      top: -theme.spacing.unit / 2,
+      lineHeight: `${theme.spacing.unit * 3}px`
     },
     addy: {
       fontSize: 14
@@ -36,16 +43,17 @@ const styles = theme => {
       ...chipTheme
     },
     cover: {
-      height: '160px',
-      width: '160px',
+      height: 160,
+      width: 160,
+      minWidth: 160,
+      minHeight: 160,
       marginRight: theme.spacing.unit * 2
     }
   }
 }
 
 function CardInfo(props) {
-  const { classes, info } = props
-  console.log(info)
+  const { classes, info, match } = props
   return (
     <CardContent className={classes.content}>
       <CardMedia
@@ -53,11 +61,11 @@ function CardInfo(props) {
         image="http://lorempixel.com/160/160/business"
         title="Market"
       />
-      <div>
-        <Typography className={classes.title} variant="h5" component="h2">
+      <div className={classes.info}>
+        <Typography className={classes.title} variant="h6" component="h2">
           {`${(info && info.user_vendor) ||
-            info.market_name ||
-            `Unnamed store`}`}
+            (info && info.market_name) ||
+            `Unnamed vendor`}`}
         </Typography>
         <Typography className={classes.addy} color="textSecondary">
           {info && info.address}
@@ -71,12 +79,14 @@ function CardInfo(props) {
               : 'zip code'
           }`}
         </Typography>
-        <Chip
-          className={classes.chip}
-          color="secondary"
-          variant="outlined"
-          label="Open: 9am-6pm"
-        />
+        {match.path === '/marketprofile' || match.path === '/vendorprofile' ? (
+          <Chip
+            className={classes.chip}
+            color="secondary"
+            variant="outlined"
+            label="Open: 9am-6pm"
+          />
+        ) : null}
       </div>
     </CardContent>
   )
@@ -86,4 +96,5 @@ CardInfo.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CardInfo)
+const CardInfoWithStyles = withStyles(styles)(CardInfo)
+export default withRouter(CardInfoWithStyles)

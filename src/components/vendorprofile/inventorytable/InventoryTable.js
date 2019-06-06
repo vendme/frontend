@@ -47,6 +47,7 @@ function InventoryTable(props) {
             <TableCell className={classes.cell}>Item</TableCell>
             <TableCell className={classes.cell}>Description</TableCell>
             <TableCell className={classes.cell}>QTY</TableCell>
+            <TableCell className={classes.cell} />
           </TableRow>
         </TableHead>
         <TableBody>
