@@ -12,6 +12,7 @@ const styles = ({ spacing, palette }) => ({
     alignItems: 'center'
   },
   table: {
+    width: '100%',
     maxWidth: 600
   },
   titles: {

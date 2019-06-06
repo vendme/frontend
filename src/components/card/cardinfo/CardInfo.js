@@ -13,8 +13,8 @@ const styles = theme => {
     color: !type ? theme.palette.grey['A700'] : theme.palette.secondary.light,
     border: !type && 'none',
     backgroundColor: fade(
-      type ? '#000' : theme.palette.common.black,
-      type ? 0 : 0.15
+      type ? '#000' : theme.palette.secondary.light,
+      type ? 0 : 0.35
     )
   }
   return {
@@ -44,8 +44,8 @@ const styles = theme => {
 }
 
 function CardInfo(props) {
-  const { classes, Info } = props
-  console.log(Info)
+  const { classes, info } = props
+  console.log(info)
   return (
     <CardContent className={classes.content}>
       <CardMedia
@@ -55,18 +55,22 @@ function CardInfo(props) {
       />
       <div>
         <Typography className={classes.title} variant="h5" component="h2">
-          {`${Info && Info.market_name} `||` ${Info && Info.user_vendor}`}
+          {`${(info && info.user_vendor) ||
+            info.market_name ||
+            `Unnamed store`}`}
         </Typography>
         <Typography className={classes.addy} color="textSecondary">
-          {Info && Info.address}
+          {info && info.address}
         </Typography>
-        {/* <Typography className={classes.pos} color="textSecondary">
-          {`${Info ? Info.city + ',' : 'city'} ${
-            Info ? Info.state : 'state'
+        <Typography className={classes.pos} color="textSecondary">
+          {`${info && info.city ? info.city + ',' : 'city,'} ${
+            info && info.state ? info.state : 'state'
           } ${
-            Info ? Info.zip_code.split``.splice(0, 5).join`` : 'zip code'
+            info && info.zip_code
+              ? info.zip_code.split``.splice(0, 5).join``
+              : 'zip code'
           }`}
-        </Typography> */}
+        </Typography>
         <Chip
           className={classes.chip}
           color="secondary"

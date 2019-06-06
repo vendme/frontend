@@ -16,12 +16,12 @@ import styles from './marketprofile.styles.js'
 class MarketProfile extends Component {
   state = {
     id: null,
-    market_name: '',
-    bio: '',
-    zip_code: '',
-    address: '',
-    state: '',
-    city: '',
+    market_name: 'Unnamed Market',
+    bio: 'No bio',
+    zip_code: 'No zipcode',
+    address: 'No address',
+    state: 'No state',
+    city: 'No city',
     submittedStallList: [
       {
         quantity: 1,
@@ -58,7 +58,7 @@ class MarketProfile extends Component {
     const { classes } = this.props
     return (
       <div className={classes.root}>
-        <CardInfo Info={this.state} />
+        <CardInfo info={this.state} />
         <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
