@@ -8,34 +8,34 @@ import {
   Button
 } from '@material-ui/core'
 import Axios from 'axios'
-import AddStall from '../addstalls/AddStall'
-import EditStallsTable from './editstallstable/EditStallsTable'
+import AddItems from './additems/AddItems'
+import EditItemsTable from './edititemstable/EditItemsTable'
 
-import styles from './marketedit.style.js'
+import styles from './vendoredit.style.js'
 
-class MarketEdit extends Component {
+class VendorEdit extends Component {
   state = {
     id: null,
-    market_name: '',
+    vendor_name: '',
     bio: '',
     zip_code: '',
     address: '',
     state: '',
     city: '',
-    submittedStallList: [],
+    inventory: [],
     quantity: '',
-    width: '',
-    length: ''
+    item: '',
+    description: ''
   }
 
   componentDidMount = async id => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/1'
+        'https://vendme.herokuapp.com/api/vendor/11'
       )
-      const { market_name, id, address, city, state, zip_code, bio } = data
-
-      this.setState({ market_name, id, address, city, state, zip_code, bio })
+      const { vendor_name, id, address, city, state, zip_code, bio } = data
+      console.log(data)
+      this.setState({ vendor_name, id, address, city, state, zip_code, bio })
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -43,61 +43,64 @@ class MarketEdit extends Component {
 
   changeHandler = event => {
     event.preventDefault()
-    if (event.target.value > 0) {
+    if (event.target.name === "quantity" && event.target.value > 0) {
+      this.setState({ [event.target.name]: event.target.value })
+    }
+    else if (event.target.name !== "quantity"){
       this.setState({ [event.target.name]: event.target.value })
     }
   }
 
-  submitStallToAdd = () => {
-    if (this.state.quantity && this.state.width && this.state.length) {
-      const updatedList = this.state.submittedStallList
+  submitItemToAdd = () => {
+    if (this.state.quantity && this.state.item && this.state.description) {
+      const updatedList = this.state.inventory
       const add = {
         quantity: this.state.quantity,
-        width: this.state.width,
-        length: this.state.length
+        item: this.state.item,
+        description: this.state.description
       }
       updatedList.push(add)
       this.setState({
-        submittedStallList: updatedList,
+        inventory: updatedList,
+        item: '',
         quantity: '',
-        width: '',
-        length: ''
+        description: ''
       })
     }
   }
   render() {
     const { classes } = this.props
-
     const marketObj = {
-      marketname: 'Vendme Market',
-      marketaddress: {
-        street: '123 MyMarket St',
-        state: 'North, State 12345'
-      },
-      markethours: '9am-4:30pm',
-      availableStalls: [
+      id: null,
+      vendor_name: 'Unnamed Vendor',
+      bio: 'No bio',
+      zip_code: 'No zipcode',
+      address: 'No address',
+      state: 'No state',
+      city: 'No city',
+      inventory: [
         {
-          quantity: 1,
-          width: 20,
-          length: 189
+          item: 'Ball Cap',
+          description: 'Warm and pleasant to the eyes.',
+          quantity: 7
         },
         {
-          quantity: 3,
-          width: 30,
-          length: 89
+          item: 'Handmade Tee',
+          description: 'Also warm and pleasant to the eyes.',
+          quantity: 10
         },
         {
-          quantity: 5,
-          width: 120,
-          length: 109
+          item: 'Nostalgic Hamburger Doily',
+          description: 'Ah the good old days.',
+          quantity: 25
         }
       ]
     }
-
+    console.log(this.state)
     return (
       <div className={classes.root}>
         <Typography variant="h6" align="left" className={classes.titles}>
-          Edit Profile
+          Edit Vendor Profile
         </Typography>
         <Typography
           variant="subtitle-1"
@@ -112,10 +115,10 @@ class MarketEdit extends Component {
           </Typography>
           <TextField
             id="standard-dense"
-            label="Market Name"
+            label="Vendor Name"
             margin="dense"
-            name="market_name"
-            value={this.state.market_name}
+            name="vendor_name"
+            value={this.state.vendor_name}
             onChange={this.changeHandler}
             className={classes.textField}
           />
@@ -156,6 +159,15 @@ class MarketEdit extends Component {
               onChange={this.changeHandler}
               className={classes.textField}
             />
+            <TextField
+              id="standard-dense"
+              label="Bio"
+              margin="dense"
+              name="bio"
+              value={this.state.bio}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
             <div className={classes.buttons}>
               <Button variant="contained" className={classes.button}>
                 Cancel
@@ -171,38 +183,38 @@ class MarketEdit extends Component {
         </Paper>
         <>
           <Typography variant="h6" align="left" className={classes.titles}>
-            Add Stalls
+            Add Item
           </Typography>
           <Typography
             variant="subtitle-1"
             align="left"
             className={classes.subtitles}>
-            Add a stall for vendors to rent
+            Add a item to your inventory
           </Typography>
-          <AddStall
+          <AddItems
             mystate={this.state}
             changeHandler={this.changeHandler}
-            submitStallToAdd={this.submitStallToAdd}
+            submitItemToAdd={this.submitItemToAdd}
             removeStall={this.removeStall}
             quantity={this.state.quantity}
-            width={this.state.width}
-            length={this.state.length}
+            description={this.state.description}
+            item={this.state.item}
           />
           <Typography variant="h6" align="left" className={classes.titles}>
-            Available Stalls
+            Current Inventory
           </Typography>
           <Typography
             variant="subtitle-1"
             gutterBottom
             align="left"
             className={classes.subtitles}>
-            All of your available stalls
+            All of your current listed items
           </Typography>
           <div className={classes.table}>
-            <EditStallsTable
-              stalls={[
-                ...marketObj.availableStalls,
-                ...this.state.submittedStallList
+            <EditItemsTable
+              items={[
+                ...marketObj.inventory,
+                ...this.state.inventory
               ]}
             />
           </div>
@@ -211,8 +223,8 @@ class MarketEdit extends Component {
     )
   }
 }
-MarketEdit.propTypes = {
+VendorEdit.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(MarketEdit)
+export default withStyles(styles)(VendorEdit)

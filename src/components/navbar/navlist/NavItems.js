@@ -87,6 +87,11 @@ export const secondaryListItemsOptions = [
       <ListItemText primary="VendorProfile" />
     </ListItem>
   </Link>,
+  <Link to="/vendoredit">
+    <ListItem button>
+      <ListItemText primary="VendorEdit" />
+    </ListItem>
+  </Link>,
   <Link to="/addstall">
     <ListItem button>
       <ListItemText primary="AddStall" />
