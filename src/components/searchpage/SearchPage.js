@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import Axios from 'axios'
 import { withStyles, Paper, InputBase, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
@@ -51,9 +52,11 @@ class SearchPage extends Component {
         </Paper>
         <div className={classes.markets}>
           {this.state.markets.map((market, id) => (
-            <div className={classes.market}>
-              <Card key={id + market.market_name} info={market} />
-            </div>
+            <Link to="/marketprofile">
+              <div className={classes.market}>
+                <Card key={id + market.market_name} info={market} />
+              </div>
+            </Link>
           ))}
         </div>
       </div>
