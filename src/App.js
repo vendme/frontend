@@ -12,6 +12,7 @@ import {
   CardInfo,
   MarketEdit,
   MarketProfile,
+  VendorEdit,
   VendorProfile,
   AddStall,
   RentStall,
@@ -49,6 +50,7 @@ class App extends Component {
               <Route path="/cardinfo" component={CardInfo} />
               <Route path="/marketedit" component={MarketEdit} />
               <Route path="/marketprofile" component={MarketProfile} />
+              <Route path="/vendoredit" component={VendorEdit} />
               <Route path="/vendorprofile" component={VendorProfile} />
               <Route path="/addstall" component={AddStall} />
               <Route path="/rentstall" component={RentStall} />

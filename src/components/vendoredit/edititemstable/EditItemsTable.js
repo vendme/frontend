@@ -30,49 +30,44 @@ const styles = theme => ({
 })
 
 let id = 0
-function createData(quantity, width, length) {
+function createData(quantity, item, description) {
   id += 1
-  return { id, quantity, width, length }
+  return { id, quantity, item, description }
 }
 
 function EditStallsTable(props) {
   const { classes } = props
-  const data = props.stalls.map(stall => {
-    return createData(stall.quantity, stall.width, stall.length)
+  const data = props.items.map(item => {
+    return createData(item.quantity, item.item, item.description)
   })
-  console.log(data)
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
+            <TableCell className={classes.cell}>Item</TableCell>
+            <TableCell className={classes.cell}>Description</TableCell>
             <TableCell className={classes.cell}>QTY</TableCell>
-            <TableCell className={classes.cell}>Width (in)</TableCell>
-            <TableCell className={classes.cell}>Length (in)</TableCell>
-            <TableCell className={classes.cell}>Size (in&sup2;)</TableCell>
-            <TableCell className={classes.cell}></TableCell>
+            <TableCell className={classes.cell} />
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map(data => (
             <TableRow key={data.id}>
+              <TableCell className={classes.cell}>{data.item}</TableCell>
+              <TableCell className={classes.cell}>{data.description}</TableCell>
               <TableCell className={classes.cell}>{data.quantity}</TableCell>
-              <TableCell className={classes.cell}>{data.width}</TableCell>
-              <TableCell className={classes.cell}>{data.length}</TableCell>
-              <TableCell className={classes.cell}>
-                {data.length * data.width}
-              </TableCell>
               <TableCell className={classes.cell}>
                 <IconButton
                   color="primary"
                   className={classes.button}
-                  aria-label="Edit Stall">
+                  aria-label="Edit Item">
                   <CreateIcon />
                 </IconButton>
                 <IconButton
                   color="primary"
                   className={classes.button}
-                  aria-label="Remove Stall">
+                  aria-label="Remove Item">
                   <CancelIcon />
                 </IconButton>
               </TableCell>

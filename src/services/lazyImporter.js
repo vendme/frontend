@@ -16,10 +16,13 @@ export const MarketEdit = lazy(() =>
 export const AddStall = lazy(() => import('../components/addstalls/AddStall'))
 export const RentStall = lazy(() => import('../components/rentstall/RentStall'))
 export const MarketProfile = lazy(() =>
-  import('../components/marketprofile/MarketProfile')
+import('../components/marketprofile/MarketProfile')
+)
+export const VendorEdit = lazy(() =>
+import('../components/vendoredit/VendorEdit')
 )
 export const VendorProfile = lazy(() =>
-  import('../components/vendorprofile/VendorProfile')
+import('../components/vendorprofile/VendorProfile')
 )
 export const ItemListing = lazy(() =>
   import('../components/itemlistings/ItemListings')
