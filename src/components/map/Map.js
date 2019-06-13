@@ -5,31 +5,30 @@ import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import { fromLonLat } from 'ol/proj.js'
 import Point from 'ol/geom/Point.js'
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer.js'
-import { OSM, Vector as VectorSource } from 'ol/source.js'
+import { Vector as VectorLayer } from 'ol/layer.js'
+import { Vector as VectorSource } from 'ol/source.js'
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js'
+import olms from 'ol-mapbox-style'
 
-const GeoCode = require('geo-coder').GeoCode
-let geocode = new GeoCode()
-let place = fromLonLat([-98, 37])
+import darkmap from './darkmap'
+import lightmap from './lightmap'
+let place = fromLonLat([-98, 38])
 let view = new View({
   center: place,
   zoom: 4
 })
-
 class MapDiv extends React.Component {
   componentDidMount() {
-    let map = new Map({
-      layers: [
-        new TileLayer({
-          source: new OSM()
-        })
-      ],
+    this.map = new Map({
       target: 'map',
-      view: view
+      view
     })
+    olms.apply(this, [
+      this.map,
+      this.props.theme === false || this.props.theme === 0 ? lightmap : darkmap
+    ])
 
-    let geolocation = new Geolocation({
+    this.geolocation = new Geolocation({
       // enableHighAccuracy must be set to true to have the heading value.
       trackingOptions: {
         enableHighAccuracy: true
@@ -37,28 +36,20 @@ class MapDiv extends React.Component {
       projection: view.getProjection()
     })
 
-    function el(id) {
-      return document.getElementById(id)
-    }
-
-    el('track').addEventListener('change', function() {
-      geolocation.setTracking(this.checked)
-    })
-
     // handle geolocation error.
-    geolocation.on('error', function(error) {
-      let info = document.getElementById('info')
-      info.innerHTML = error.message
-      info.style.display = ''
+    this.geolocation.on('error', error => {
+      this.info = document.getElementById('info')
+      this.info.innerHTML = error.message
+      this.info.style.display = ''
     })
 
-    let accuracyFeature = new Feature()
-    geolocation.on('change:accuracyGeometry', function() {
-      accuracyFeature.setGeometry(geolocation.getAccuracyGeometry())
+    this.accuracyFeature = new Feature()
+    this.geolocation.on('change:accuracyGeometry', _ => {
+      this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry())
     })
 
-    let positionFeature = new Feature()
-    positionFeature.setStyle(
+    this.positionFeature = new Feature()
+    this.positionFeature.setStyle(
       new Style({
         image: new CircleStyle({
           radius: 6,
@@ -73,24 +64,26 @@ class MapDiv extends React.Component {
       })
     )
 
-    geolocation.on('change:position', function() {
-      let coordinates = geolocation.getPosition()
-      place = coordinates
-      positionFeature.setGeometry(coordinates ? new Point(coordinates) : null)
+    this.geolocation.on('change:position', _ => {
+      this.coordinates = this.geolocation.getPosition()
+      place = this.coordinates
+      this.positionFeature.setGeometry(
+        this.coordinates ? new Point(this.coordinates) : null
+      )
     })
 
     new VectorLayer({
-      map: map,
+      map: this.map,
       source: new VectorSource({
-        features: [accuracyFeature, positionFeature]
+        features: [this.accuracyFeature, this.positionFeature]
       })
     })
   }
   componentWillUnmount() {
-    this.refs.myRef = null
+    this.myRef = null
   }
+  trackLocation = _ => this.geolocation.setTracking(true)
   panToHome = _ => {
-    console.log(place)
     view.animate({
       center: place,
       duration: 2000
@@ -99,9 +92,10 @@ class MapDiv extends React.Component {
   render() {
     return (
       <>
+        {console.log(this.trackLocation)}
         <label htmlFor="track">
           track position
-          <input id="track" type="checkbox" />
+          <input id="track" type="checkbox" onChange={this.trackLocation} />
         </label>
         <button htmlFor="pan" id="pan" onClick={this.panToHome}>
           pan to home

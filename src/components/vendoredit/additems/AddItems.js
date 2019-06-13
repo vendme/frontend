@@ -35,7 +35,7 @@ const AddItems = props => {
           margin="dense"
           name="quantity"
           type="number"
-          min="1" //Min attribute not working. Find solution.
+          inputProps={{ min: 1 }}
           value={props.quantity}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}

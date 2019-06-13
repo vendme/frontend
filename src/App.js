@@ -56,7 +56,10 @@ class App extends Component {
               <Route path="/rentstall" component={RentStall} />
               <Route path="/itemlisting" component={ItemListing} />
               <Route path="/itemlistings" component={ItemListings} />
-              <Route path="/map" component={Map} />
+              <Route
+                path="/map"
+                component={_ => <Map theme={this.state.theme} />}
+              />
             </Switch>
           </Suspense>
         </NavBar>
