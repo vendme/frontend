@@ -18,10 +18,6 @@ class VendorEdit extends Component {
     id: null,
     vendor_name: '',
     bio: '',
-    zip_code: '',
-    address: '',
-    state: '',
-    city: '',
     inventory: [],
     quantity: '',
     item: '',
@@ -33,9 +29,8 @@ class VendorEdit extends Component {
       const { data } = await Axios.get(
         'https://vendme.herokuapp.com/api/vendor/11'
       )
-      const { vendor_name, id, address, city, state, zip_code, bio } = data
-      console.log(data)
-      this.setState({ vendor_name, id, address, city, state, zip_code, bio })
+      const { vendor_name, id, bio } = data
+      this.setState({ vendor_name, id, bio })
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -43,12 +38,7 @@ class VendorEdit extends Component {
 
   changeHandler = event => {
     event.preventDefault()
-    if (event.target.name === "quantity" && event.target.value > 0) {
-      this.setState({ [event.target.name]: event.target.value })
-    }
-    else if (event.target.name !== "quantity"){
-      this.setState({ [event.target.name]: event.target.value })
-    }
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   submitItemToAdd = () => {
@@ -74,10 +64,6 @@ class VendorEdit extends Component {
       id: null,
       vendor_name: 'Unnamed Vendor',
       bio: 'No bio',
-      zip_code: 'No zipcode',
-      address: 'No address',
-      state: 'No state',
-      city: 'No city',
       inventory: [
         {
           item: 'Ball Cap',
@@ -125,48 +111,14 @@ class VendorEdit extends Component {
           <div className={classes.address}>
             <TextField
               id="standard-dense"
-              label="Street"
-              margin="dense"
-              name="address"
-              value={this.state.address}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="State"
-              margin="dense"
-              name="state"
-              value={this.state.state}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="City"
-              margin="dense"
-              name="city"
-              value={this.state.city}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="Zipcode"
-              margin="dense"
-              name="zip_code"
-              value={this.state.zip_code}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
               label="Bio"
+              multiline
               margin="dense"
+              inputProps={{ maxLength: 500 }}
               name="bio"
               value={this.state.bio}
               onChange={this.changeHandler}
-              className={classes.textField}
+              className={classes.textFieldArea}
             />
             <div className={classes.buttons}>
               <Button variant="contained" className={classes.button}>
@@ -212,10 +164,7 @@ class VendorEdit extends Component {
           </Typography>
           <div className={classes.table}>
             <EditItemsTable
-              items={[
-                ...marketObj.inventory,
-                ...this.state.inventory
-              ]}
+              items={[...marketObj.inventory, ...this.state.inventory]}
             />
           </div>
         </>

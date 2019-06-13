@@ -43,9 +43,7 @@ class MarketEdit extends Component {
 
   changeHandler = event => {
     event.preventDefault()
-    if (event.target.value > 0) {
-      this.setState({ [event.target.name]: event.target.value })
-    }
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   submitStallToAdd = () => {

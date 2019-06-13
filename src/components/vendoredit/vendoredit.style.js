@@ -41,6 +41,9 @@ const styles = ({ spacing, palette }) => ({
   textField: {
     width: `calc(50% - ${spacing.unit * 2}px)`
   },
+  textFieldArea: {
+    width: '100%'
+  },
   buttons: {
     width: '100%',
     display: 'flex',
