@@ -4,6 +4,7 @@ import Axios from 'axios'
 import { withStyles, Paper, InputBase, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import Card from '../card/Card'
+import Map from '../map/Map'
 
 import styles from './searchpage.styles.js'
 
@@ -50,6 +51,9 @@ class SearchPage extends Component {
             <SearchIcon />
           </IconButton>
         </Paper>
+        <div className={classes.map}>
+          <Map theme={this.props.theme} />
+        </div>
         <div className={classes.markets}>
           {this.state.markets.map((market, id) => (
             <Link to="/marketprofile">

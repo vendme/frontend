@@ -44,6 +44,11 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
     },
     market: {
       marginBottom: spacing.unit * 2
+    },
+    map: {
+      maxWidth: 1200,
+      width: '100%',
+      margin: `${spacing.unit * 2}px auto`
     }
   }
 }
