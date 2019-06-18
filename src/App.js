@@ -44,7 +44,10 @@ class App extends Component {
             <Switch>
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={Login} />
-              <Route path="/searchpage" component={SearchPage} />
+              <Route
+                path="/searchpage"
+                component={_ => <SearchPage theme={this.state.theme} />}
+              />
               <Route path="/searchbar" component={SearchBar} />
               <Route path="/card" component={Card} />
               <Route path="/cardinfo" component={CardInfo} />

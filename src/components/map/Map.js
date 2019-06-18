@@ -36,13 +36,6 @@ class MapDiv extends React.Component {
       projection: view.getProjection()
     })
 
-    // handle geolocation error.
-    this.geolocation.on('error', error => {
-      this.info = document.getElementById('info')
-      this.info.innerHTML = error.message
-      this.info.style.display = ''
-    })
-
     this.accuracyFeature = new Feature()
     this.geolocation.on('change:accuracyGeometry', _ => {
       this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry())
@@ -64,9 +57,15 @@ class MapDiv extends React.Component {
       })
     )
 
+    this.geolocation.setTracking(true)
     this.geolocation.on('change:position', _ => {
       this.coordinates = this.geolocation.getPosition()
       place = this.coordinates
+      view.animate({
+        center: place,
+        zoom: 11,
+        duration: 2000
+      })
       this.positionFeature.setGeometry(
         this.coordinates ? new Point(this.coordinates) : null
       )
@@ -82,24 +81,9 @@ class MapDiv extends React.Component {
   componentWillUnmount() {
     this.myRef = null
   }
-  trackLocation = _ => this.geolocation.setTracking(true)
-  panToHome = _ => {
-    view.animate({
-      center: place,
-      duration: 2000
-    })
-  }
   render() {
     return (
       <>
-        {console.log(this.trackLocation)}
-        <label htmlFor="track">
-          track position
-          <input id="track" type="checkbox" onChange={this.trackLocation} />
-        </label>
-        <button htmlFor="pan" id="pan" onClick={this.panToHome}>
-          pan to home
-        </button>
         <div ref={this.myRef} id="map" style={{ height: '400px' }} />
       </>
     )
