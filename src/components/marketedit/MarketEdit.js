@@ -54,12 +54,30 @@ class MarketEdit extends Component {
         width: this.state.width,
         length: this.state.length
       }
-      updatedList.push(add)
-      this.setState({
-        submittedStallList: updatedList,
-        quantity: '',
-        width: '',
-        length: ''
+      const postStall = {
+        market_id: this.state.id,
+        vendor_id: null,
+        category_id: null,
+        stall_size: this.state.length,
+        availability: true,
+        comments: null,
+        stall_photo: null,
+        stall_price: null,
+        rent_message: true
+      }
+      Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
+      .then(res => {
+        console.log(res)
+        updatedList.push(add)
+        this.setState({
+          submittedStallList: updatedList,
+          quantity: '',
+          width: '',
+          length: ''
+        })   
+      })
+      .catch(error => {
+        console.log(JSON.stringify(error))
       })
     }
   }
