@@ -45,6 +45,17 @@ const AddStall = props => {
           className={classes.textFieldStalls}
         />
       </div>
+      <TextField
+        id="standard-dense"
+        label="Comment"
+        multiline
+        margin="dense"
+        inputProps={{ maxLength: 500 }}
+        name="comment"
+        value={props.comment}
+        onChange={props.changeHandler}
+        className={classes.textFieldArea}
+      />
       <IconButton
         size="large"
         color="primary"
