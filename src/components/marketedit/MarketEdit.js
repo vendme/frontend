@@ -25,7 +25,8 @@ class MarketEdit extends Component {
     submittedStallList: [],
     quantity: '',
     width: '',
-    length: ''
+    length: '',
+    comment: ''
   }
 
   componentDidMount = async id => {
@@ -36,6 +37,14 @@ class MarketEdit extends Component {
       const { market_name, id, address, city, state, zip_code, bio } = data
 
       this.setState({ market_name, id, address, city, state, zip_code, bio })
+
+      // try {
+      //   const poop = await Axios.get(`https://vendme.herokuapp.com/api/market/${id}/stalls`)
+      //   console.log(poop)
+      // }
+      // catch (error) {
+      //   console.log('message: ', error)
+      // }
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -56,12 +65,12 @@ class MarketEdit extends Component {
       }
       const postStall = {
         market_id: this.state.id,
-        vendor_id: null,
-        category_id: 1,
-        stall_size: this.state.length || 1,
+        vendor_id: 1,
+        category_id: 3,
+        stall_size: 3,
         availability: true,
-        comments: '',
-        stall_photo: null,
+        comments: 'yup.',
+        stall_photo: {},
         stall_price: '100.00',
         rent_message: true
       }
