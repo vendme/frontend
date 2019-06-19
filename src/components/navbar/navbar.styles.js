@@ -3,6 +3,72 @@ const drawerWidth = 240
 
 const styles = theme => {
   return {
+    '@global': {
+      '*::-webkit-scrollbar': {
+        width: '1em'
+      },
+      '*::-webkit-scrollbar-track': {
+        '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+      },
+      '*::-webkit-scrollbar-thumb': {
+        backgroundColor: 'rgba(0,0,0,.3)',
+        outline: '1px solid slategrey'
+      },
+      'input:-webkit-autofill': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'input:-webkit-autofill:hover': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'input:-webkit-autofill:focus': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'textarea:-webkit-autofill': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'textarea:-webkit-autofill:hover': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'textarea:-webkit-autofill:focus': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'select:-webkit-autofill': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'select:-webkit-autofill:hover': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      },
+      'select:-webkit-autofill:focus': {
+        '-webkit-text-fill-color':
+          theme.palette.type === 'dark' ? 'white' : 'black',
+        '-webkit-box-shadow': '0 0 0px 0px #000 inset',
+        transition: 'background-color 5000s ease-in-out 0s'
+      }
+    },
     root: {
       display: 'flex'
       // backgroundColor: fade('#fff7f7', 0.5),

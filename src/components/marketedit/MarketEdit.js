@@ -57,28 +57,28 @@ class MarketEdit extends Component {
       const postStall = {
         market_id: this.state.id,
         vendor_id: null,
-        category_id: null,
-        stall_size: this.state.length,
+        category_id: 1,
+        stall_size: this.state.length || 1,
         availability: true,
-        comments: null,
+        comments: '',
         stall_photo: null,
-        stall_price: null,
+        stall_price: '100.00',
         rent_message: true
       }
       Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
-      .then(res => {
-        console.log(res)
-        updatedList.push(add)
-        this.setState({
-          submittedStallList: updatedList,
-          quantity: '',
-          width: '',
-          length: ''
-        })   
-      })
-      .catch(error => {
-        console.log(JSON.stringify(error))
-      })
+        .then(res => {
+          console.log(res)
+          updatedList.push(add)
+          this.setState({
+            submittedStallList: updatedList,
+            quantity: '',
+            width: '',
+            length: ''
+          })
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error))
+        })
     }
   }
   render() {
@@ -116,7 +116,7 @@ class MarketEdit extends Component {
           Edit Profile
         </Typography>
         <Typography
-          variant="subtitle-1"
+          variant="subtitle1"
           gutterBottom
           align="left"
           className={classes.subtitles}>
@@ -190,7 +190,7 @@ class MarketEdit extends Component {
             Add Stalls
           </Typography>
           <Typography
-            variant="subtitle-1"
+            variant="subtitle1"
             align="left"
             className={classes.subtitles}>
             Add a stall for vendors to rent
@@ -208,7 +208,7 @@ class MarketEdit extends Component {
             Available Stalls
           </Typography>
           <Typography
-            variant="subtitle-1"
+            variant="subtitle1"
             gutterBottom
             align="left"
             className={classes.subtitles}>

@@ -116,6 +116,11 @@ export const secondaryListItemsOptions = [
     <ListItem button>
       <ListItemText primary="Map" />
     </ListItem>
+  </Link>,
+  <Link to="/register">
+    <ListItem button>
+      <ListItemText primary="Register" />
+    </ListItem>
   </Link>
 ]
 
