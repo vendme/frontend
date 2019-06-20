@@ -28,7 +28,7 @@ class MarketEdit extends Component {
     length: '',
     comment: ''
   }
-  
+
   componentDidMount = async id => {
     try {
       const { data } = await Axios.get(
@@ -37,7 +37,7 @@ class MarketEdit extends Component {
       const { market_name, id, address, city, state, zip_code, bio } = data
 
       this.setState({ market_name, id, address, city, state, zip_code, bio })
-      
+
       // try {
       //   const poop = await Axios.get(`https://vendme.herokuapp.com/api/market/${id}/stalls`)
       //   console.log(poop)
@@ -69,30 +69,29 @@ class MarketEdit extends Component {
         category_id: 3,
         stall_size: 3,
         availability: true,
-        comments: "yup.",
+        comments: 'yup.',
         stall_photo: {},
-        stall_price: "00.00",
+        stall_price: '100.00',
         rent_message: true
-    }
+      }
       Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
-      .then(res => {
-        console.log(res)
-        updatedList.push(add)
-        this.setState({
-          submittedStallList: updatedList,
-          quantity: '',
-          width: '',
-          length: ''
-        })   
-      })
-      .catch(error => {
-        console.log(JSON.stringify(error))
-      })
+        .then(res => {
+          console.log(res)
+          updatedList.push(add)
+          this.setState({
+            submittedStallList: updatedList,
+            quantity: '',
+            width: '',
+            length: ''
+          })
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error))
+        })
     }
   }
   render() {
     const { classes } = this.props
-    console.log(this.state.id)
 
     const marketObj = {
       marketname: 'Vendme Market',
@@ -126,7 +125,7 @@ class MarketEdit extends Component {
           Edit Profile
         </Typography>
         <Typography
-          variant="subtitle-1"
+          variant="subtitle1"
           gutterBottom
           align="left"
           className={classes.subtitles}>
@@ -200,7 +199,7 @@ class MarketEdit extends Component {
             Add Stalls
           </Typography>
           <Typography
-            variant="subtitle-1"
+            variant="subtitle1"
             align="left"
             className={classes.subtitles}>
             Add a stall for vendors to rent
@@ -218,7 +217,7 @@ class MarketEdit extends Component {
             Available Stalls
           </Typography>
           <Typography
-            variant="subtitle-1"
+            variant="subtitle1"
             gutterBottom
             align="left"
             className={classes.subtitles}>

@@ -18,7 +18,8 @@ import {
   RentStall,
   ItemListing,
   ItemListings,
-  Map
+  Map,
+  Register
 } from './services/lazyImporter'
 
 class App extends Component {
@@ -63,6 +64,7 @@ class App extends Component {
                 path="/map"
                 component={_ => <Map theme={this.state.theme} />}
               />
+              <Route path="/register" component={Register} />
             </Switch>
           </Suspense>
         </NavBar>

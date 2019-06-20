@@ -70,6 +70,11 @@ class MapDiv extends React.Component {
         this.coordinates ? new Point(this.coordinates) : null
       )
     })
+    view.animate({
+      center: place,
+      zoom: 11,
+      duration: 2000
+    })
 
     new VectorLayer({
       map: this.map,
