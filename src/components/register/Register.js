@@ -16,14 +16,20 @@ import styles from './register.styles.js'
 
 const steps = ['Account Type', 'Profile Info', 'Additional Steps']
 
-function getStepContent(step, accountProp, handleAccountProp) {
+function getStepContent(
+  step,
+  accountProp,
+  handleAccountProp,
+  inputProp,
+  handleInputProp
+) {
   switch (step) {
     case 0:
       return (
         <AccountType account={accountProp} handleAccount={handleAccountProp} />
       )
     case 1:
-      return <ProfileInfo />
+      return <ProfileInfo input={inputProp} handleInput={handleInputProp} />
     case 2:
       return <AddStalls />
     default:
@@ -35,6 +41,25 @@ const Register = props => {
   const { classes } = props
   const [activeStep, setActiveStep] = useState(0)
   const [account, setAccount] = useState('customer')
+  const [info, setInfo] = useState({
+    market_name: '',
+    address: '',
+    city: '',
+    zip_code: ''
+  })
+  const [market_name, changeName] = useState('')
+  const [address, changeAddress] = useState('')
+  const [state, changeState] = useState('')
+  const [city, changeCity] = useState('')
+  const [zip_code, changeZip] = useState('')
+  const input = { market_name, address, state, city, zip_code }
+  const handleInputChanges = {
+    changeName,
+    changeAddress,
+    changeState,
+    changeCity,
+    changeZip
+  }
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -46,6 +71,13 @@ const Register = props => {
 
   const handleAccount = newAccount => {
     setAccount(newAccount)
+  }
+  const handleInfo = (name, change) => {
+    console.log(name, change)
+    let newInfo = info
+    newInfo[name] += change
+    console.log(newInfo)
+    setInfo(newInfo)
   }
 
   return (
@@ -75,7 +107,13 @@ const Register = props => {
             </>
           ) : (
             <>
-              {getStepContent(activeStep, account, handleAccount)}
+              {getStepContent(
+                activeStep,
+                account,
+                handleAccount,
+                input,
+                handleInputChanges
+              )}
               <div className={classes.buttons}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} className={classes.button}>

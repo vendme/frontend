@@ -22,12 +22,15 @@ const styles = theme => ({
 })
 
 const ProfileInfo = props => {
-  const { classes } = props
-  const [market_name, changeName] = useState('')
-  const [address, changeAddress] = useState('')
-  const [state, changeState] = useState('')
-  const [city, changeCity] = useState('')
-  const [zip_code, changeZip] = useState('')
+  const { classes, input, handleInput } = props
+  const { market_name, address, state, city, zip_code } = input
+  const {
+    changeName,
+    changeAddress,
+    changeState,
+    changeCity,
+    changeZip
+  } = handleInput
 
   return (
     <div className={classes.root}>
