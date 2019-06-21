@@ -21,7 +21,9 @@ function getStepContent(
   accountProp,
   handleAccountProp,
   inputProp,
-  handleInputProp
+  handleInputProp,
+  stallsProp,
+  handleStallsProp
 ) {
   switch (step) {
     case 0:
@@ -31,7 +33,7 @@ function getStepContent(
     case 1:
       return <ProfileInfo input={inputProp} handleInput={handleInputProp} />
     case 2:
-      return <AddStalls />
+      return <AddStalls input={stallsProp} handleInput={handleStallsProp} />
     default:
       throw new Error('Unknown step')
   }
@@ -41,12 +43,6 @@ const Register = props => {
   const { classes } = props
   const [activeStep, setActiveStep] = useState(0)
   const [account, setAccount] = useState('customer')
-  const [info, setInfo] = useState({
-    market_name: '',
-    address: '',
-    city: '',
-    zip_code: ''
-  })
   const [market_name, changeName] = useState('')
   const [address, changeAddress] = useState('')
   const [state, changeState] = useState('')
@@ -60,6 +56,17 @@ const Register = props => {
     changeCity,
     changeZip
   }
+  const [quantity, changeQuantity] = useState('')
+  const [width, changeWidth] = useState('')
+  const [length, changeLength] = useState('')
+  const [comment, changeComment] = useState('')
+  const stalls = { quantity, width, length, comment }
+  const handleStalls = {
+    changeQuantity,
+    changeWidth,
+    changeLength,
+    changeComment
+  }
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -71,13 +78,6 @@ const Register = props => {
 
   const handleAccount = newAccount => {
     setAccount(newAccount)
-  }
-  const handleInfo = (name, change) => {
-    console.log(name, change)
-    let newInfo = info
-    newInfo[name] += change
-    console.log(newInfo)
-    setInfo(newInfo)
   }
 
   return (
@@ -112,7 +112,9 @@ const Register = props => {
                 account,
                 handleAccount,
                 input,
-                handleInputChanges
+                handleInputChanges,
+                stalls,
+                handleStalls
               )}
               <div className={classes.buttons}>
                 {activeStep !== 0 && (
