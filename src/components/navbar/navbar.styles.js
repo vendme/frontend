@@ -132,12 +132,12 @@ const styles = theme => {
       }),
       width: 0,
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing.unit * 7
+        width: theme.spacing(7)
       }
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-      padding: theme.spacing.unit * 3,
+      padding: theme.spacing(3),
       flexGrow: 1,
       height: '100vh',
       overflow: 'auto',

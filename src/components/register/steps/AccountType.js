@@ -15,7 +15,10 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   subtitle: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
+  },
+  workaround: {
+    background: `${theme.palette.primary.main} !important`
   }
 })
 
@@ -30,7 +33,8 @@ const AccountType = props => {
   return (
     <div className={classes.root}>
       <Typography
-        component="subtitle2"
+        component="h2"
+        variant="subtitle1"
         align="center"
         className={classes.subtitle}>
         Choose what kind of account you want to use
@@ -40,13 +44,11 @@ const AccountType = props => {
         exclusive
         className={classes.buttons}
         onChange={handleChange}>
-        <ToggleButton color="primary" value="customer">
-          Customer
-        </ToggleButton>
-        <ToggleButton color="primary" value="vendor">
-          Vendor
-        </ToggleButton>
-        <ToggleButton color="primary" value="market">
+        <ToggleButton value="customer">Customer</ToggleButton>
+        <ToggleButton value="vendor">Vendor</ToggleButton>
+        <ToggleButton
+          value="market"
+          className={account === 'market' ? classes.workaround : ''}>
           Market
         </ToggleButton>
       </ToggleButtonGroup>

@@ -24,14 +24,14 @@ const styles = ({ spacing, palette }) => ({
     display: 'block',
     width: '100%',
     maxWidth: 600,
-    marginBottom: spacing.unit * 2,
+    marginBottom: spacing(2),
     color: palette.grey['600']
   },
   profile: {
     width: '100%',
     maxWidth: 600,
-    padding: spacing.unit * 2,
-    marginBottom: spacing.unit * 4
+    padding: spacing(2),
+    marginBottom: spacing(4)
   },
   address: {
     display: 'flex',
@@ -39,7 +39,7 @@ const styles = ({ spacing, palette }) => ({
     flexWrap: 'wrap'
   },
   textField: {
-    width: `calc(50% - ${spacing.unit * 2}px)`
+    width: `calc(50% - ${spacing(2)}px)`
   },
   textFieldArea: {
     width: '100%'
@@ -50,8 +50,8 @@ const styles = ({ spacing, palette }) => ({
     justifyContent: 'flex-end'
   },
   button: {
-    margin: spacing.unit,
-    marginTop: spacing.unit * 2,
+    margin: spacing(1),
+    marginTop: spacing(2),
     marginRight: 0
   }
 })

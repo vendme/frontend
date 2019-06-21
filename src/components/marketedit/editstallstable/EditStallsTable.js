@@ -22,7 +22,7 @@ const styles = theme => ({
     }
   },
   cell: {
-    padding: '0rem 2vw',
+    padding: '0.5rem 1.5vw',
     '&:nth-of-type(1)': {
       paddingLeft: '30px'
     }
@@ -49,7 +49,7 @@ function EditStallsTable(props) {
             <TableCell className={classes.cell}>Width (in)</TableCell>
             <TableCell className={classes.cell}>Length (in)</TableCell>
             <TableCell className={classes.cell}>Size (in&sup2;)</TableCell>
-            <TableCell className={classes.cell}></TableCell>
+            <TableCell className={classes.cell} />
           </TableRow>
         </TableHead>
         <TableBody>

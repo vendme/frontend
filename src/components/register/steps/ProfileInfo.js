@@ -17,7 +17,7 @@ const styles = theme => ({
     width: '100%'
   },
   textField: {
-    width: `calc(50% - ${theme.spacing.unit * 2}px)`
+    width: `calc(50% - ${theme.spacing(2)}px)`
   }
 })
 

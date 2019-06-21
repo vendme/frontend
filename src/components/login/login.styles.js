@@ -3,23 +3,23 @@ const styles = ({ spacing, breakpoints, palette }) => ({
     width: '100%',
     display: 'block',
     margin: 'auto',
-    [breakpoints.up(400 + spacing.unit * 3 * 2)]: {
+    [breakpoints.up(400 + spacing(6))]: {
       width: 400
     }
   },
   paper: {
-    marginTop: spacing.unit * 8,
+    marginTop: spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${spacing.unit * 2}px ${spacing.unit * 3}px ${spacing.unit * 3}px`
+    padding: spacing(2, 3, 3)
   },
   form: {
     width: '100%',
-    marginTop: spacing.unit
+    marginTop: spacing
   },
   submit: {
-    marginTop: spacing.unit * 3,
+    marginTop: spacing(3),
     height: 36,
     backgroundColor: palette.primary.dark
   },
