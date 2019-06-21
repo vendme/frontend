@@ -2,27 +2,27 @@ const styles = ({ spacing, breakpoints, palette }) => ({
   main: {
     width: 'auto',
     display: 'block',
-    marginLeft: spacing.unit * 3,
-    marginRight: spacing.unit * 3,
-    [breakpoints.up(400 + spacing.unit * 3 * 2)]: {
+    marginLeft: spacing(3),
+    marginRight: spacing(3),
+    [breakpoints.up(400 + spacing(6))]: {
       width: 400,
       marginLeft: 'auto',
       marginRight: 'auto'
     }
   },
   paper: {
-    marginTop: spacing.unit * 8,
+    marginTop: spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${spacing.unit * 2}px ${spacing.unit * 3}px ${spacing.unit * 3}px`
+    padding: spacing(2, 3, 3)
   },
   form: {
     width: '100%',
-    marginTop: spacing.unit
+    marginTop: spacing(1)
   },
   submit: {
-    marginTop: spacing.unit * 3,
+    marginTop: spacing(3),
     backgroundColor: palette.primary.dark
   },
   google: {

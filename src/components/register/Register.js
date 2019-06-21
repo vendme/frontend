@@ -16,14 +16,24 @@ import styles from './register.styles.js'
 
 const steps = ['Account Type', 'Profile Info', 'Additional Steps']
 
-function getStepContent(step) {
+function getStepContent(
+  step,
+  accountProp,
+  handleAccountProp,
+  inputProp,
+  handleInputProp,
+  stallsProp,
+  handleStallsProp
+) {
   switch (step) {
     case 0:
-      return <AccountType />
+      return (
+        <AccountType account={accountProp} handleAccount={handleAccountProp} />
+      )
     case 1:
-      return <ProfileInfo />
+      return <ProfileInfo input={inputProp} handleInput={handleInputProp} />
     case 2:
-      return <AddStalls />
+      return <AddStalls input={stallsProp} handleInput={handleStallsProp} />
     default:
       throw new Error('Unknown step')
   }
@@ -32,6 +42,31 @@ function getStepContent(step) {
 const Register = props => {
   const { classes } = props
   const [activeStep, setActiveStep] = useState(0)
+  const [account, setAccount] = useState('customer')
+  const [market_name, changeName] = useState('')
+  const [address, changeAddress] = useState('')
+  const [state, changeState] = useState('')
+  const [city, changeCity] = useState('')
+  const [zip_code, changeZip] = useState('')
+  const input = { market_name, address, state, city, zip_code }
+  const handleInputChanges = {
+    changeName,
+    changeAddress,
+    changeState,
+    changeCity,
+    changeZip
+  }
+  const [quantity, changeQuantity] = useState('')
+  const [width, changeWidth] = useState('')
+  const [length, changeLength] = useState('')
+  const [comment, changeComment] = useState('')
+  const stalls = { quantity, width, length, comment }
+  const handleStalls = {
+    changeQuantity,
+    changeWidth,
+    changeLength,
+    changeComment
+  }
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -39,6 +74,10 @@ const Register = props => {
 
   const handleBack = () => {
     setActiveStep(activeStep - 1)
+  }
+
+  const handleAccount = newAccount => {
+    setAccount(newAccount)
   }
 
   return (
@@ -68,7 +107,15 @@ const Register = props => {
             </>
           ) : (
             <>
-              {getStepContent(activeStep)}
+              {getStepContent(
+                activeStep,
+                account,
+                handleAccount,
+                input,
+                handleInputChanges,
+                stalls,
+                handleStalls
+              )}
               <div className={classes.buttons}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} className={classes.button}>

@@ -15,38 +15,49 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   subtitle: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
+  },
+  workaround: {
+    background: `${theme.palette.primary.main} !important`
   }
 })
 
 const AccountType = props => {
   const { classes } = props
-  const [account, setAccount] = useState('customer')
 
   const handleChange = (e, newAccount) => {
-    newAccount !== null && setAccount(newAccount)
+    if (newAccount !== null) {
+      props.handleAccount(newAccount)
+    }
   }
 
   return (
     <div className={classes.root}>
       <Typography
-        component="subtitle2"
+        component="h2"
+        variant="subtitle1"
         align="center"
         className={classes.subtitle}>
         Choose what kind of account you want to use
       </Typography>
       <ToggleButtonGroup
-        value={account}
+        value={props.account}
         exclusive
         className={classes.buttons}
         onChange={handleChange}>
-        <ToggleButton color="primary" value="customer">
+        <ToggleButton
+          value="customer"
+          className={props.account === 'customer' ? classes.workaround : ''}>
           Customer
         </ToggleButton>
-        <ToggleButton color="primary" value="vendor">
+        <ToggleButton
+          value="vendor"
+          className={props.account === 'vendor' ? classes.workaround : ''}>
           Vendor
         </ToggleButton>
-        <ToggleButton color="primary" value="market">
+        <ToggleButton
+          value="market"
+          className={props.account === 'market' ? classes.workaround : ''}>
           Market
         </ToggleButton>
       </ToggleButtonGroup>

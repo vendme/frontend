@@ -35,8 +35,8 @@ const styles = theme => {
     },
     title: {
       position: 'relative',
-      top: -theme.spacing.unit / 2,
-      lineHeight: `${theme.spacing.unit * 3}px`
+      top: -theme.spacing(2),
+      lineHeight: `${theme.spacing(3)}px`
     },
     addy: {
       fontSize: 14
@@ -52,7 +52,7 @@ const styles = theme => {
       width: 160,
       minWidth: 160,
       minHeight: 160,
-      marginRight: theme.spacing.unit * 2,
+      marginRight: theme.spacing(2),
       [theme.breakpoints.down(800)]: {
         height: 'auto',
         width: 'auto',

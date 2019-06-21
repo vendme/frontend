@@ -1,7 +1,7 @@
 const styles = ({ spacing, breakpoints, palette }) => ({
   container: {
     maxWidth: 600,
-    padding: spacing.unit * 2,
+    padding: spacing(2),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -17,7 +17,7 @@ const styles = ({ spacing, breakpoints, palette }) => ({
     }
   },
   textFieldStalls: {
-    padding: spacing.unit,
+    padding: spacing(1),
     [breakpoints.down('600')]: {
       width: '100%'
     }

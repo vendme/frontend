@@ -22,10 +22,10 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       minWidth: '280px',
       ...theme,
       borderRadius: '500px',
-      marginTop: spacing.unit * 4
+      marginTop: spacing(4)
     },
     input: {
-      marginLeft: spacing.unit * 4,
+      marginLeft: spacing(4),
       flex: 1,
       transition: transitions.create('width'),
       [breakpoints.up('sm')]: {
@@ -36,19 +36,19 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       }
     },
     iconButton: {
-      padding: spacing.unit,
-      marginRight: spacing.unit
+      padding: spacing(1),
+      marginRight: spacing(1)
     },
     markets: {
-      marginTop: spacing.unit * 6
+      marginTop: spacing(6)
     },
     market: {
-      marginBottom: spacing.unit * 2
+      marginBottom: spacing(2)
     },
     map: {
       maxWidth: 1200,
       width: '100%',
-      margin: `${spacing.unit * 2}px auto`
+      margin: `${spacing(2)}px auto`
     }
   }
 }

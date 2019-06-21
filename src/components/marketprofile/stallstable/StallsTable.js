@@ -21,7 +21,7 @@ const styles = theme => ({
     }
   },
   cell: {
-    padding: '0rem 2vw',
+    padding: '0.5rem 2vw',
     '&:nth-of-type(1)': {
       paddingLeft: '30px'
     }

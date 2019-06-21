@@ -18,7 +18,7 @@ const styles = theme => ({
     width: '100%'
   },
   textField: {
-    width: `calc(33% - ${theme.spacing.unit * 2}px)`
+    width: `calc(33% - ${theme.spacing(2)}px)`
   },
   textFieldComment: {
     width: '100%'
@@ -30,7 +30,14 @@ const styles = theme => ({
 })
 
 const AddStall = props => {
-  const { classes } = props
+  const { classes, input, handleInput } = props
+  const { quantity, width, length, comment } = input
+  const {
+    changeQuantity,
+    changeWidth,
+    changeLength,
+    changeComment
+  } = handleInput
   return (
     <React.Fragment className={classes.root}>
       <div className={classes.form}>
@@ -41,8 +48,8 @@ const AddStall = props => {
           name="quantity"
           type="number"
           inputProps={{ min: 1 }}
-          value={props.quantity}
-          onChange={props.changeHandler}
+          value={quantity}
+          onChange={e => changeQuantity(e.target.value)}
           className={classes.textField}
         />
         <TextField
@@ -53,8 +60,8 @@ const AddStall = props => {
           type="number"
           inputProps={{ min: 1 }}
           required
-          value={props.width}
-          onChange={props.changeHandler}
+          value={width}
+          onChange={e => changeWidth(e.target.value)}
           className={classes.textField}
         />
         <TextField
@@ -65,8 +72,8 @@ const AddStall = props => {
           type="number"
           inputProps={{ min: 1 }}
           required
-          value={props.length}
-          onChange={props.changeHandler}
+          value={length}
+          onChange={e => changeLength(e.target.value)}
           className={classes.textField}
         />
       </div>
@@ -77,16 +84,12 @@ const AddStall = props => {
         margin="dense"
         inputProps={{ maxLength: 500 }}
         name="comment"
-        value={props.comment}
-        onChange={props.changeHandler}
+        value={comment}
+        onChange={e => changeComment(e.target.value)}
         className={classes.textFieldComment}
       />
       <div className={classes.addButton}>
-        <IconButton
-          size="large"
-          color="primary"
-          aria-label="Add"
-          onClick={props.submitStallToAdd}>
+        <IconButton size="large" color="primary" aria-label="Add">
           <AddIcon />
         </IconButton>
       </div>

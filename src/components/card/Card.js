@@ -22,8 +22,8 @@ const style = theme => ({
     color: theme.palette.secondary.light,
     margin: 'auto',
     maxWidth: 400,
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
     [theme.breakpoints.down(800)]: {
       display: 'none',
       width: 0,

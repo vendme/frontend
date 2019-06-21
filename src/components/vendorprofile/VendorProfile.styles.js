@@ -33,7 +33,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginTop: spacing.unit * 4
+      marginTop: spacing(4)
     },
     table: {
       maxWidth: 600
@@ -47,17 +47,17 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       display: 'block',
       width: '100%',
       maxWidth: 600,
-      marginBottom: spacing.unit * 2,
+      marginBottom: spacing(2),
       color: palette.grey['600']
     },
     searchbar: {
       minWidth: '280px',
       ...theme,
       borderRadius: '500px',
-      marginTop: spacing.unit * 4
+      marginTop: spacing(4)
     },
     input: {
-      marginLeft: spacing.unit * 4,
+      marginLeft: spacing(4),
       flex: 1,
       transition: transitions.create('width'),
       [breakpoints.up('sm')]: {
@@ -68,8 +68,8 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       }
     },
     iconButton: {
-      padding: spacing.unit,
-      marginRight: spacing.unit
+      padding: spacing(1),
+      marginRight: spacing(1)
     }
   }
 }
