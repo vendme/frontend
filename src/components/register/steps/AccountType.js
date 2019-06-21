@@ -24,10 +24,11 @@ const styles = theme => ({
 
 const AccountType = props => {
   const { classes } = props
-  const [account, setAccount] = useState('customer')
 
   const handleChange = (e, newAccount) => {
-    newAccount !== null && setAccount(newAccount)
+    if (newAccount !== null) {
+      props.handleAccount(newAccount)
+    }
   }
 
   return (
@@ -40,15 +41,23 @@ const AccountType = props => {
         Choose what kind of account you want to use
       </Typography>
       <ToggleButtonGroup
-        value={account}
+        value={props.account}
         exclusive
         className={classes.buttons}
         onChange={handleChange}>
-        <ToggleButton value="customer">Customer</ToggleButton>
-        <ToggleButton value="vendor">Vendor</ToggleButton>
+        <ToggleButton
+          value="customer"
+          className={props.account === 'customer' ? classes.workaround : ''}>
+          Customer
+        </ToggleButton>
+        <ToggleButton
+          value="vendor"
+          className={props.account === 'vendor' ? classes.workaround : ''}>
+          Vendor
+        </ToggleButton>
         <ToggleButton
           value="market"
-          className={account === 'market' ? classes.workaround : ''}>
+          className={props.account === 'market' ? classes.workaround : ''}>
           Market
         </ToggleButton>
       </ToggleButtonGroup>

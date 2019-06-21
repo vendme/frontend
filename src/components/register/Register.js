@@ -16,10 +16,12 @@ import styles from './register.styles.js'
 
 const steps = ['Account Type', 'Profile Info', 'Additional Steps']
 
-function getStepContent(step) {
+function getStepContent(step, accountProp, handleAccountProp) {
   switch (step) {
     case 0:
-      return <AccountType />
+      return (
+        <AccountType account={accountProp} handleAccount={handleAccountProp} />
+      )
     case 1:
       return <ProfileInfo />
     case 2:
@@ -32,6 +34,7 @@ function getStepContent(step) {
 const Register = props => {
   const { classes } = props
   const [activeStep, setActiveStep] = useState(0)
+  const [account, setAccount] = useState('customer')
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -39,6 +42,10 @@ const Register = props => {
 
   const handleBack = () => {
     setActiveStep(activeStep - 1)
+  }
+
+  const handleAccount = newAccount => {
+    setAccount(newAccount)
   }
 
   return (
@@ -68,7 +75,7 @@ const Register = props => {
             </>
           ) : (
             <>
-              {getStepContent(activeStep)}
+              {getStepContent(activeStep, account, handleAccount)}
               <div className={classes.buttons}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} className={classes.button}>
