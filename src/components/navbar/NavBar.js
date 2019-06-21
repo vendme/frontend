@@ -105,7 +105,7 @@ class NavBar extends React.Component {
             <Divider />
             <List>{mainListItems}</List>
             <Divider />
-            <List>{secondaryListItems}</List>
+            <List className={classes.list}>{secondaryListItems}</List>
           </div>
         </Drawer>
         <main className={classes.content}>

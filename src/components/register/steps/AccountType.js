@@ -1,42 +1,56 @@
-import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
+import React, { useState } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 
-export default function AccountType() {
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  subtitle: {
+    marginBottom: theme.spacing.unit * 2
+  }
+})
+
+const AccountType = props => {
+  const { classes } = props
+  const [account, setAccount] = useState('customer')
+
+  const handleChange = (e, newAccount) => {
+    newAccount !== null && setAccount(newAccount)
+  }
+
   return (
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Payment method
+    <div className={classes.root}>
+      <Typography
+        component="subtitle2"
+        align="center"
+        className={classes.subtitle}>
+        Choose what kind of account you want to use
       </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <TextField required id="cardName" label="Name on card" fullWidth />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField required id="cardNumber" label="Card number" fullWidth />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField required id="expDate" label="Expiry date" fullWidth />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
-        </Grid>
-      </Grid>
-    </React.Fragment>
+      <ToggleButtonGroup
+        value={account}
+        exclusive
+        className={classes.buttons}
+        onChange={handleChange}>
+        <ToggleButton color="primary" value="customer">
+          Customer
+        </ToggleButton>
+        <ToggleButton color="primary" value="vendor">
+          Vendor
+        </ToggleButton>
+        <ToggleButton color="primary" value="market">
+          Market
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </div>
   )
 }
+export default withStyles(styles)(AccountType)

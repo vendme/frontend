@@ -1,93 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Grid from '@material-ui/core/Grid'
-
-const products = [
-  { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-  { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-  { name: 'Product 3', desc: 'Something else', price: '$6.51' },
-  { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-  { name: 'Shipping', desc: '', price: 'Free' }
-]
-const addresses = [
-  '1 Material-UI Drive',
-  'Reactville',
-  'Anytown',
-  '99999',
-  'USA'
-]
-const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' }
-]
+import { TextField } from '@material-ui/core'
 
 const styles = theme => ({
-  listItem: {
-    padding: `${theme.spacing * 1}px ${theme.spacing * 0}px`
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
-  total: {
-    fontWeight: '700'
+  address: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap'
   },
-  title: {
-    marginTop: theme.spacing * 2
+  textFieldName: {
+    width: '100%'
+  },
+  textField: {
+    width: `calc(50% - ${theme.spacing.unit * 2}px)`
   }
 })
 
 const ProfileInfo = props => {
   const { classes } = props
+  const [market_name, changeName] = useState('')
+  const [address, changeAddress] = useState('')
+  const [state, changeState] = useState('')
+  const [city, changeCity] = useState('')
+  const [zip_code, changeZip] = useState('')
 
   return (
-    <>
-      <Typography variant="h6" gutterBottom>
-        Order summary
-      </Typography>
-      <List disablePadding>
-        {products.map(product => (
-          <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
-          </ListItem>
-        ))}
-        <ListItem className={classes.listItem}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" className={classes.total}>
-            $34.06
-          </Typography>
-        </ListItem>
-      </List>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Shipping
-          </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
-        </Grid>
-        <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Payment details
-          </Typography>
-          <Grid container>
-            {payments.map(payment => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
-    </>
+    <div className={classes.root}>
+      <TextField
+        id="standard-dense"
+        label="Market Name"
+        margin="dense"
+        name="market_name"
+        value={market_name}
+        inputProps={{ maxLength: 32 }}
+        onChange={e => changeName(e.target.value)}
+        className={classes.textFieldName}
+      />
+      <div className={classes.address}>
+        <TextField
+          id="standard-dense"
+          label="Street"
+          margin="dense"
+          name="address"
+          value={address}
+          inputProps={{ maxLength: 32 }}
+          onChange={e => changeAddress(e.target.value)}
+          className={classes.textField}
+        />
+        <TextField
+          id="standard-dense"
+          label="State"
+          margin="dense"
+          name="state"
+          value={state}
+          inputProps={{ maxLength: 12 }}
+          onChange={e => changeState(e.target.value)}
+          className={classes.textField}
+        />
+        <TextField
+          id="standard-dense"
+          label="City"
+          margin="dense"
+          name="city"
+          value={city}
+          inputProps={{ maxLength: 24 }}
+          onChange={e => changeCity(e.target.value)}
+          className={classes.textField}
+        />
+        <TextField
+          id="standard-dense"
+          label="Zipcode"
+          margin="dense"
+          name="zip_code"
+          value={zip_code}
+          inputProps={{ maxLength: 10 }}
+          onChange={e => changeZip(e.target.value)}
+          className={classes.textField}
+        />
+      </div>
+    </div>
   )
 }
 
