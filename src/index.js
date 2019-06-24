@@ -1,13 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, HashRouter } from 'react-router-dom'
-import './index.css'
+
 import App from './App'
+import Firebase, { FirebaseContext } from './components/Firebase'
+
+import './index.css'
 
 ReactDOM.render(
   <BrowserRouter>
     <HashRouter>
-      <App />
+      <FirebaseContext.Provider value={new Firebase()}>
+        <App />
+      </FirebaseContext.Provider>
     </HashRouter>
   </BrowserRouter>,
   document.getElementById('root')
