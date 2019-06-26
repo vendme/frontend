@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.16",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "firebase": "^6.2.2",
     "geo-coder": "^1.0.2",
     "mapbox-gl": "^1.0.0",
     "ol": "^5.3.3",

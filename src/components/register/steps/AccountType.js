@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
+import { fontWeight } from '@material-ui/system'
 
 const styles = theme => ({
   root: {
@@ -18,6 +19,10 @@ const styles = theme => ({
     marginBottom: theme.spacing(2)
   },
   workaround: {
+    color:
+      theme.palette.type === 'light'
+        ? 'rgba(0, 0, 0, 0.87) !important'
+        : 'inherit',
     background: `${theme.palette.primary.main} !important`
   }
 })
