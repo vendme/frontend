@@ -21,6 +21,7 @@ import {
   Map,
   Register
 } from './services/lazyImporter'
+import { withFirebase } from './components/firebase'
 
 class App extends Component {
   state = {
@@ -43,7 +44,7 @@ class App extends Component {
           checked={this.state.theme ? 1 : 0}>
           <Suspense fallback={'loading'}>
             <Switch>
-              <Route path="/signup" component={SignUp} />
+              <Route path="/signup" component={withFirebase(SignUp)} />
               <Route path="/login" component={Login} />
               <Route
                 path="/searchpage"

@@ -10,9 +10,9 @@ import './index.css'
 ReactDOM.render(
   <BrowserRouter>
     <HashRouter>
-      {/* <FirebaseContext.Provider value={new Firebase()}> */}
-      <App />
-      {/* </FirebaseContext.Provider> */}
+      <FirebaseContext.Provider value={new Firebase()}>
+        <App />
+      </FirebaseContext.Provider>
     </HashRouter>
   </BrowserRouter>,
   document.getElementById('root')

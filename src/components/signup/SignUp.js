@@ -10,14 +10,18 @@ import {
 
 import { Error, Close } from '@material-ui/icons'
 import { red } from '@material-ui/core/colors'
+
+const INITIAL_STATE = {
+  email: '',
+  passwordOne: '',
+  passwordTwo: '',
+  error: null,
+  open: false
+}
+
 class SignUp extends React.Component {
   state = {
-    username: '',
-    email: '',
-    passwordOne: '',
-    passwordTwo: '',
-    error: null,
-    open: false
+    ...INITIAL_STATE
   }
 
   onClose = (event, reason) => {
@@ -34,6 +38,17 @@ class SignUp extends React.Component {
       this.state.email === '' ||
       this.state.username === ''
     if (!isInvalid) {
+      const { email, passwordOne } = this.state
+
+      this.props.firebase
+        .doCreateUserWithEmailAndPassword(email, passwordOne)
+        .then(authUser => {
+          console.log(authUser)
+          this.setState({ ...INITIAL_STATE })
+        })
+        .catch(error => {
+          this.setState({ error })
+        })
     } else {
       this.setState({
         error: { message: 'Passwords must match!' },
