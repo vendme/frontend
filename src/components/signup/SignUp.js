@@ -47,7 +47,8 @@ class SignUp extends React.Component {
           this.setState({ ...INITIAL_STATE })
         })
         .catch(error => {
-          this.setState({ error })
+          this.setState({ error: error.message })
+          console.log(JSON.stringify(error))
         })
     } else {
       this.setState({
