@@ -5,6 +5,7 @@ import { withStyles, Paper, InputBase, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import Card from '../card/Card'
 import Map from '../map/Map'
+import { withAuthorization } from '../session'
 
 import styles from './searchpage.styles.js'
 
@@ -68,4 +69,6 @@ class SearchPage extends Component {
   }
 }
 
-export default withStyles(styles)(SearchPage)
+const condition = authUser => !!authUser
+
+export default withAuthorization(condition)(withStyles(styles)(SearchPage))
