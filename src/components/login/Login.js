@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import LoginForm from './LoginForm.js'
 
 import {
@@ -7,6 +8,8 @@ import {
   IconButton,
   CssBaseline
 } from '@material-ui/core'
+
+import * as ROUTES from '../../constants/routes'
 
 import { Error, Close } from '@material-ui/icons'
 import { red } from '@material-ui/core/colors'
@@ -37,8 +40,8 @@ class Login extends React.Component {
       this.props.firebase
         .doSignInWithEmailAndPassword(email, password)
         .then(authUser => {
-          console.log(authUser)
           this.setState({ ...INITIAL_STATE })
+          this.props.history.push(ROUTES.HOME)
         })
         .catch(error => {
           this.setState({ error: error.message })
@@ -104,4 +107,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+export default withRouter(Login)
