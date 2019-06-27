@@ -42,6 +42,11 @@ class SignUp extends React.Component {
       this.props.firebase
         .doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
+          return this.props.firebase.user(authUser.user.uid).set({
+            email
+          })
+        })
+        .then(authUser => {
           console.log(authUser)
           this.setState({ ...INITIAL_STATE })
         })

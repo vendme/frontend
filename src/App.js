@@ -22,7 +22,9 @@ import {
   Map,
   Register,
   PasswordForgetPage,
-  PasswordChangePage
+  PasswordChangePage,
+  AdminPage,
+  Account
 } from './services/lazyImporter'
 import { withFirebase } from './components/firebase'
 import { withAuthentication } from './components/session'
@@ -75,6 +77,8 @@ class App extends Component {
                 component={PasswordForgetPage}
               />
               <Route path="/pw-change" component={PasswordChangePage} />
+              <Route path="/admin" component={AdminPage} />
+              <Route path="/account" component={Account} />
             </Switch>
           </Suspense>
         </NavBar>

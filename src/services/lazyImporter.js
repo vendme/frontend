@@ -38,3 +38,5 @@ export const PasswordForgetPage = lazy(() =>
 export const PasswordChangePage = lazy(() =>
   import('../components/passwordchange')
 )
+export const AdminPage = lazy(() => import('../components/admin'))
+export const Account = lazy(() => import('../components/account/Account'))
