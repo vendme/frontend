@@ -35,8 +35,7 @@ class SignUp extends React.Component {
     const isInvalid =
       this.state.passwordOne !== this.state.passwordTwo ||
       this.state.passwordOne === '' ||
-      this.state.email === '' ||
-      this.state.username === ''
+      this.state.email === ''
     if (!isInvalid) {
       const { email, passwordOne } = this.state
 

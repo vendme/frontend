@@ -32,3 +32,9 @@ export const ItemListings = lazy(() =>
 )
 export const Map = lazy(() => import('../components/map/Map'))
 export const Register = lazy(() => import('../components/register/Register'))
+export const PasswordForgetPage = lazy(() =>
+  import('../components/passwordforget')
+)
+export const PasswordChangePage = lazy(() =>
+  import('../components/passwordchange')
+)

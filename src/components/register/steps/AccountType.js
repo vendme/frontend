@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
-import { fontWeight } from '@material-ui/system'
 
 const styles = theme => ({
   root: {

@@ -16,7 +16,7 @@ const styles = ({ spacing, breakpoints, palette }) => ({
   },
   form: {
     width: '100%',
-    marginTop: spacing
+    marginTop: spacing(1)
   },
   submit: {
     marginTop: spacing(3),

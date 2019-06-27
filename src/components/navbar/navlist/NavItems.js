@@ -121,6 +121,16 @@ export const secondaryListItemsOptions = [
     <ListItem button>
       <ListItemText primary="Register" />
     </ListItem>
+  </Link>,
+  <Link to="/pw-forget">
+    <ListItem button>
+      <ListItemText primary="Password Forget" />
+    </ListItem>
+  </Link>,
+  <Link to="/pw-change">
+    <ListItem button>
+      <ListItemText primary="Password Change" />
+    </ListItem>
   </Link>
 ]
 

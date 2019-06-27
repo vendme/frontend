@@ -14,16 +14,17 @@ import {
 import { withStyles } from '@material-ui/styles'
 
 import gooogleButton2 from './btn_google_signin_light_normal_web@2x.png'
-import styles from './signup.styles'
+import { PasswordForgetLink } from '../passwordforget'
+import styles from './login.styles'
 
-const SignUpForm = props => {
-  const { classes, email, passwordOne, passwordTwo } = props
+const LoginForm = props => {
+  const { classes, email, password } = props
 
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign in
         </Typography>
         <form className={classes.form} onSubmit={props.onSubmit}>
           <FormControl margin="normal" required fullWidth>
@@ -38,24 +39,13 @@ const SignUpForm = props => {
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password1">Password</InputLabel>
+            <InputLabel htmlFor="password">Password</InputLabel>
             <Input
+              name="password"
               type="password"
-              id="password1"
+              id="password"
               autoComplete="current-password"
-              name="passwordOne"
-              value={passwordOne}
-              onChange={props.onChange}
-            />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password2">Re-enter Password</InputLabel>
-            <Input
-              type="password"
-              id="password2"
-              autoComplete="current-password"
-              name="passwordTwo"
-              value={passwordTwo}
+              value={password}
               onChange={props.onChange}
             />
           </FormControl>
@@ -69,7 +59,7 @@ const SignUpForm = props => {
             variant="contained"
             color="primary"
             className={classes.submit}>
-            Sign up
+            Sign in
           </Button>
           <Link
             href="http://vendme.herokuapp.com/auth/google"
@@ -81,14 +71,15 @@ const SignUpForm = props => {
               alt="Google Sign In"
             />
           </Link>
+          <PasswordForgetLink />
         </form>
       </Paper>
     </main>
   )
 }
 
-SignUpForm.propTypes = {
+LoginForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SignUpForm)
+export default withStyles(styles)(LoginForm)

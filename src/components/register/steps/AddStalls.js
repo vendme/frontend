@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IconButton, withStyles, TextField, Paper } from '@material-ui/core'
+import { IconButton, withStyles, TextField } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/AddCircle'
 
 const styles = theme => ({
