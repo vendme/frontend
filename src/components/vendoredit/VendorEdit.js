@@ -27,7 +27,7 @@ class VendorEdit extends Component {
   componentDidMount = async id => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/vendor/11'
+        'https://vendme.herokuapp.com/api/vendor/1'
       )
       const { vendor_name, id, bio } = data
       this.setState({ vendor_name, id, bio })
@@ -58,6 +58,19 @@ class VendorEdit extends Component {
       })
     }
   }
+  updateProfile = () => {
+    const updated =  {
+      vendor_name: this.state.vendor_name,
+      bio: this.state.bio
+    }
+    Axios.put(`https://vendme.herokuapp.com/api/vendor/${this.state.id}`, updated)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.log(JSON.stringify(error))
+    })
+  }
   render() {
     const { classes } = this.props
     const marketObj = {
@@ -82,14 +95,13 @@ class VendorEdit extends Component {
         }
       ]
     }
-    console.log(this.state)
     return (
       <div className={classes.root}>
         <Typography variant="h6" align="left" className={classes.titles}>
           Edit Vendor Profile
         </Typography>
         <Typography
-          variant="subtitle-1"
+          variant="subtitle1"
           gutterBottom
           align="left"
           className={classes.subtitles}>
@@ -125,6 +137,7 @@ class VendorEdit extends Component {
                 Cancel
               </Button>
               <Button
+                onClick={this.updateProfile}
                 variant="contained"
                 color="primary"
                 className={classes.button}>
@@ -138,7 +151,7 @@ class VendorEdit extends Component {
             Add Item
           </Typography>
           <Typography
-            variant="subtitle-1"
+            variant="subtitle1"
             align="left"
             className={classes.subtitles}>
             Add a item to your inventory
@@ -156,7 +169,7 @@ class VendorEdit extends Component {
             Current Inventory
           </Typography>
           <Typography
-            variant="subtitle-1"
+            variant="subtitle1"
             gutterBottom
             align="left"
             className={classes.subtitles}>

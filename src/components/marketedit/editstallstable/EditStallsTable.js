@@ -30,22 +30,22 @@ const styles = theme => ({
 })
 
 let id = 0
-function createData(quantity, width, length) {
+function createData(stall_name, width, length) {
   id += 1
-  return { id, quantity, width, length }
+  return { id, stall_name, width, length }
 }
 
 function EditStallsTable(props) {
   const { classes } = props
   const data = props.stalls.map(stall => {
-    return createData(stall.quantity, stall.width, stall.length)
+    return createData(stall.stall_name, stall.width, stall.length)
   })
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell className={classes.cell}>QTY</TableCell>
+            <TableCell className={classes.cell}>Name</TableCell>
             <TableCell className={classes.cell}>Width (in)</TableCell>
             <TableCell className={classes.cell}>Length (in)</TableCell>
             <TableCell className={classes.cell}>Size (in&sup2;)</TableCell>
@@ -55,7 +55,7 @@ function EditStallsTable(props) {
         <TableBody>
           {data.map(data => (
             <TableRow key={data.id}>
-              <TableCell className={classes.cell}>{data.quantity}</TableCell>
+              <TableCell className={classes.cell}>{data.stall_name}</TableCell>
               <TableCell className={classes.cell}>{data.width}</TableCell>
               <TableCell className={classes.cell}>{data.length}</TableCell>
               <TableCell className={classes.cell}>
@@ -63,6 +63,7 @@ function EditStallsTable(props) {
               </TableCell>
               <TableCell className={classes.cell}>
                 <IconButton
+                  onClick={()=> props.onEdit(data.id)}
                   color="primary"
                   className={classes.button}
                   aria-label="Edit Stall">

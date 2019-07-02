@@ -15,7 +15,7 @@ import styles from './marketedit.style.js'
 
 class MarketEdit extends Component {
   state = {
-    id: null,
+    id: 1,
     market_name: '',
     bio: '',
     zip_code: '',
@@ -23,7 +23,7 @@ class MarketEdit extends Component {
     state: '',
     city: '',
     submittedStallList: [],
-    quantity: '',
+    stall_name: '',
     width: '',
     length: '',
     comment: ''
@@ -56,10 +56,10 @@ class MarketEdit extends Component {
   }
 
   submitStallToAdd = () => {
-    if (this.state.quantity && this.state.width && this.state.length) {
+    if (this.state.stall_name && this.state.width && this.state.length) {
       const updatedList = this.state.submittedStallList
       const add = {
-        quantity: this.state.quantity,
+        stall_name: this.state.stall_name,
         width: this.state.width,
         length: this.state.length
       }
@@ -67,7 +67,9 @@ class MarketEdit extends Component {
         market_id: this.state.id,
         vendor_id: 1,
         category_id: 3,
-        stall_size: 3,
+        stall_name: this.state.stall_name,
+        width: this.state.width,
+        length: this.state.length,
         availability: true,
         comments: 'yup.',
         stall_photo: {},
@@ -80,7 +82,7 @@ class MarketEdit extends Component {
           updatedList.push(add)
           this.setState({
             submittedStallList: updatedList,
-            quantity: '',
+            stall_name: '',
             width: '',
             length: ''
           })
@@ -90,6 +92,28 @@ class MarketEdit extends Component {
         })
     }
   }
+
+  updateProfile = () => {
+    const updated =  {
+      market_name: this.state.market_name,
+      address: this.state.address,
+      state: this.state.state,
+      city: this.state.city,
+      zip_code: this.state.zip_code
+    }
+    Axios.put(`https://vendme.herokuapp.com/api/market/${this.state.id}`, updated)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.log(JSON.stringify(error))
+    })
+  }
+
+  onEdit = (stallsId) => {
+    
+  }
+
   render() {
     const { classes } = this.props
 
@@ -102,17 +126,17 @@ class MarketEdit extends Component {
       markethours: '9am-4:30pm',
       availableStalls: [
         {
-          quantity: 1,
+          stall_name: 1,
           width: 20,
           length: 189
         },
         {
-          quantity: 3,
+          stall_name: 3,
           width: 30,
           length: 89
         },
         {
-          quantity: 5,
+          stall_name: 5,
           width: 120,
           length: 109
         }
@@ -180,12 +204,13 @@ class MarketEdit extends Component {
               value={this.state.zip_code}
               onChange={this.changeHandler}
               className={classes.textField}
-            />
+              />
             <div className={classes.buttons}>
               <Button variant="contained" className={classes.button}>
                 Cancel
               </Button>
               <Button
+                onClick={this.updateProfile}
                 variant="contained"
                 color="primary"
                 className={classes.button}>
@@ -209,7 +234,7 @@ class MarketEdit extends Component {
             changeHandler={this.changeHandler}
             submitStallToAdd={this.submitStallToAdd}
             removeStall={this.removeStall}
-            quantity={this.state.quantity}
+            stall_name={this.state.stall_name}
             width={this.state.width}
             length={this.state.length}
           />
@@ -225,6 +250,7 @@ class MarketEdit extends Component {
           </Typography>
           <div className={classes.table}>
             <EditStallsTable
+              onEdit={this.onEdit}
               stalls={[
                 ...marketObj.availableStalls,
                 ...this.state.submittedStallList
