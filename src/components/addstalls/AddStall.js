@@ -11,12 +11,10 @@ const AddStall = props => {
       <div className={classes.form}>
         <TextField
           id="standard-dense"
-          label="Quantity"
+          label="Name"
           margin="dense"
-          name="quantity"
-          type="number"
-          inputProps={{ min: 1 }}
-          value={props.quantity}
+          name="stall_name"
+          value={props.stall_name}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
         />
@@ -57,7 +55,7 @@ const AddStall = props => {
         className={classes.textFieldArea}
       />
       <IconButton
-        size="large"
+        size="medium"
         color="primary"
         aria-label="Add"
         className={classes.addButton}

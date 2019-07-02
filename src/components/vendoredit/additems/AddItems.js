@@ -42,7 +42,7 @@ const AddItems = props => {
         />
       </div>
       <IconButton
-        size="large"
+        size="medium"
         color="primary"
         aria-label="Add"
         className={classes.addButton}
