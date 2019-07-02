@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { lightTheme, darkTheme } from './styles/maintheme'
 import NavBar from './components/navbar/NavBar'
+import * as ROUTES from './constants/routes'
 import {
   Login,
   SignUp,
@@ -19,9 +20,14 @@ import {
   ItemListing,
   ItemListings,
   Map,
-  Register
+  Register,
+  PasswordForgetPage,
+  PasswordChangePage,
+  AdminPage,
+  Account
 } from './services/lazyImporter'
 import { withFirebase } from './components/firebase'
+import { withAuthentication } from './components/session'
 
 class App extends Component {
   state = {
@@ -45,7 +51,7 @@ class App extends Component {
           <Suspense fallback={'loading'}>
             <Switch>
               <Route path="/signup" component={withFirebase(SignUp)} />
-              <Route path="/login" component={Login} />
+              <Route path="/login" component={withFirebase(Login)} />
               <Route
                 path="/searchpage"
                 component={_ => <SearchPage theme={this.state.theme} />}
@@ -66,6 +72,13 @@ class App extends Component {
                 component={_ => <Map theme={this.state.theme} />}
               />
               <Route path="/register" component={Register} />
+              <Route
+                path={ROUTES.PASSWORD_FORGET}
+                component={PasswordForgetPage}
+              />
+              <Route path="/pw-change" component={PasswordChangePage} />
+              <Route path="/admin" component={AdminPage} />
+              <Route path="/account" component={Account} />
             </Switch>
           </Suspense>
         </NavBar>
@@ -74,4 +87,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default withAuthentication(App)

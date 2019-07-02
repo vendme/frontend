@@ -35,19 +35,24 @@ class SignUp extends React.Component {
     const isInvalid =
       this.state.passwordOne !== this.state.passwordTwo ||
       this.state.passwordOne === '' ||
-      this.state.email === '' ||
-      this.state.username === ''
+      this.state.email === ''
     if (!isInvalid) {
       const { email, passwordOne } = this.state
 
       this.props.firebase
         .doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
+          return this.props.firebase.user(authUser.user.uid).set({
+            email
+          })
+        })
+        .then(authUser => {
           console.log(authUser)
           this.setState({ ...INITIAL_STATE })
         })
         .catch(error => {
-          this.setState({ error })
+          this.setState({ error: error.message })
+          console.log(JSON.stringify(error))
         })
     } else {
       this.setState({
