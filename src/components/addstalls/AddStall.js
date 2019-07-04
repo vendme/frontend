@@ -45,12 +45,12 @@ const AddStall = props => {
       </div>
       <TextField
         id="standard-dense"
-        label="Comment"
+        label="Description"
         multiline
         margin="dense"
         inputProps={{ maxLength: 500 }}
-        name="comment"
-        value={props.comment}
+        name="description"
+        value={props.description}
         onChange={props.changeHandler}
         className={classes.textFieldArea}
       />

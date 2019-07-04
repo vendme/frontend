@@ -26,25 +26,32 @@ class MarketEdit extends Component {
     stall_name: '',
     width: '',
     length: '',
-    comment: ''
+    description: ''
   }
 
-  componentDidMount = async id => {
+  componentDidMount = () => {
+    this.getStalls()
+  }
+
+  getStalls = async id => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/1'
+        // 'https://vendme.herokuapp.com/api/market/1'
+        "http://localhost:9000/api/market/1"
+
       )
       const { market_name, id, address, city, state, zip_code, bio } = data
 
       this.setState({ market_name, id, address, city, state, zip_code, bio })
 
-      // try {
-      //   const poop = await Axios.get(`https://vendme.herokuapp.com/api/market/${id}/stalls`)
-      //   console.log(poop)
-      // }
-      // catch (error) {
-      //   console.log('message: ', error)
-      // }
+      try {
+        const added = await Axios.get(`http://localhost:9000/api/market/${id}/stalls`)
+        console.log(added)
+        this.setState({submittedStallList: added.data})
+      }
+      catch (error) {
+        console.log('message: ', error)
+      }
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -67,16 +74,17 @@ class MarketEdit extends Component {
         market_id: this.state.id,
         vendor_id: 1,
         category_id: 3,
-        stall_name: this.state.stall_name,
+        // stall_name: this.state.stall_name,
         width: this.state.width,
         length: this.state.length,
         availability: true,
-        comments: 'yup.',
+        description: this.state.description,
         stall_photo: {},
         stall_price: '100.00',
         rent_message: true
       }
-      Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
+      // Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
+      Axios.post('http://localhost:9000/api/stalls', postStall)
         .then(res => {
           console.log(res)
           updatedList.push(add)
@@ -84,8 +92,10 @@ class MarketEdit extends Component {
             submittedStallList: updatedList,
             stall_name: '',
             width: '',
-            length: ''
+            length: '',
+            description: ''
           })
+          this.getStalls();
         })
         .catch(error => {
           console.log(JSON.stringify(error))
@@ -101,7 +111,8 @@ class MarketEdit extends Component {
       city: this.state.city,
       zip_code: this.state.zip_code
     }
-    Axios.put(`https://vendme.herokuapp.com/api/market/${this.state.id}`, updated)
+    // Axios.put(`https://vendme.herokuapp.com/api/market/${this.state.id}`, updated)
+    Axios.put(`http://localhost:9000/api/market/${this.state.id}`, updated)
     .then(res => {
       console.log(res)
     })

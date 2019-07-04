@@ -27,7 +27,8 @@ class VendorEdit extends Component {
   componentDidMount = async id => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/vendor/1'
+        // 'https://vendme.herokuapp.com/api/vendor/1'
+        'http://localhost:9000/api/vendor/1'
       )
       const { vendor_name, id, bio } = data
       this.setState({ vendor_name, id, bio })
@@ -63,7 +64,8 @@ class VendorEdit extends Component {
       vendor_name: this.state.vendor_name,
       bio: this.state.bio
     }
-    Axios.put(`https://vendme.herokuapp.com/api/vendor/${this.state.id}`, updated)
+    // Axios.put(`https://vendme.herokuapp.com/api/vendor/${this.state.id}`, updated)
+    Axios.put(`localhost:9000/api/vendor/${this.state.id}`, updated)
     .then(res => {
       console.log(res)
     })

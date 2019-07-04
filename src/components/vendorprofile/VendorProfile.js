@@ -46,10 +46,12 @@ class VendorProfile extends Component {
   componentDidMount = async _ => {
     try {
       const vendor = await Axios.get(
-        'https://vendme.herokuapp.com/api/vendor/11'
+        // 'https://vendme.herokuapp.com/api/vendor/11'
+        'http://localhost:9000/api/vendor/11'
       )
       const market = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/1'
+        // 'https://vendme.herokuapp.com/api/market/1'
+        'http://localhost:9000/api/market/1'
       )
       const { user_vendor, id, bio } = vendor.data
       const {
