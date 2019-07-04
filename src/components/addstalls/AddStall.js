@@ -45,7 +45,19 @@ const AddStall = props => {
       </div>
       <TextField
         id="standard-dense"
+        label="Price"
+        type="text"
+        margin="dense"
+        inputProps={{ min: 0 }}
+        name="stall_price"
+        value={props.stall_price}
+        onChange={props.changeHandler}
+        className={classes.textFieldArea}
+      />
+      <TextField
+        id="standard-dense"
         label="Description"
+        type="text"
         multiline
         margin="dense"
         inputProps={{ maxLength: 500 }}

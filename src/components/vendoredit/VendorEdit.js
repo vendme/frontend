@@ -65,7 +65,7 @@ class VendorEdit extends Component {
       bio: this.state.bio
     }
     // Axios.put(`https://vendme.herokuapp.com/api/vendor/${this.state.id}`, updated)
-    Axios.put(`localhost:9000/api/vendor/${this.state.id}`, updated)
+    Axios.put(`http://localhost:9000/api/vendor/${this.state.id}`, updated)
     .then(res => {
       console.log(res)
     })
