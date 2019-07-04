@@ -29,17 +29,10 @@ const styles = theme => ({
   }
 })
 
-let id = 0
-function createData(stall_name, width, length) {
-  id += 1
-  return { id, stall_name, width, length }
-}
-
 function EditStallsTable(props) {
   const { classes } = props
-  const data = props.stalls.map(stall => {
-    return createData(stall.stall_name, stall.width, stall.length)
-  })
+  const data = props.stalls
+  
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -49,27 +42,30 @@ function EditStallsTable(props) {
             <TableCell className={classes.cell}>Width (in)</TableCell>
             <TableCell className={classes.cell}>Length (in)</TableCell>
             <TableCell className={classes.cell}>Size (in&sup2;)</TableCell>
+            <TableCell className={classes.cell}>Price</TableCell>
             <TableCell className={classes.cell} />
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map(data => (
-            <TableRow key={data.id}>
+            <TableRow key={"stall-" + data.id}>
               <TableCell className={classes.cell}>{data.stall_name}</TableCell>
               <TableCell className={classes.cell}>{data.width}</TableCell>
               <TableCell className={classes.cell}>{data.length}</TableCell>
               <TableCell className={classes.cell}>
                 {data.length * data.width}
               </TableCell>
+              <TableCell className={classes.cell}>{data.stall_price}</TableCell>
               <TableCell className={classes.cell}>
                 <IconButton
-                  onClick={()=> props.onEdit(data.id)}
+                  onClick={() => props.onEdit(data.id)}
                   color="primary"
                   className={classes.button}
                   aria-label="Edit Stall">
                   <CreateIcon />
                 </IconButton>
                 <IconButton
+                  onClick={() => props.removeStall(data.id)}
                   color="primary"
                   className={classes.button}
                   aria-label="Remove Stall">
