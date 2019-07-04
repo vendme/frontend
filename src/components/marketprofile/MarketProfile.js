@@ -44,7 +44,8 @@ class MarketProfile extends Component {
   componentDidMount = async id => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/1'
+        // 'https://vendme.herokuapp.com/api/market/1'
+        'http://localhost:9000/api/market/1'
       )
       const { market_name, id, address, city, state, zip_code, bio } = data
 
