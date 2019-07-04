@@ -34,8 +34,10 @@ class App extends Component {
     theme: 0
   }
   handleTheme = _ => {
+    console.log(this.state.theme)
     window.localStorage.setItem('theme', `${!this.state.theme}`)
     this.setState(prevState => ({ theme: !prevState.theme }))
+    console.log(this.state.theme)
   }
   componentDidMount() {
     this.setState({

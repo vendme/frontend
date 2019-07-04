@@ -1,5 +1,6 @@
 import React from 'react'
 import SignUpForm from './SignUpForm.js'
+import Axios from 'axios'
 
 import {
   Snackbar,
@@ -47,12 +48,20 @@ class SignUp extends React.Component {
           })
         })
         .then(authUser => {
-          console.log(authUser)
+          Axios.post('http://localhost:9000/api/users/', {
+            uid: authUser.user.uid,
+            email: authUser.user.email,
+            account_type: 1
+          })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
           this.setState({ ...INITIAL_STATE })
         })
         .catch(error => {
-          this.setState({ error: error.message })
-          console.log(JSON.stringify(error))
+          this.setState({
+            error: { message: error.message },
+            open: true
+          })
         })
     } else {
       this.setState({
