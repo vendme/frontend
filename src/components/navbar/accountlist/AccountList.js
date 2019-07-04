@@ -38,7 +38,6 @@ const AccountList = props => {
 
     setOpen(false)
   }
-  console.log(props)
   return (
     <div className={classes.root}>
       <div>
