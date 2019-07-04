@@ -44,8 +44,10 @@ class Login extends React.Component {
           this.props.history.push(ROUTES.HOME)
         })
         .catch(error => {
-          this.setState({ error: error.message })
-          console.log(JSON.stringify(error))
+          this.setState({
+            error: { message: error.message },
+            open: true
+          })
         })
     } else {
       this.setState({
