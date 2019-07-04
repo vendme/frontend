@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+
 import { withStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Drawer from '@material-ui/core/Drawer'
@@ -11,11 +12,11 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
+
 import { mainListItems, secondaryListItems } from './navlist/NavItems'
+import AccountList from './accountlist/AccountList'
+
 import styles from './navbar.styles.js'
 class NavBar extends React.Component {
   state = {
@@ -64,22 +65,10 @@ class NavBar extends React.Component {
               className={classes.title}>
               Vendme
             </Typography>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={this.props.checked ? true : false}
-                  onChange={this.props.handleTheme}
-                  value="checked"
-                  color="secondary"
-                  className={classes.switch}
-                />
-              }
-              label="Theme"
-              className={classes.switchLabel}
+            <AccountList
+              checked={this.props.checked}
+              handleTheme={this.props.handleTheme}
             />
-            <IconButton color="inherit" aria-label="Account">
-              <AccountCircleIcon style={{ fontSize: 30 }} />
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
