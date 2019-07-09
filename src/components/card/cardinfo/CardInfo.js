@@ -67,8 +67,26 @@ function CardInfo(props) {
 
   const getDate = hours => {
     const pattern = /\s*;\s*/
-    const times = hours.split(pattern)
-    return String(times[new Date().getDay()]).replace(/,/gi, ' - ')
+    const allTimes = hours.split(pattern)
+    const converted = allTimes.map( times => {
+      times = times.split`,`
+      return times.map( time => {
+        if(time === "null" ){
+          return "Closed"
+        }
+        time = Number(time);
+        if(!null && time > 1200){
+          time = time - 1200 + "pm";
+          time = [time.slice(0, [time.length - 4]), ":", time.slice([time.length - 4])].join('');
+        }
+        if(!null && time <= 1200){
+          time = time + "am";
+          time = [time.slice(0, [time.length - 4]), ":", time.slice([time.length - 4])].join('');
+        }
+        return time
+      })
+    })
+    return String(converted[new Date().getDay()]).replace(/,/gi, ' - ')
   }
 
   return (
