@@ -55,14 +55,15 @@ class App extends Component {
               <Route path="/signup" component={withFirebase(SignUp)} />
               <Route path="/login" component={withFirebase(Login)} />
               <Route
-                path="/searchpage"
+                exact
+                path="/"
                 component={_ => <SearchPage theme={this.state.theme} />}
               />
               <Route path="/searchbar" component={SearchBar} />
               <Route path="/card" component={Card} />
               <Route path="/cardinfo" component={CardInfo} />
               <Route path="/marketedit" component={MarketEdit} />
-              <Route path="/marketprofile" component={MarketProfile} />
+              <Route path="/marketprofile/:id" component={MarketProfile} />
               <Route path="/vendoredit" component={VendorEdit} />
               <Route path="/vendorprofile" component={VendorProfile} />
               <Route path="/addstall" component={AddStall} />

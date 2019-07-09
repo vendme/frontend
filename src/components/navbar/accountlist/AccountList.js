@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Grow from '@material-ui/core/Grow'
 import Paper from '@material-ui/core/Paper'
@@ -38,6 +39,17 @@ const AccountList = props => {
 
     setOpen(false)
   }
+  function handleLogout(event) {
+    props.firebase
+      .doSignOut()
+      .then(authUser => {
+        console.log(authUser)
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+    handleClose(event)
+  }
   return (
     <div className={classes.root}>
       <div>
@@ -76,8 +88,10 @@ const AccountList = props => {
                       </AuthUserContext.Consumer>
                     </MenuItem>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <Link to="/account">
+                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                    </Link>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={handleClose}>
                       <FormControlLabel
                         control={
@@ -89,7 +103,7 @@ const AccountList = props => {
                             className={classes.switch}
                           />
                         }
-                        label="Theme"
+                        label="Dark Theme"
                         className={classes.switchLabel}
                       />
                     </MenuItem>

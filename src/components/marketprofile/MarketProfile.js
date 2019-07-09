@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import Axios from 'axios'
 import {
   Typography,
@@ -18,11 +19,11 @@ class MarketProfile extends Component {
     id: null,
     market_name: 'Unnamed Market',
     bio: 'No bio',
-    zip_code: 'No zipcode',
+    zip_code: 'No zip',
     address: 'No address',
     state: 'No state',
     city: 'No city',
-    hours_open: '',
+    hours: 'No hours',
     submittedStallList: []
   }
 
@@ -30,18 +31,37 @@ class MarketProfile extends Component {
     try {
       const { data } = await Axios.get(
         // 'https://vendme.herokuapp.com/api/market/1'
-        'http://localhost:9000/api/market/1'
+        `http://localhost:9000/api/market/${this.props.match.params.id}`
       )
-      const { market_name, id, address, city, state, zip_code, bio, hours_open } = data
+      const {
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        hours_open
+      } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio, hours_open })
-      console.log("hours: ", hours_open)  
+      this.setState({
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        hours: hours_open
+      })
+      console.log('hours: ', hours_open)
       try {
-        const added = await Axios.get(`http://localhost:9000/api/market/${id}/stalls`)
+        const added = await Axios.get(
+          `http://localhost:9000/api/market/${id}/stalls`
+        )
         console.log(added)
-        this.setState({submittedStallList: added.data})
-      }
-      catch (error) {
+        this.setState({ submittedStallList: added.data })
+      } catch (error) {
         console.log('message: ', error)
       }
     } catch (error) {
@@ -83,4 +103,4 @@ class MarketProfile extends Component {
   }
 }
 
-export default withStyles(styles)(MarketProfile)
+export default withStyles(styles)(withRouter(MarketProfile))
