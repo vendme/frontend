@@ -22,23 +22,8 @@ class MarketProfile extends Component {
     address: 'No address',
     state: 'No state',
     city: 'No city',
-    submittedStallList: [
-      {
-        quantity: 1,
-        width: 20,
-        length: 189
-      },
-      {
-        quantity: 3,
-        width: 30,
-        length: 89
-      },
-      {
-        quantity: 5,
-        width: 120,
-        length: 109
-      }
-    ]
+    hours_open: '',
+    submittedStallList: []
   }
 
   componentDidMount = async id => {
@@ -47,9 +32,18 @@ class MarketProfile extends Component {
         // 'https://vendme.herokuapp.com/api/market/1'
         'http://localhost:9000/api/market/1'
       )
-      const { market_name, id, address, city, state, zip_code, bio } = data
+      const { market_name, id, address, city, state, zip_code, bio, hours_open } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio })
+      this.setState({ market_name, id, address, city, state, zip_code, bio, hours_open })
+      console.log("hours: ", hours_open)  
+      try {
+        const added = await Axios.get(`http://localhost:9000/api/market/${id}/stalls`)
+        console.log(added)
+        this.setState({submittedStallList: added.data})
+      }
+      catch (error) {
+        console.log('message: ', error)
+      }
     } catch (error) {
       console.log('Message: ', error)
     }
