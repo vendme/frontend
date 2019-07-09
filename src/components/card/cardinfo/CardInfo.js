@@ -64,11 +64,18 @@ const styles = theme => {
 
 function CardInfo(props) {
   const { classes, info, match } = props
+
+  const getDate = hours => {
+    const pattern = /\s*;\s*/
+    const times = hours.split(pattern)
+    return String(times[new Date().getDay()]).replace(/,/gi, ' - ')
+  }
+
   return (
     <CardContent className={classes.content}>
       <CardMedia
         className={classes.cover}
-        image="http://lorempixel.com/160/160/business"
+        image={info.market_map_file || 'http://lorempixel.com/160/160/business'}
         title="Market"
       />
       <div className={classes.info}>
@@ -89,12 +96,13 @@ function CardInfo(props) {
               : 'zip code'
           }`}
         </Typography>
-        {match.path === '/marketprofile' || match.path === '/vendorprofile' ? (
+        {match.path.includes('/marketprofile') ||
+        match.path.includes('/vendorprofile') ? (
           <Chip
             className={classes.chip}
             color="secondary"
             variant="outlined"
-            label="Open: 9am-6pm"
+            label={`Open: ${getDate(info.hours)}`}
           />
         ) : null}
       </div>

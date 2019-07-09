@@ -19,10 +19,11 @@ class MarketProfile extends Component {
     id: null,
     market_name: 'Unnamed Market',
     bio: 'No bio',
-    zip_code: 'No zipcode',
+    zip_code: 'No zip',
     address: 'No address',
     state: 'No state',
     city: 'No city',
+    hours: 'No hours',
     submittedStallList: [
       {
         quantity: 1,
@@ -48,9 +49,27 @@ class MarketProfile extends Component {
         // 'https://vendme.herokuapp.com/api/market/1'
         `http://localhost:9000/api/market/${this.props.match.params.id}`
       )
-      const { market_name, id, address, city, state, zip_code, bio } = data
+      const {
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        hours_open
+      } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio })
+      this.setState({
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        hours: hours_open
+      })
     } catch (error) {
       console.log('Message: ', error)
     }
