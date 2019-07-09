@@ -26,7 +26,8 @@ class MarketEdit extends Component {
     stall_name: '',
     width: '',
     length: '',
-    description: ''
+    description: '',
+    stall_price: ''
   }
 
   componentDidMount = () => {
@@ -40,9 +41,9 @@ class MarketEdit extends Component {
         "http://localhost:9000/api/market/1"
 
       )
-      const { market_name, id, address, city, state, zip_code, bio } = data
+      const { market_name, id, address, city, state, zip_code, bio, stall_price } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio })
+      this.setState({ market_name, id, address, city, state, zip_code, bio, stall_price })
 
       try {
         const added = await Axios.get(`http://localhost:9000/api/market/${id}/stalls`)
@@ -68,7 +69,9 @@ class MarketEdit extends Component {
       const add = {
         stall_name: this.state.stall_name,
         width: this.state.width,
-        length: this.state.length
+        length: this.state.length,
+        description: this.state.description,
+        stall_price: this.state.stall_price
       }
       const postStall = {
         market_id: this.state.id,
@@ -80,7 +83,7 @@ class MarketEdit extends Component {
         availability: true,
         description: this.state.description,
         stall_photo: {},
-        stall_price: '100.00',
+        stall_price: this.state.stall_price,
         rent_message: true
       }
       // Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
@@ -93,7 +96,8 @@ class MarketEdit extends Component {
             stall_name: '',
             width: '',
             length: '',
-            description: ''
+            description: '',
+            stall_price: ''
           })
           this.getStalls();
         })
@@ -120,6 +124,21 @@ class MarketEdit extends Component {
       console.log(JSON.stringify(error))
     })
   }
+  
+  removeStall = (cats) => {
+    // Axios.put(`https://vendme.herokuapp.com/api/stalls/${this.state.id}`)
+    Axios.delete(`http://localhost:9000/api/stalls/${cats}`)
+    .then(res => {
+      console.log("message: ", res)
+      const updated = this.state.submittedStallList.filter(stall => {
+        return stall.id !== cats ? stall: null;
+      })
+      this.setState({submittedStallList: updated})
+    })
+    .catch(error => {
+      console.log(JSON.stringify(error))
+    })
+  }
 
   onEdit = (stallsId) => {
     
@@ -127,32 +146,6 @@ class MarketEdit extends Component {
 
   render() {
     const { classes } = this.props
-
-    const marketObj = {
-      marketname: 'Vendme Market',
-      marketaddress: {
-        street: '123 MyMarket St',
-        state: 'North, State 12345'
-      },
-      markethours: '9am-4:30pm',
-      availableStalls: [
-        {
-          stall_name: 1,
-          width: 20,
-          length: 189
-        },
-        {
-          stall_name: 3,
-          width: 30,
-          length: 89
-        },
-        {
-          stall_name: 5,
-          width: 120,
-          length: 109
-        }
-      ]
-    }
 
     return (
       <div className={classes.root}>
@@ -244,11 +237,12 @@ class MarketEdit extends Component {
             mystate={this.state}
             changeHandler={this.changeHandler}
             submitStallToAdd={this.submitStallToAdd}
-            removeStall={this.removeStall}
             stall_name={this.state.stall_name}
             width={this.state.width}
             length={this.state.length}
-          />
+            description={this.state.description}
+            stall_price={this.state.stall_price}
+            />
           <Typography variant="h6" align="left" className={classes.titles}>
             Available Stalls
           </Typography>
@@ -261,11 +255,9 @@ class MarketEdit extends Component {
           </Typography>
           <div className={classes.table}>
             <EditStallsTable
+              removeStall={this.removeStall}
               onEdit={this.onEdit}
-              stalls={[
-                ...marketObj.availableStalls,
-                ...this.state.submittedStallList
-              ]}
+              stalls={this.state.submittedStallList}
             />
           </div>
         </>

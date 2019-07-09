@@ -24,23 +24,7 @@ class MarketProfile extends Component {
     state: 'No state',
     city: 'No city',
     hours: 'No hours',
-    submittedStallList: [
-      {
-        quantity: 1,
-        width: 20,
-        length: 189
-      },
-      {
-        quantity: 3,
-        width: 30,
-        length: 89
-      },
-      {
-        quantity: 5,
-        width: 120,
-        length: 109
-      }
-    ]
+    submittedStallList: []
   }
 
   componentDidMount = async id => {
@@ -70,6 +54,16 @@ class MarketProfile extends Component {
         bio,
         hours: hours_open
       })
+      console.log('hours: ', hours_open)
+      try {
+        const added = await Axios.get(
+          `http://localhost:9000/api/market/${id}/stalls`
+        )
+        console.log(added)
+        this.setState({ submittedStallList: added.data })
+      } catch (error) {
+        console.log('message: ', error)
+      }
     } catch (error) {
       console.log('Message: ', error)
     }
