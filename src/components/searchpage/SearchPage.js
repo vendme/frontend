@@ -58,7 +58,7 @@ class SearchPage extends Component {
         </div>
         <div className={classes.markets}>
           {this.state.markets.map((market, id) => (
-            <Link to="/marketprofile">
+            <Link to={`/marketprofile/${market.id}`}>
               <div className={classes.market}>
                 <Card key={id + market.market_name} info={market} />
               </div>

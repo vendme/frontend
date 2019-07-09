@@ -4,10 +4,10 @@ import Geolocation from 'ol/Geolocation.js'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import { fromLonLat } from 'ol/proj.js'
-import Point from 'ol/geom/Point.js'
+// import Point from 'ol/geom/Point.js'
 import { Vector as VectorLayer } from 'ol/layer.js'
 import { Vector as VectorSource } from 'ol/source.js'
-import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js'
+// import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js'
 import olms from 'ol-mapbox-style'
 
 import darkmap from './darkmap'
@@ -37,25 +37,25 @@ class MapDiv extends React.Component {
     })
 
     this.accuracyFeature = new Feature()
-    this.geolocation.on('change:accuracyGeometry', _ => {
-      this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry())
-    })
+    // this.geolocation.on('change:accuracyGeometry', _ => {
+    //   this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry())
+    // })
 
     this.positionFeature = new Feature()
-    this.positionFeature.setStyle(
-      new Style({
-        image: new CircleStyle({
-          radius: 6,
-          fill: new Fill({
-            color: '#CC3333'
-          }),
-          stroke: new Stroke({
-            color: '#fff',
-            width: 2
-          })
-        })
-      })
-    )
+    // this.positionFeature.setStyle(
+    //   new Style({
+    //     image: new CircleStyle({
+    //       radius: 6,
+    //       fill: new Fill({
+    //         color: '#CC3333'
+    //       }),
+    //       stroke: new Stroke({
+    //         color: '#fff',
+    //         width: 2
+    //       })
+    //     })
+    //   })
+    // )
 
     this.geolocation.setTracking(true)
     this.geolocation.on('change:position', _ => {
@@ -66,9 +66,9 @@ class MapDiv extends React.Component {
         zoom: 11,
         duration: 2000
       })
-      this.positionFeature.setGeometry(
-        this.coordinates ? new Point(this.coordinates) : null
-      )
+      // this.positionFeature.setGeometry(
+      //   this.coordinates ? new Point(this.coordinates) : null
+      // )
     })
     view.animate({
       center: place,

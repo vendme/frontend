@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import Axios from 'axios'
 import {
   Typography,
@@ -45,7 +46,7 @@ class MarketProfile extends Component {
     try {
       const { data } = await Axios.get(
         // 'https://vendme.herokuapp.com/api/market/1'
-        'http://localhost:9000/api/market/1'
+        `http://localhost:9000/api/market/${this.props.match.params.id}`
       )
       const { market_name, id, address, city, state, zip_code, bio } = data
 
@@ -89,4 +90,4 @@ class MarketProfile extends Component {
   }
 }
 
-export default withStyles(styles)(MarketProfile)
+export default withStyles(styles)(withRouter(MarketProfile))

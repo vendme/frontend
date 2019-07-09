@@ -20,12 +20,14 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="For Sale" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Markets" />
-    </ListItem>
+    <Link to="/">
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Markets" />
+      </ListItem>
+    </Link>
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
@@ -52,7 +54,7 @@ export const secondaryListItemsOptions = [
       <ListItemText primary="LogIn" />
     </ListItem>
   </Link>,
-  <Link to="/searchpage">
+  <Link to="/">
     <ListItem button>
       <ListItemText primary="SearchPage" />
     </ListItem>
