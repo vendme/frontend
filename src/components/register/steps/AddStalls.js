@@ -1,6 +1,11 @@
 import React from 'react'
 
-import { IconButton, withStyles, TextField } from '@material-ui/core'
+import {
+  IconButton,
+  withStyles,
+  TextField,
+  Typography
+} from '@material-ui/core'
 import AddIcon from '@material-ui/icons/AddCircle'
 
 const styles = theme => ({
@@ -40,6 +45,9 @@ const AddStall = props => {
   } = handleInput
   return (
     <React.Fragment className={classes.root}>
+      <Typography component="h1" variant="h4" align="center">
+        Add stalls
+      </Typography>
       <div className={classes.form}>
         <TextField
           id="standard-dense"

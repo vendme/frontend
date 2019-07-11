@@ -80,6 +80,10 @@ const Register = props => {
     setAccount(newAccount)
   }
 
+  const handleSubmit = _ => {
+    //set up account in database
+  }
+
   return (
     <main className={classes.layout}>
       <Paper className={classes.paper}>
@@ -125,7 +129,9 @@ const Register = props => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleNext}
+                  onClick={
+                    activeStep === steps.length - 1 ? handleSubmit : handleNext
+                  }
                   className={classes.button}>
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>

@@ -54,18 +54,16 @@ class MarketProfile extends Component {
         bio,
         hours: hours_open
       })
-      console.log('hours: ', hours_open)
       try {
         const added = await Axios.get(
           `http://localhost:9000/api/market/${id}/stalls`
         )
-        console.log(added)
         this.setState({ submittedStallList: added.data })
       } catch (error) {
         console.log('message: ', error)
       }
     } catch (error) {
-      console.log('Message: ', error)
+      console.log('message: ', error)
     }
   }
 

@@ -44,7 +44,7 @@ function StallsTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell className={classes.cell}>QTY</TableCell>
+            <TableCell className={classes.cell}>Name</TableCell>
             <TableCell className={classes.cell}>Width (in)</TableCell>
             <TableCell className={classes.cell}>Length (in)</TableCell>
             <TableCell className={classes.cell}>Size (in&sup2;)</TableCell>
@@ -54,7 +54,7 @@ function StallsTable(props) {
         <TableBody>
           {data.map(data => (
             <TableRow key={data.id}>
-              <TableCell className={classes.cell}>{data.quantity}</TableCell>
+              <TableCell className={classes.cell}>{data.name}</TableCell>
               <TableCell className={classes.cell}>{data.width}</TableCell>
               <TableCell className={classes.cell}>{data.length}</TableCell>
               <TableCell className={classes.cell}>
