@@ -33,21 +33,37 @@ class MarketProfile extends Component {
         // 'https://vendme.herokuapp.com/api/market/1'
         `http://localhost:9000/api/market/${this.props.match.params.id}`
       )
-      const { market_name, id, address, city, state, zip_code, bio, hours_open } = data
+      const {
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        hours_open
+      } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio, hours: hours_open })
-      console.log('hours: ', hours_open)
+      this.setState({
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        hours: hours_open
+      })
       try {
         const added = await Axios.get(
           `http://localhost:9000/api/market/${id}/stalls`
         )
-        console.log(added)
         this.setState({ submittedStallList: added.data })
       } catch (error) {
         console.log('message: ', error)
       }
     } catch (error) {
-      console.log('Message: ', error)
+      console.log('message: ', error)
     }
   }
 
