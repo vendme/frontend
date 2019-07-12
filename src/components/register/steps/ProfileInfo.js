@@ -25,7 +25,7 @@ const ProfileInfo = props => {
   const { classes, input, handleInput } = props
   const { market_name, address, state, city, zip_code } = input
   const {
-    changeName,
+    changeMarket_name,
     changeAddress,
     changeState,
     changeCity,
@@ -41,7 +41,7 @@ const ProfileInfo = props => {
         name="market_name"
         value={market_name}
         inputProps={{ maxLength: 32 }}
-        onChange={e => changeName(e.target.value)}
+        onChange={e => changeMarket_name(e.target.value)}
         className={classes.textFieldName}
       />
       <div className={classes.address}>

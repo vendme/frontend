@@ -44,7 +44,10 @@ class SignUp extends React.Component {
         .doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
           this.props.firebase.getIdToken().then(idToken => {
-            localStorage.setItem('idToken', idToken)
+            localStorage.setItem(
+              'idToken',
+              `{"idToken":"${idToken}","expires_at":"${Date.now() + 3600000}"}`
+            )
             Axios.defaults.headers.common['Authorization'] = idToken
             Axios.post('https://vendme.herokuapp.com/auth/register', {
               email: authUser.user.email,

@@ -40,6 +40,12 @@ class Login extends React.Component {
       this.props.firebase
         .doSignInWithEmailAndPassword(email, password)
         .then(authUser => {
+          this.props.firebase.getIdToken().then(idToken => {
+            localStorage.setItem(
+              'idToken',
+              `{"idToken":"${idToken}","expires_at":"${Date.now() + 3600000}"}`
+            )
+          })
           this.setState({ ...INITIAL_STATE })
           this.props.history.push(ROUTES.HOME)
         })
