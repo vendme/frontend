@@ -16,11 +16,12 @@ import styles from './vendoredit.style.js'
 class VendorEdit extends Component {
   state = {
     id: null,
+    market_id: null,
     vendor_name: '',
     bio: '',
     products: [],
     product_name: '',
-    description: '',
+    product_description: '',
     product_price: '',
     product_img: '',
   }
@@ -30,10 +31,32 @@ class VendorEdit extends Component {
       const { data } = await Axios.get(
         'https://vendme.herokuapp.com/api/vendor/1'
       )
-      const { vendor_name, id, bio, phone_number, vendor_logo, products, product_name, product_img } = data
-      this.setState({ vendor_name, id, bio, phone_number, vendor_logo, products, product_name, product_img })
-      console.log(products)
+      const { vendor_name, id, bio, phone_number, vendor_logo, market_id, products } = data
+      this.setState({ vendor_name, id, bio, phone_number, vendor_logo, market_id, products })
     } catch (error) {
+      console.log('Message: ', error)
+    }
+  }
+
+  getProducts = async id => {
+    try {
+      const { data } = await Axios.get(
+        'https://vendme.herokuapp.com/api/vendor/1'
+      )
+      const { vendor_name, id, bio, phone_number, vendor_logo, products } = data
+      this.setState({ vendor_name, id, bio, phone_number, vendor_logo, products })
+
+      try {
+        const added = await Axios.get(
+          `https://vendme.herokuapp.com/api/vendor/${id}/products`
+        )
+        console.log(added)
+        this.setState({ products: added.data })
+      } catch (error) {
+        console.log('message: ', error)
+      }
+    } 
+    catch (error) {
       console.log('Message: ', error)
     }
   }
@@ -44,22 +67,38 @@ class VendorEdit extends Component {
   }
 
   submitItemToAdd = () => {
-    if (this.state.quantity && this.state.item && this.state.description) {
+    if (this.state.product_name && this.state.product_price && this.state.product_description) {
       const updatedList = this.state.products
       const add = {
         product_name: this.state.product_name,
-        description: this.state.description,
+        product_description: this.state.product_description,
         product_price: this.state.product_price,
         product_img: this.state.product_img,
       }
-      updatedList.push(add)
-      this.setState({
-        products: updatedList,
-        product_name: '',
-        description: '',
-        product_price: '',
-        product_img: '',
-      })
+      const postItem = {
+        market_id: this.state.id,
+        product_name: this.state.product_name,
+        product_description: this.state.product_description,
+        product_price: this.state.product_price,
+        product_img: this.state.product_img,
+        product_category: 1
+      }
+      Axios.post('https://vendme.herokuapp.com/api/products', postItem)
+        .then(res => {
+          console.log(res)
+          updatedList.push(add)
+          this.setState({
+            products: updatedList,
+            product_name: '',
+            product_description: '',
+            product_price: '',
+            product_img: '',
+          })
+          this.getProducts()
+          })
+          .catch(error => {
+            console.log(JSON.stringify(error))
+          })
     }
   }
   updateProfile = () => {
