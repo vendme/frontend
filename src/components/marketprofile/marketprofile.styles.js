@@ -25,6 +25,13 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       width: '100px',
       height: '100px'
     },
+    editcontainer: {
+      position: 'relative'
+    },
+    edit: {
+      position: 'absolute',
+      top: 0
+    },
     marketinfo: {
       padding: 0,
       listStyle: 'none'

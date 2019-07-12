@@ -37,20 +37,37 @@ class MarketEdit extends Component {
   getStalls = async id => {
     try {
       const { data } = await Axios.get(
-        // 'https://vendme.herokuapp.com/api/market/1'
-        "http://localhost:9000/api/market/1"
-
+        'https://vendme.herokuapp.com/api/market/1'
       )
-      const { market_name, id, address, city, state, zip_code, bio, stall_price } = data
+      const {
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        stall_price
+      } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio, stall_price })
+      this.setState({
+        market_name,
+        id,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        stall_price
+      })
 
       try {
-        const added = await Axios.get(`http://localhost:9000/api/market/${id}/stalls`)
+        const added = await Axios.get(
+          `https://vendme.herokuapp.com/api/market/${id}/stalls`
+        )
         console.log(added)
-        this.setState({submittedStallList: added.data})
-      }
-      catch (error) {
+        this.setState({ submittedStallList: added.data })
+      } catch (error) {
         console.log('message: ', error)
       }
     } catch (error) {
@@ -86,8 +103,7 @@ class MarketEdit extends Component {
         stall_price: this.state.stall_price,
         rent_message: true
       }
-      // Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
-      Axios.post('http://localhost:9000/api/stalls', postStall)
+      Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
         .then(res => {
           console.log(res)
           updatedList.push(add)
@@ -99,7 +115,7 @@ class MarketEdit extends Component {
             description: '',
             stall_price: ''
           })
-          this.getStalls();
+          this.getStalls()
         })
         .catch(error => {
           console.log(JSON.stringify(error))
@@ -108,41 +124,40 @@ class MarketEdit extends Component {
   }
 
   updateProfile = () => {
-    const updated =  {
+    const updated = {
       market_name: this.state.market_name,
       address: this.state.address,
       state: this.state.state,
       city: this.state.city,
       zip_code: this.state.zip_code
     }
-    // Axios.put(`https://vendme.herokuapp.com/api/market/${this.state.id}`, updated)
-    Axios.put(`http://localhost:9000/api/market/${this.state.id}`, updated)
-    .then(res => {
-      console.log(res)
-    })
-    .catch(error => {
-      console.log(JSON.stringify(error))
-    })
-  }
-  
-  removeStall = (cats) => {
-    // Axios.put(`https://vendme.herokuapp.com/api/stalls/${this.state.id}`)
-    Axios.delete(`http://localhost:9000/api/stalls/${cats}`)
-    .then(res => {
-      console.log("message: ", res)
-      const updated = this.state.submittedStallList.filter(stall => {
-        return stall.id !== cats ? stall: null;
+    Axios.put(
+      `https://vendme.herokuapp.com/api/market/${this.state.id}`,
+      updated
+    )
+      .then(res => {
+        console.log(res)
       })
-      this.setState({submittedStallList: updated})
-    })
-    .catch(error => {
-      console.log(JSON.stringify(error))
-    })
+      .catch(error => {
+        console.log(JSON.stringify(error))
+      })
   }
 
-  onEdit = (stallsId) => {
-    
+  removeStall = cats => {
+    Axios.delete(`https://vendme.herokuapp.com/api/stalls/${cats}`)
+      .then(res => {
+        console.log('message: ', res)
+        const updated = this.state.submittedStallList.filter(stall => {
+          return stall.id !== cats ? stall : null
+        })
+        this.setState({ submittedStallList: updated })
+      })
+      .catch(error => {
+        console.log(JSON.stringify(error))
+      })
   }
+
+  onEdit = stallsId => {}
 
   render() {
     const { classes } = this.props
@@ -208,7 +223,7 @@ class MarketEdit extends Component {
               value={this.state.zip_code}
               onChange={this.changeHandler}
               className={classes.textField}
-              />
+            />
             <div className={classes.buttons}>
               <Button variant="contained" className={classes.button}>
                 Cancel
@@ -242,7 +257,7 @@ class MarketEdit extends Component {
             length={this.state.length}
             description={this.state.description}
             stall_price={this.state.stall_price}
-            />
+          />
           <Typography variant="h6" align="left" className={classes.titles}>
             Available Stalls
           </Typography>

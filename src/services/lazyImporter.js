@@ -25,10 +25,10 @@ export const VendorProfile = lazy(() =>
   import('../components/vendorprofile/VendorProfile')
 )
 export const ItemListing = lazy(() =>
-  import('../components/itemlistings/ItemListings')
+  import('../components/itemlistings/itemlisting/ItemListing')
 )
 export const ItemListings = lazy(() =>
-  import('../components/itemlistings/itemlisting/ItemListing')
+  import('../components/itemlistings/ItemListings')
 )
 export const Map = lazy(() => import('../components/map/Map'))
 export const Register = lazy(() => import('../components/register/Register'))

@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Axios from 'axios'
+import { Card, CardMedia, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/core'
+
+import styles from './itemlistings.styles'
 
 function ItemListings(props) {
+  const { classes } = props
   const [data, setData] = useState([])
   useEffect(_ => {
-    // const markets = await Axios.get('https://vendme.herokuapp.com/api/market')
     !data.length &&
-      Axios.get('http://localhost:9000/api/products')
+      Axios.get('https://vendme.herokuapp.com/api/products')
         .then(res => {
           console.log(res.data)
           setData(res.data)
@@ -16,15 +21,33 @@ function ItemListings(props) {
         })
   })
   return (
-    <div>
+    <div className={classes.root}>
       {data.map(listing => (
-        <div
-          key={'listing' + listing.id + listing.market_id + listing.vendor_id}>
-          {listing.product_name}
-        </div>
+        <Link to={'/itemlisting/' + listing.id}>
+          <Card
+            className={classes.item}
+            key={
+              'listing' + listing.id + listing.market_id + listing.vendor_id
+            }>
+            <CardMedia
+              className={classes.cover}
+              image={
+                listing.product_image ||
+                'http://lorempixel.com/160/160/business'
+              }
+              title="Market"
+            />
+            <Typography component="h2" variant="h5" className={classes.name}>
+              {listing.product_name}
+            </Typography>
+            <Typography component="h3" variant="h5" className={classes.price}>
+              {'$' + listing.product_price.toFixed(2)}
+            </Typography>
+          </Card>
+        </Link>
       ))}
     </div>
   )
 }
 
-export default ItemListings
+export default withStyles(styles)(ItemListings)
