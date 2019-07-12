@@ -13,9 +13,9 @@ const AddItems = props => {
           id="standard-dense"
           label="Item"
           margin="dense"
-          name="item"
+          name="product_name"
           required
-          value={props.item}
+          value={props.product_name}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
         />
@@ -23,20 +23,20 @@ const AddItems = props => {
           id="standard-dense"
           label="Description"
           margin="dense"
-          name="description"
+          name="product_description"
           required
-          value={props.description}
+          value={props.product_description}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
         />
         <TextField
           id="standard-dense"
-          label="Quantity"
+          label="Price"
           margin="dense"
-          name="quantity"
+          name="product_price"
           type="number"
           inputProps={{ min: 1 }}
-          value={props.quantity}
+          value={props.product_price}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
         />

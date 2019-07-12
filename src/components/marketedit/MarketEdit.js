@@ -39,27 +39,9 @@ class MarketEdit extends Component {
       const { data } = await Axios.get(
         'https://vendme.herokuapp.com/api/market/1'
       )
-      const {
-        market_name,
-        id,
-        address,
-        city,
-        state,
-        zip_code,
-        bio,
-        stall_price
-      } = data
+      const { market_name, id, address, city, state, zip_code, bio, stall_price } = data
 
-      this.setState({
-        market_name,
-        id,
-        address,
-        city,
-        state,
-        zip_code,
-        bio,
-        stall_price
-      })
+      this.setState({ market_name, id, address, city, state, zip_code, bio, stall_price })
 
       try {
         const added = await Axios.get(
