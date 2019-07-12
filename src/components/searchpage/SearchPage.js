@@ -33,8 +33,7 @@ class SearchPage extends Component {
 
   componentDidMount = async _ => {
     try {
-      // const markets = await Axios.get('https://vendme.herokuapp.com/api/market')
-      const markets = await Axios.get('http://localhost:9000/api/market')
+      const markets = await Axios.get('https://vendme.herokuapp.com/api/market')
       console.log(markets.data)
       this.setState({
         markets: markets.data
@@ -59,9 +58,11 @@ class SearchPage extends Component {
         </div>
         <div className={classes.markets}>
           {this.state.markets.map((market, id) => (
-            <Link to={`/marketprofile/${market.id}`}>
+            <Link
+              key={id + market.market_name}
+              to={`/marketprofile/${market.id}`}>
               <div className={classes.market}>
-                <Card key={id + market.market_name} info={market} />
+                <Card info={market} />
               </div>
             </Link>
           ))}
