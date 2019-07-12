@@ -32,6 +32,8 @@ class Firebase {
 
   doPasswordUpdate = password => this.auth.currentUser.updatePassword(password)
 
+  getIdToken = () => this.auth.currentUser.getIdToken()
+
   // *** User API ***
 
   user = uid => this.db.ref(`users/${uid}`)
