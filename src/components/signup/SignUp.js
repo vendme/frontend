@@ -43,19 +43,20 @@ class SignUp extends React.Component {
       this.props.firebase
         .doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
+          this.props.firebase.getIdToken().then(idToken => {
+            localStorage.setItem('idToken', idToken)
+            Axios.defaults.headers.common['Authorization'] = idToken
+            Axios.post('https://vendme.herokuapp.com//auth/register', {
+              email: authUser.user.email,
+              account_type: 1
+            })
+              .then(res => console.log(res))
+              .catch(err => console.log(err))
+            this.setState({ ...INITIAL_STATE })
+          })
           return this.props.firebase.user(authUser.user.uid).set({
             email
           })
-        })
-        .then(authUser => {
-          Axios.post('http://localhost:9000/api/users/', {
-            uid: authUser.user.uid,
-            email: authUser.user.email,
-            account_type: 1
-          })
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-          this.setState({ ...INITIAL_STATE })
         })
         .catch(error => {
           this.setState({
