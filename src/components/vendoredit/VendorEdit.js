@@ -18,10 +18,11 @@ class VendorEdit extends Component {
     id: null,
     vendor_name: '',
     bio: '',
-    inventory: [],
-    quantity: '',
-    item: '',
-    description: ''
+    products: [],
+    product_name: '',
+    description: '',
+    product_price: '',
+    product_img: '',
   }
 
   componentDidMount = async id => {
@@ -29,8 +30,9 @@ class VendorEdit extends Component {
       const { data } = await Axios.get(
         'https://vendme.herokuapp.com/api/vendor/1'
       )
-      const { vendor_name, id, bio } = data
-      this.setState({ vendor_name, id, bio })
+      const { vendor_name, id, bio, phone_number, vendor_logo, products, product_name, product_img } = data
+      this.setState({ vendor_name, id, bio, phone_number, vendor_logo, products, product_name, product_img })
+      console.log(products)
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -43,18 +45,20 @@ class VendorEdit extends Component {
 
   submitItemToAdd = () => {
     if (this.state.quantity && this.state.item && this.state.description) {
-      const updatedList = this.state.inventory
+      const updatedList = this.state.products
       const add = {
-        quantity: this.state.quantity,
-        item: this.state.item,
-        description: this.state.description
+        product_name: this.state.product_name,
+        description: this.state.description,
+        product_price: this.state.product_price,
+        product_img: this.state.product_img,
       }
       updatedList.push(add)
       this.setState({
-        inventory: updatedList,
-        item: '',
-        quantity: '',
-        description: ''
+        products: updatedList,
+        product_name: '',
+        description: '',
+        product_price: '',
+        product_img: '',
       })
     }
   }
@@ -80,7 +84,7 @@ class VendorEdit extends Component {
       id: null,
       vendor_name: 'Unnamed Vendor',
       bio: 'No bio',
-      inventory: [
+      products: [
         {
           item: 'Ball Cap',
           description: 'Warm and pleasant to the eyes.',
@@ -179,9 +183,9 @@ class VendorEdit extends Component {
             All of your current listed items
           </Typography>
           <div className={classes.table}>
-            <EditItemsTable
-              items={[...marketObj.inventory, ...this.state.inventory]}
-            />
+            {/* <EditItemsTable
+              items={[...marketObj.products, ...this.state.products]}
+            /> */}
           </div>
         </>
       </div>
