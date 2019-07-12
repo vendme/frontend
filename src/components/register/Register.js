@@ -44,14 +44,14 @@ const Register = props => {
   const { classes } = props
   const [activeStep, setActiveStep] = useState(0)
   const [account, setAccount] = useState('customer')
-  const [market_name, changeName] = useState('')
+  const [market_name, changeMarket_name] = useState('')
   const [address, changeAddress] = useState('')
   const [state, changeState] = useState('')
   const [city, changeCity] = useState('')
   const [zip_code, changeZip] = useState('')
   const input = { market_name, address, state, city, zip_code }
   const handleInputChanges = {
-    changeName,
+    changeMarket_name,
     changeAddress,
     changeState,
     changeCity,
