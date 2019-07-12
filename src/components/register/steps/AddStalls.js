@@ -44,7 +44,7 @@ const AddStall = props => {
     changeComment
   } = handleInput
   return (
-    <React.Fragment className={classes.root}>
+    <div className={classes.root}>
       <Typography component="h1" variant="h4" align="center">
         Add stalls
       </Typography>
@@ -97,11 +97,11 @@ const AddStall = props => {
         className={classes.textFieldComment}
       />
       <div className={classes.addButton}>
-        <IconButton size="large" color="primary" aria-label="Add">
+        <IconButton size="medium" color="primary" aria-label="Add">
           <AddIcon />
         </IconButton>
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

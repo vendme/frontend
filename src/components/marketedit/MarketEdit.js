@@ -65,7 +65,6 @@ class MarketEdit extends Component {
         const added = await Axios.get(
           `https://vendme.herokuapp.com/api/market/${id}/stalls`
         )
-        console.log(added)
         this.setState({ submittedStallList: added.data })
       } catch (error) {
         console.log('message: ', error)
@@ -105,7 +104,6 @@ class MarketEdit extends Component {
       }
       Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
         .then(res => {
-          console.log(res)
           updatedList.push(add)
           this.setState({
             submittedStallList: updatedList,

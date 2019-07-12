@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import Axios from 'axios'
 import {
   Paper,
@@ -83,23 +84,27 @@ const Register = props => {
 
   const handleSubmit = _ => {
     //set up account in database
-    const idToken = localStorage.getItem('idToken')
-    Axios.defaults.headers.common['Authorization'] = idToken
-    Axios.post('https://vendme.herokuapp.com/api/market', {
-      market_name,
-      address,
-      city,
-      state,
-      zip_code,
-      phone_num: '132-774-4217',
-      market_info:
-        'Nihil eveniet corrupti harum nisi assumenda non rem. Ipsum commodi ex consectetur itaque neque. Et laboriosam saepe expedita ipsum quos. Natus iure a quam exercitationem deleniti porro non molestiae dolores.',
-      hours_open: '',
-      market_map_file: null,
-      agreement_file: null
-    })
-      .then(res => console.log(res))
-      .catch(err => console.log(err.message))
+    const { idToken, expires_at } = JSON.parse(localStorage.getItem('idToken'))
+    if (expires_at >= Date.now()) {
+      Axios.defaults.headers.common['Authorization'] = idToken
+      Axios.post('https://vendme.herokuapp.com/api/market', {
+        market_name,
+        address,
+        city,
+        state,
+        zip_code,
+        phone_num: '132-774-4217',
+        market_info:
+          'Nihil eveniet corrupti harum nisi assumenda non rem. Ipsum commodi ex consectetur itaque neque. Et laboriosam saepe expedita ipsum quos. Natus iure a quam exercitationem deleniti porro non molestiae dolores.',
+        hours_open: '',
+        market_map_file: '',
+        agreement_file: null
+      })
+        .then(res => console.log(res))
+        .catch(err => console.log(err.message))
+    } else {
+      props.history.push('/login')
+    }
   }
 
   return (
@@ -162,4 +167,4 @@ const Register = props => {
   )
 }
 
-export default withStyles(styles)(Register)
+export default withStyles(styles)(withRouter(Register))
