@@ -46,7 +46,7 @@ class SignUp extends React.Component {
           this.props.firebase.getIdToken().then(idToken => {
             localStorage.setItem('idToken', idToken)
             Axios.defaults.headers.common['Authorization'] = idToken
-            Axios.post('https://vendme.herokuapp.com//auth/register', {
+            Axios.post('https://vendme.herokuapp.com/auth/register', {
               email: authUser.user.email,
               account_type: 1
             })
