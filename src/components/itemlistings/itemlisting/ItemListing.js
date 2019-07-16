@@ -8,7 +8,6 @@ import styles from './itemlisting.styles'
 
 const ItemListing = props => {
   const { classes } = props
-  console.log(props)
   const [listing, setListing] = useState({})
   useEffect(_ => {
     Axios.get(
