@@ -27,15 +27,7 @@ class VendorEdit extends Component {
   }
 
   componentDidMount = async id => {
-    try {
-      const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/vendor/1'
-      )
-      const { vendor_name, id, bio, phone_number, vendor_logo, market_id, products } = data
-      this.setState({ vendor_name, id, bio, phone_number, vendor_logo, market_id, products })
-    } catch (error) {
-      console.log('Message: ', error)
-    }
+    this.getProducts()
   }
 
   getProducts = async id => {
@@ -45,12 +37,11 @@ class VendorEdit extends Component {
       )
       const { vendor_name, id, bio, phone_number, vendor_logo, products } = data
       this.setState({ vendor_name, id, bio, phone_number, vendor_logo, products })
-
+      console.log(data)
       try {
         const added = await Axios.get(
           `https://vendme.herokuapp.com/api/vendor/${id}/products`
         )
-        console.log(added)
         this.setState({ products: added.data })
       } catch (error) {
         console.log('message: ', error)
