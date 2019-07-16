@@ -13,7 +13,6 @@ function ItemListings(props) {
     !data.length &&
       Axios.get('https://vendme.herokuapp.com/api/products')
         .then(res => {
-          console.log(res.data)
           setData(res.data)
         })
         .catch(error => {
