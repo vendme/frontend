@@ -29,17 +29,11 @@ const styles = theme => ({
   }
 })
 
-let id = 0
-function createData(quantity, item, description) {
-  id += 1
-  return { id, quantity, item, description }
-}
-
 function EditStallsTable(props) {
   const { classes } = props
-  const data = props.items.map(item => {
-    return createData(item.quantity, item.item, item.description)
-  })
+  const data = props.items
+  console.log(data)
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -67,6 +61,7 @@ function EditStallsTable(props) {
                 <IconButton
                   color="primary"
                   className={classes.button}
+                  onClick={ () => props.removeItem(data.id) }
                   aria-label="Remove Item">
                   <CancelIcon />
                 </IconButton>

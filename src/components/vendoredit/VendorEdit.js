@@ -86,10 +86,10 @@ class VendorEdit extends Component {
             product_img: '',
           })
           this.getProducts()
-          })
-          .catch(error => {
-            console.log(JSON.stringify(error))
-          })
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error))
+        })
     }
   }
   updateProfile = () => {
@@ -108,10 +108,23 @@ class VendorEdit extends Component {
         console.log(JSON.stringify(error))
       })
   }
+  removeItem = pId => {
+    Axios.delete(`https://vendme.herokuapp.com/api/products/${pId}`)
+      .then(res => {
+        console.log('message: ', res)
+        const updated = this.state.products.filter(item => {
+          return item.id !== pId ? item : null
+        })
+        this.setState({ products: updated })
+      })
+      .catch(error => {
+        console.log(JSON.stringify(error))
+      })
+  }
   render() {
     const { classes } = this.props
     const marketObj = {
-      id: null,
+      id: 1,
       vendor_name: 'Unnamed Vendor',
       bio: 'No bio',
       products: [
@@ -213,9 +226,10 @@ class VendorEdit extends Component {
             All of your current listed items
           </Typography>
           <div className={classes.table}>
-            {/* <EditItemsTable
-              items={[...marketObj.products, ...this.state.products]}
-            /> */}
+            <EditItemsTable
+              // items={[...marketObj.products, ...this.state.products]}
+              items={marketObj.products} removeItem={this.removeItem}
+            />
           </div>
         </>
       </div>
