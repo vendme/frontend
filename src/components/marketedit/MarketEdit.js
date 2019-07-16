@@ -37,7 +37,7 @@ class MarketEdit extends Component {
   getStalls = async id => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/1'
+        'https://vendme.herokuapp.com/api/market/2'
       )
       const { market_name, id, address, city, state, zip_code, bio, stall_price } = data
 
