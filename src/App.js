@@ -65,10 +65,10 @@ class App extends Component {
               <Route path="/marketedit" component={MarketEdit} />
               <Route path="/marketprofile/:id" component={MarketProfile} />
               <Route path="/vendoredit" component={VendorEdit} />
-              <Route path="/vendorprofile" component={VendorProfile} />
+              <Route path="/vendorprofile/:id" component={VendorProfile} />
               <Route path="/addstall" component={AddStall} />
               <Route path="/rentstall" component={RentStall} />
-              <Route path="/itemlisting" component={ItemListing} />
+              <Route path="/itemlisting/:id" component={ItemListing} />
               <Route path="/itemlistings" component={ItemListings} />
               <Route
                 path="/map"

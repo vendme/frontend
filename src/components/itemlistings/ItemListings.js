@@ -41,7 +41,7 @@ function ItemListings(props) {
               {listing.product_name}
             </Typography>
             <Typography component="h3" variant="h5" className={classes.price}>
-              {'$' + listing.product_price.toFixed(2)}
+              {'$' + listing.product_price}
             </Typography>
           </Card>
         </Link>
