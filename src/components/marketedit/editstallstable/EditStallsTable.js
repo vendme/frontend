@@ -1,22 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 import CreateIcon from '@material-ui/icons/Create'
 import CancelIcon from '@material-ui/icons/Cancel'
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
   root: {
@@ -37,19 +36,19 @@ const styles = theme => ({
 })
 
 function EditStallsTable(props) {
-  const [open, setOpen] = React.useState(false);
-  
+  const [open, setOpen] = React.useState(false)
+
   const { classes } = props
   const data = props.stalls
 
   function handleClickOpen() {
-    setOpen(true);
+    setOpen(true)
   }
 
   function handleClose() {
-    setOpen(false);
+    setOpen(false)
   }
- console.log(props)
+  console.log(props)
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -65,7 +64,7 @@ function EditStallsTable(props) {
         </TableHead>
         <TableBody>
           {data.map(data => (
-            <TableRow key={"stall-" + data.id}>
+            <TableRow key={'stall-' + data.id}>
               <TableCell className={classes.cell}>{data.stall_name}</TableCell>
               <TableCell className={classes.cell}>{data.width}</TableCell>
               <TableCell className={classes.cell}>{data.length}</TableCell>
@@ -82,7 +81,10 @@ function EditStallsTable(props) {
                   aria-label="Edit Stall">
                   <CreateIcon />
                 </IconButton>
-                <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="form-dialog-title">
                   <DialogTitle id="form-dialog-title">Edit Stall</DialogTitle>
                   <DialogContent>
                     <TextField

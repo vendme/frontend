@@ -238,11 +238,11 @@ class VendorEdit extends Component {
             All of your current listed items
           </Typography>
           <div className={classes.table}>
-            <EditItemsTable
-              // items={[...marketObj.products, ...this.state.products]}
+            {/* <EditItemsTable
+              items={[...marketObj.products, ...this.state.products]}
               items={marketObj.products}
               removeItem={this.removeItem}
-            />
+            /> */}
           </div>
         </>
       </div>
