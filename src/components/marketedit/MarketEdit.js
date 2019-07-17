@@ -59,6 +59,7 @@ class MarketEdit extends Component {
   changeHandler = event => {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
+    console.log(this.state.width)
   }
 
   submitStallToAdd = () => {
@@ -250,6 +251,7 @@ class MarketEdit extends Component {
           </Typography>
           <div className={classes.table}>
             <EditStallsTable
+              changeHandler={this.changeHandler}
               removeStall={this.removeStall}
               onEdit={this.onEdit}
               stalls={this.state.submittedStallList}
