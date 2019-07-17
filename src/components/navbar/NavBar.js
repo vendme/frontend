@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -63,7 +64,7 @@ class NavBar extends React.Component {
               fontFamily="Pacifico"
               noWrap
               className={classes.title}>
-              Vendme
+              <Link to="/">Vendme</Link>
             </Typography>
             <AccountList
               checked={this.props.checked}
