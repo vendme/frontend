@@ -49,7 +49,7 @@ function EditStallsTable(props) {
   function handleClose() {
     setOpen(false);
   }
-  
+ console.log(props)
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -88,31 +88,46 @@ function EditStallsTable(props) {
                     <TextField
                       autoFocus
                       margin="dense"
-                      id="stall_name"
+                      name="stall_name"
                       label="Name"
+                      value={data.stall_name}
                       type="text"
+                      onChange={props.changeHandler}
                       fullWidth
                     />
                     <TextField
                       autoFocus
                       margin="dense"
-                      id="width"
+                      name="width"
                       label="Width (in)"
+                      value={data.width}
                       type="number"
+                      onChange={props.changeHandler}
                     />
                     <TextField
                       autoFocus
                       margin="dense"
-                      id="length"
+                      name="length"
                       label="Length (in)"
+                      value={data.length}
                       type="number"
                     />
                     <TextField
                       autoFocus
                       margin="dense"
-                      id="stall_price"
+                      name="stall_price"
                       label="Price"
+                      value={data.stall_price}
                       type="number"
+                    />
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      name="description"
+                      label="Description"
+                      value={data.description}
+                      type="text"
+                      fullWidth
                     />
                   </DialogContent>
                   <DialogActions>
