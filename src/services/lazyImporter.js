@@ -40,3 +40,4 @@ export const PasswordChangePage = lazy(() =>
 )
 export const AdminPage = lazy(() => import('../components/admin'))
 export const Account = lazy(() => import('../components/account/Account'))
+export const Page404 = lazy(() => import('../components/page404/Page404'))

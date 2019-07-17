@@ -14,6 +14,7 @@ import { withStyles } from '@material-ui/core/styles'
 import AccountType from './steps/AccountType'
 import ProfileInfo from './steps/ProfileInfo'
 import AddStalls from './steps/AddStalls'
+import tokenDateChecker from '../../services/tokenDateChecker'
 import styles from './register.styles.js'
 
 const steps = ['Account Type', 'Profile Info', 'Additional Steps']
@@ -84,9 +85,7 @@ const Register = props => {
 
   const handleSubmit = _ => {
     //set up account in database
-    const { idToken, expires_at } = JSON.parse(localStorage.getItem('idToken'))
-    if (expires_at >= Date.now()) {
-      Axios.defaults.headers.common['Authorization'] = idToken
+    if (tokenDateChecker()) {
       Axios.post('https://vendme.herokuapp.com/api/market', {
         market_name,
         address,
@@ -100,7 +99,7 @@ const Register = props => {
         market_map_file: '',
         agreement_file: null
       })
-        .then(res => console.log(res))
+        .then(res => props.history.push('/'))
         .catch(err => console.log(err.message))
     } else {
       props.history.push('/login')

@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import Axios from 'axios'
 import AddItems from './additems/AddItems'
-import EditItemsTable from './edititemstable/EditItemsTable'
+// import EditItemsTable from './edititemstable/EditItemsTable'
 
 import styles from './vendoredit.style.js'
 
@@ -23,11 +23,35 @@ class VendorEdit extends Component {
     product_name: '',
     product_description: '',
     product_price: '',
-    product_img: '',
+    product_img: ''
   }
 
   componentDidMount = async id => {
-    this.getProducts()
+    try {
+      const { data } = await Axios.get(
+        'https://vendme.herokuapp.com/api/vendor/1'
+      )
+      const {
+        vendor_name,
+        id,
+        bio,
+        phone_number,
+        vendor_logo,
+        market_id,
+        products
+      } = data
+      this.setState({
+        vendor_name,
+        id,
+        bio,
+        phone_number,
+        vendor_logo,
+        market_id,
+        products
+      })
+    } catch (error) {
+      console.log('Message: ', error)
+    }
   }
 
   getProducts = async id => {
@@ -36,8 +60,15 @@ class VendorEdit extends Component {
         'https://vendme.herokuapp.com/api/vendor/1'
       )
       const { vendor_name, id, bio, phone_number, vendor_logo, products } = data
-      this.setState({ vendor_name, id, bio, phone_number, vendor_logo, products })
-      console.log(data)
+      this.setState({
+        vendor_name,
+        id,
+        bio,
+        phone_number,
+        vendor_logo,
+        products
+      })
+
       try {
         const added = await Axios.get(
           `https://vendme.herokuapp.com/api/vendor/${id}/products`
@@ -46,8 +77,7 @@ class VendorEdit extends Component {
       } catch (error) {
         console.log('message: ', error)
       }
-    } 
-    catch (error) {
+    } catch (error) {
       console.log('Message: ', error)
     }
   }
@@ -58,13 +88,17 @@ class VendorEdit extends Component {
   }
 
   submitItemToAdd = () => {
-    if (this.state.product_name && this.state.product_price && this.state.product_description) {
+    if (
+      this.state.product_name &&
+      this.state.product_price &&
+      this.state.product_description
+    ) {
       const updatedList = this.state.products
       const add = {
         product_name: this.state.product_name,
         product_description: this.state.product_description,
         product_price: this.state.product_price,
-        product_img: this.state.product_img,
+        product_img: this.state.product_img
       }
       const postItem = {
         market_id: this.state.id,
@@ -83,7 +117,7 @@ class VendorEdit extends Component {
             product_name: '',
             product_description: '',
             product_price: '',
-            product_img: '',
+            product_img: ''
           })
           this.getProducts()
         })
@@ -123,28 +157,6 @@ class VendorEdit extends Component {
   }
   render() {
     const { classes } = this.props
-    const marketObj = {
-      id: 1,
-      vendor_name: 'Unnamed Vendor',
-      bio: 'No bio',
-      products: [
-        {
-          item: 'Ball Cap',
-          description: 'Warm and pleasant to the eyes.',
-          quantity: 7
-        },
-        {
-          item: 'Handmade Tee',
-          description: 'Also warm and pleasant to the eyes.',
-          quantity: 10
-        },
-        {
-          item: 'Nostalgic Hamburger Doily',
-          description: 'Ah the good old days.',
-          quantity: 25
-        }
-      ]
-    }
     return (
       <div className={classes.root}>
         <Typography variant="h6" align="left" className={classes.titles}>
@@ -228,7 +240,8 @@ class VendorEdit extends Component {
           <div className={classes.table}>
             <EditItemsTable
               // items={[...marketObj.products, ...this.state.products]}
-              items={marketObj.products} removeItem={this.removeItem}
+              items={marketObj.products}
+              removeItem={this.removeItem}
             />
           </div>
         </>

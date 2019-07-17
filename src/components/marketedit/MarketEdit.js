@@ -10,12 +10,15 @@ import {
 import Axios from 'axios'
 import AddStall from '../addstalls/AddStall'
 import EditStallsTable from './editstallstable/EditStallsTable'
+import tokenDateChecker from '../../services/tokenDateChecker'
 
 import styles from './marketedit.style.js'
 
 class MarketEdit extends Component {
   state = {
-    id: 1,
+    id: null,
+    user_id: null,
+    user_market: null,
     market_name: '',
     bio: '',
     zip_code: '',
@@ -30,29 +33,64 @@ class MarketEdit extends Component {
     stall_price: ''
   }
 
-  componentDidMount = () => {
-    this.getStalls()
+  componentDidMount = async () => {
+    this.getMarket()
+    if (tokenDateChecker()) {
+      const { data } = await Axios.get(
+        'https://vendme.herokuapp.com/auth/verify'
+      )
+      if (data.id === this.state.user_market) {
+        this.setState({ user_id: data.id })
+        this.getStalls()
+      } else {
+        this.props.history.push('/404')
+      }
+    } else {
+      this.props.history.push('/login')
+    }
   }
 
-  getStalls = async id => {
+  getMarket = async _ => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/2'
+        'https://vendme.herokuapp.com/api/market/' + this.props.match.params.id
       )
-      const { market_name, id, address, city, state, zip_code, bio, stall_price } = data
+      const {
+        market_name,
+        id,
+        user_market,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        stall_price
+      } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio, stall_price })
-
-      try {
-        const added = await Axios.get(
-          `https://vendme.herokuapp.com/api/market/${id}/stalls`
-        )
-        this.setState({ submittedStallList: added.data })
-      } catch (error) {
-        console.log('message: ', error)
-      }
+      this.setState({
+        market_name,
+        id,
+        user_market,
+        address,
+        city,
+        state,
+        zip_code,
+        bio,
+        stall_price
+      })
     } catch (error) {
       console.log('Message: ', error)
+    }
+  }
+
+  getStalls = async _ => {
+    try {
+      const added = await Axios.get(
+        `https://vendme.herokuapp.com/api/market/${this.state.id}/stalls`
+      )
+      this.setState({ submittedStallList: added.data })
+    } catch (error) {
+      console.log('message: ', error)
     }
   }
 
