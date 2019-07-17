@@ -10,6 +10,7 @@
     "classnames": "^2.2.6",
     "cloudinary-react": "^1.1.1",
     "dotenv": "^8.0.0",
+    "esm": "^3.2.25",
     "firebase": "^6.2.2",
     "geo-coder": "^1.0.2",
     "mapbox-gl": "^1.1.0",
