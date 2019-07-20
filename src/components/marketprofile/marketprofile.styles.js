@@ -30,7 +30,13 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
     },
     edit: {
       position: 'absolute',
-      top: 0
+      top: spacing(0.5),
+      left: spacing(0.5)
+    },
+    editsymbol: {
+      background: 'rgba(1,1,1, 0.5)',
+      borderRadius: '50%',
+      padding: spacing(0.3)
     },
     marketinfo: {
       padding: 0,

@@ -24,7 +24,8 @@ import {
   PasswordForgetPage,
   PasswordChangePage,
   AdminPage,
-  Account
+  Account,
+  Page404
 } from './services/lazyImporter'
 import { withFirebase } from './components/firebase'
 import { withAuthentication } from './components/session'
@@ -62,9 +63,9 @@ class App extends Component {
               <Route path="/searchbar" component={SearchBar} />
               <Route path="/card" component={Card} />
               <Route path="/cardinfo" component={CardInfo} />
-              <Route path="/marketedit" component={MarketEdit} />
+              <Route path="/marketedit/:id" component={MarketEdit} />
               <Route path="/marketprofile/:id" component={MarketProfile} />
-              <Route path="/vendoredit" component={VendorEdit} />
+              <Route path="/vendoredit/:id" component={VendorEdit} />
               <Route path="/vendorprofile/:id" component={VendorProfile} />
               <Route path="/addstall" component={AddStall} />
               <Route path="/rentstall" component={RentStall} />
@@ -82,6 +83,7 @@ class App extends Component {
               <Route path="/pw-change" component={PasswordChangePage} />
               <Route path="/admin" component={AdminPage} />
               <Route path="/account" component={Account} />
+              <Route path="/404" component={Page404} />
             </Switch>
           </Suspense>
         </NavBar>

@@ -68,20 +68,28 @@ function CardInfo(props) {
   const getDate = hours => {
     const pattern = /\s*;\s*/
     const allTimes = hours.split(pattern)
-    const converted = allTimes.map( times => {
+    const converted = allTimes.map(times => {
       times = times.split`,`
-      return times.map( time => {
-        if(time === "null" ){
-          return "Closed"
+      return times.map(time => {
+        if (time === 'null') {
+          return 'Closed'
         }
-        time = Number(time);
-        if(!null && time > 1200){
-          time = time - 1200 + "pm";
-          time = [time.slice(0, [time.length - 4]), ":", time.slice([time.length - 4])].join('');
+        time = Number(time)
+        if (!null && time > 1200) {
+          time = time - 1200 + 'pm'
+          time = [
+            time.slice(0, [time.length - 4]),
+            ':',
+            time.slice([time.length - 4])
+          ].join('')
         }
-        if(!null && time <= 1200){
-          time = time + "am";
-          time = [time.slice(0, [time.length - 4]), ":", time.slice([time.length - 4])].join('');
+        if (!null && time <= 1200) {
+          time = time + 'am'
+          time = [
+            time.slice(0, [time.length - 4]),
+            ':',
+            time.slice([time.length - 4])
+          ].join('')
         }
         return time
       })
@@ -120,7 +128,11 @@ function CardInfo(props) {
             className={classes.chip}
             color="secondary"
             variant="outlined"
-            label={`Open: ${getDate(info.hours)}`}
+            label={
+              !getDate(info.hours)
+                ? `Open: ${getDate(info.hours)}`
+                : 'No hours posted'
+            }
           />
         ) : null}
       </div>

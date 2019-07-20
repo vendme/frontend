@@ -13,12 +13,15 @@ import { Create } from '@material-ui/icons'
 import SearchIcon from '@material-ui/icons/Search'
 import StallsTable from './stallstable/StallsTable'
 import CardInfo from '../card/cardinfo/CardInfo'
+import tokenDateChecker from '../../services/tokenDateChecker'
 
 import styles from './marketprofile.styles.js'
 
 class MarketProfile extends Component {
   state = {
+    user_id: null,
     id: null,
+    user_market: null,
     market_name: 'Unnamed Market',
     bio: 'No bio',
     zip_code: 'No zip',
@@ -29,7 +32,16 @@ class MarketProfile extends Component {
     submittedStallList: []
   }
 
-  componentDidMount = async id => {
+  componentDidMount = async () => {
+    if (tokenDateChecker()) {
+      const { data } = await Axios.get(
+        'https://vendme.herokuapp.com/auth/verify'
+      )
+      this.setState({ user_id: data.id })
+    } else {
+      this.props.history.push('/login')
+    }
+
     try {
       const { data } = await Axios.get(
         `https://vendme.herokuapp.com/api/market/${this.props.match.params.id}`
@@ -37,6 +49,7 @@ class MarketProfile extends Component {
       const {
         market_name,
         id,
+        user_market,
         address,
         city,
         state,
@@ -48,6 +61,7 @@ class MarketProfile extends Component {
       this.setState({
         market_name,
         id,
+        user_market,
         address,
         city,
         state,
@@ -74,9 +88,11 @@ class MarketProfile extends Component {
       <div className={classes.root}>
         <div className={classes.editcontainer}>
           <CardInfo info={this.state} />
-          <Link to="/marketedit" className={classes.edit}>
-            <Create />
-          </Link>
+          {this.state.user_id && this.state.user_id === this.state.user_market && (
+            <Link to={'/marketedit/' + this.state.id} className={classes.edit}>
+              <Create className={classes.editsymbol} />
+            </Link>
+          )}
         </div>
         <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
