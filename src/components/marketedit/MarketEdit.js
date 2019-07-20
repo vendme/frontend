@@ -37,16 +37,18 @@ class MarketEdit extends Component {
   getStalls = async id => {
     try {
       const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/2'
+        'https://vendme.herokuapp.com/api/market/3'
       )
-      const { market_name, id, address, city, state, zip_code, bio, stall_price } = data
+      console.log(data)
+      const { market_name, id, address, city, state, zip_code, bio } = data
 
-      this.setState({ market_name, id, address, city, state, zip_code, bio, stall_price })
+      this.setState({ market_name, id, address, city, state, zip_code, bio })
 
       try {
         const added = await Axios.get(
           `https://vendme.herokuapp.com/api/market/${id}/stalls`
         )
+        console.log(added)
         this.setState({ submittedStallList: added.data })
       } catch (error) {
         console.log('message: ', error)
@@ -59,7 +61,6 @@ class MarketEdit extends Component {
   changeHandler = event => {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
-    console.log(this.state.width)
   }
 
   submitStallToAdd = () => {
@@ -76,7 +77,7 @@ class MarketEdit extends Component {
         market_id: this.state.id,
         vendor_id: 1,
         category_id: 3,
-        // stall_name: this.state.stall_name,
+        stall_name: this.state.stall_name,
         width: this.state.width,
         length: this.state.length,
         availability: true,
@@ -138,7 +139,33 @@ class MarketEdit extends Component {
       })
   }
 
-  onEdit = stallsId => {}
+  onEdit = stallsId => {
+    console.log("Stalls ID: ", stallsId)
+    const updated = {
+      stall_name: this.state.submittedStallList.stall_name,
+      market_id: this.state.submittedStallList.market_id,
+      vendor_id: 1,
+      category_id: 3,
+      length: this.state.length,
+      width: this.state.submittedStallList.width,
+      availability: this.state.submittedStallList.availability,
+      description: this.state.submittedStallList.description,
+      stall_photo: this.state.submittedStallList.stall_photo,
+      stall_price: this.state.submittedStallList.stall_price,
+      rent_message: this.state.submittedStallList.rent_message
+    }
+    console.log("Updated Data: ", updated)
+    Axios.put(
+      `https://vendme.herokuapp.com/api/stalls/${stallsId}`,
+      updated
+    )
+      .then(res => {
+        console.log(res)
+      })
+      .catch(error => {
+        console.log(JSON.stringify(error))
+      })
+  }
 
   render() {
     const { classes } = this.props

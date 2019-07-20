@@ -134,18 +134,19 @@ function EditStallsTable(props) {
                     <Button onClick={handleClose} color="primary">
                       Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    {/* <Button onClick={handleClose} color="primary"> */}
+                    <Button onClick={() => props.onEdit(data.id)} color="primary">
                       Update
                     </Button>
                   </DialogActions>
                 </Dialog>
-                <IconButton
+                {/* <IconButton
                   onClick={() => props.removeStall(data.id)}
                   color="primary"
                   className={classes.button}
                   aria-label="Remove Stall">
-                  <CancelIcon />
-                </IconButton>
+                  <CancelIcon /> */}
+                {/* </IconButton> */}
               </TableCell>
             </TableRow>
           ))}
