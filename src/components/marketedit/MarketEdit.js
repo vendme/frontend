@@ -95,7 +95,7 @@ class MarketEdit extends Component {
   getStalls = async _ => {
     try {
       const added = await Axios.get(
-        `https://vendme.herokuapp.com/api/market/${this.state.id}/stalls`
+        `https://vendme.herokuapp.com/api/market/${this.props.match.params.id}/stalls`
       )
       this.setState({ submittedStallList: added.data })
     } catch (error) {
@@ -119,15 +119,15 @@ class MarketEdit extends Component {
         stall_price: this.state.stall_price
       }
       const postStall = {
-        market_id: this.state.id,
-        vendor_id: 1,
-        category_id: 3,
         stall_name: this.state.stall_name,
-        width: this.state.width,
+        market_id: this.state.id,
+        vendor_id: null,
+        category_id: null,
         length: this.state.length,
+        width: this.state.width,
         availability: true,
         description: this.state.description,
-        stall_photo: {},
+        stall_photo: null,
         stall_price: this.state.stall_price,
         rent_message: true
       }
