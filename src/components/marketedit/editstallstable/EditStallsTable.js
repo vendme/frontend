@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
@@ -16,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { renderComponent } from 'recompose';
 
 const styles = theme => ({
   root: {
@@ -36,19 +37,22 @@ const styles = theme => ({
 })
 
 function EditStallsTable(props) {
-  const [open, setOpen] = React.useState(false)
-
   const { classes } = props
-  const data = props.stalls
+  
+  console.log("This is it!: ", props.stallInfo)
 
-  function handleClickOpen() {
-    setOpen(true)
+  const [open, setOpen] = useState(false);
+  const [editedId, setEditedId] = useState(null);
+  
+  const handleClickOpen = (stall) => {
+    setOpen(true);
+    setEditedId(stall.id)
+    props.updateStallHandler(stall)
   }
-
-  function handleClose() {
-    setOpen(false)
+  
+  const handleClose = () => {
+    setOpen(false);
   }
-  console.log(props)
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -63,7 +67,7 @@ function EditStallsTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(data => (
+          {props.stalls.map(data => (
             <TableRow key={'stall-' + data.id}>
               <TableCell className={classes.cell}>{data.stall_name}</TableCell>
               <TableCell className={classes.cell}>{data.width}</TableCell>
@@ -74,86 +78,88 @@ function EditStallsTable(props) {
               <TableCell className={classes.cell}>{data.stall_price}</TableCell>
               <TableCell className={classes.cell}>
                 <IconButton
-                  // onClick={() => props.onEdit(data.id)}
-                  onClick={handleClickOpen}
+                  onClick={() => handleClickOpen(data)}
                   color="primary"
                   className={classes.button}
                   aria-label="Edit Stall">
                   <CreateIcon />
                 </IconButton>
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="form-dialog-title">
-                  <DialogTitle id="form-dialog-title">Edit Stall</DialogTitle>
-                  <DialogContent>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      name="stall_name"
-                      label="Name"
-                      value={data.stall_name}
-                      type="text"
-                      onChange={props.changeHandler}
-                      fullWidth
-                    />
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      name="width"
-                      label="Width (in)"
-                      value={data.width}
-                      type="number"
-                      onChange={props.changeHandler}
-                    />
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      name="length"
-                      label="Length (in)"
-                      value={data.length}
-                      type="number"
-                    />
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      name="stall_price"
-                      label="Price"
-                      value={data.stall_price}
-                      type="number"
-                    />
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      name="description"
-                      label="Description"
-                      value={data.description}
-                      type="text"
-                      fullWidth
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                      Cancel
-                    </Button>
-                    {/* <Button onClick={handleClose} color="primary"> */}
-                    <Button onClick={() => props.onEdit(data.id)} color="primary">
-                      Update
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-                {/* <IconButton
+                <IconButton
                   onClick={() => props.removeStall(data.id)}
                   color="primary"
                   className={classes.button}
                   aria-label="Remove Stall">
-                  <CancelIcon /> */}
-                {/* </IconButton> */}
+                  <CancelIcon />
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Edit Stall</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="stall_name"
+            value={props.stallInfo.stall_name}
+            onChange={props.changeHandler}
+            label="Name"
+            type="text"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="width"
+            value={props.stallInfo.width}
+            onChange={props.changeHandler}
+            label="Width (in)"
+            type="number"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="length"
+            value={props.stallInfo.length}
+            onChange={props.changeHandler}
+            label="Length (in)"
+            type="number"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="stall_price"
+            value={props.stallInfo.stall_price}
+            onChange={props.changeHandler}
+            label="Price"
+            type="number"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="description"
+            value={props.stallInfo.description}
+            onChange={props.changeHandler}
+            label="Description"
+            type="text"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          {/* <Button onClick={handleClose} color="primary"> */}
+          <Button onClick={() => props.onEdit(editedId)} onClick={handleClose} color="primary">
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   )
 }
