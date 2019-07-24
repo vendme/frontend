@@ -107,6 +107,9 @@ class MarketEdit extends Component {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
   }
+  updateStallHandler = (stall) => {
+    this.setState({ stall_name: stall.stall_name, width: stall.width, length: stall.length, description: stall.description, stall_price: stall.stall_price })
+  }
 
   submitStallToAdd = () => {
     if (this.state.stall_name && this.state.width && this.state.length) {
@@ -185,19 +188,19 @@ class MarketEdit extends Component {
   }
 
   onEdit = stallsId => {
-    console.log("Stalls ID: ", stallsId)
+    console.log("Stalls: ", stallsId)
     const updated = {
-      stall_name: this.state.submittedStallList.stall_name,
-      market_id: this.state.submittedStallList.market_id,
+      stall_name: this.state.stall_name,
+      market_id: this.state.id,
       vendor_id: 1,
       category_id: 3,
       length: this.state.length,
       width: this.state.submittedStallList.width,
-      availability: this.state.submittedStallList.availability,
-      description: this.state.submittedStallList.description,
-      stall_photo: this.state.submittedStallList.stall_photo,
-      stall_price: this.state.submittedStallList.stall_price,
-      rent_message: this.state.submittedStallList.rent_message
+      availability: true,
+      description: this.state.description,
+      stall_photo: null,
+      stall_price: this.state.stall_price,
+      rent_message: ''
     }
     console.log("Updated Data: ", updated)
     Axios.put(
@@ -206,6 +209,14 @@ class MarketEdit extends Component {
     )
       .then(res => {
         console.log(res)
+        this.setState({
+          submittedStallList: updated,
+          stall_name: '',
+          width: '',
+          length: '',
+          description: '',
+          stall_price: ''
+        })
       })
       .catch(error => {
         console.log(JSON.stringify(error))
@@ -325,7 +336,9 @@ class MarketEdit extends Component {
             <EditStallsTable
               changeHandler={this.changeHandler}
               removeStall={this.removeStall}
+              updateStallHandler={this.updateStallHandler}
               onEdit={this.onEdit}
+              stallInfo={this.state}
               stalls={this.state.submittedStallList}
             />
           </div>
