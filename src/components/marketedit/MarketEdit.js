@@ -92,7 +92,7 @@ class MarketEdit extends Component {
     }
   }
 
-  getStalls = async _ => {
+  getStalls = async () => {
     try {
       const added = await Axios.get(
         `https://vendme.herokuapp.com/api/market/${this.props.match.params.id}/stalls`
@@ -195,12 +195,12 @@ class MarketEdit extends Component {
       vendor_id: 1,
       category_id: 3,
       length: this.state.length,
-      width: this.state.submittedStallList.width,
+      width: this.state.width,
       availability: true,
       description: this.state.description,
       stall_photo: null,
       stall_price: this.state.stall_price,
-      rent_message: ''
+      rent_message: false
     }
     console.log("Updated Data: ", updated)
     Axios.put(
@@ -208,9 +208,9 @@ class MarketEdit extends Component {
       updated
     )
       .then(res => {
+        this.getStalls()
         console.log(res)
         this.setState({
-          submittedStallList: updated,
           stall_name: '',
           width: '',
           length: '',
@@ -229,7 +229,7 @@ class MarketEdit extends Component {
     return (
       <div className={classes.root}>
         <Typography variant="h6" align="left" className={classes.titles}>
-          Edit Profile
+          Edit Market Profile
         </Typography>
         <Typography
           variant="subtitle1"

@@ -39,8 +39,6 @@ const styles = theme => ({
 function EditStallsTable(props) {
   const { classes } = props
   
-  console.log("This is it!: ", props.stallInfo)
-
   const [open, setOpen] = useState(false);
   const [editedId, setEditedId] = useState(null);
   
@@ -53,6 +51,11 @@ function EditStallsTable(props) {
   const handleClose = () => {
     setOpen(false);
   }
+  const handleUpdate = () => {
+    props.onEdit(editedId)
+    handleClose()
+  }
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -155,7 +158,7 @@ function EditStallsTable(props) {
             Cancel
           </Button>
           {/* <Button onClick={handleClose} color="primary"> */}
-          <Button onClick={() => props.onEdit(editedId)} onClick={handleClose} color="primary">
+          <Button onClick={() => handleUpdate()} color="primary">
             Update
           </Button>
         </DialogActions>

@@ -9,13 +9,13 @@ import {
 } from '@material-ui/core'
 import Axios from 'axios'
 import AddItems from './additems/AddItems'
-// import EditItemsTable from './edititemstable/EditItemsTable'
+import EditItemsTable from './edititemstable/EditItemsTable'
 
 import styles from './vendoredit.style.js'
 
 class VendorEdit extends Component {
   state = {
-    id: null,
+    id: this.props.match.params.id,
     market_id: null,
     vendor_name: '',
     bio: '',
@@ -23,65 +23,52 @@ class VendorEdit extends Component {
     product_name: '',
     product_description: '',
     product_price: '',
-    product_img: ''
+    product_image: ''
   }
 
   componentDidMount = async id => {
-    try {
-      const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/vendor/1'
-      )
-      const {
-        vendor_name,
-        id,
-        bio,
-        phone_number,
-        vendor_logo,
-        market_id,
-        products
-      } = data
-      this.setState({
-        vendor_name,
-        id,
-        bio,
-        phone_number,
-        vendor_logo,
-        market_id,
-        products
-      })
-    } catch (error) {
-      console.log('Message: ', error)
-    }
+    this.getVendor()
   }
 
-  getProducts = async id => {
-    try {
-      const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/api/vendor/1'
-      )
-      const { vendor_name, id, bio, phone_number, vendor_logo, products } = data
-      this.setState({
-        vendor_name,
-        id,
-        bio,
-        phone_number,
-        vendor_logo,
-        products
-      })
-
+  getVendor = async () => {
       try {
-        const added = await Axios.get(
-          `https://vendme.herokuapp.com/api/vendor/${id}/products`
+        const { data } = await Axios.get(
+          `https://vendme.herokuapp.com/api/vendor/${this.state.id}`
         )
-        this.setState({ products: added.data })
+        const { vendor_name, bio, phone_number, vendor_logo, products } = data
+        this.setState({
+          vendor_name,
+          bio,
+          phone_number,
+          vendor_logo,
+          products
+        })
+        
+        try {
+          const added = await Axios.get(
+            `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
+            )
+            this.setState({ products: added.data })
+            console.log("Got it!", this.state.products)
+        } catch (error) {
+          console.log('message: ', error)
+        }
       } catch (error) {
-        console.log('message: ', error)
+        console.log('Message: ', error)
       }
-    } catch (error) {
-      console.log('Message: ', error)
-    }
   }
 
+  getProducts = async () => {
+    try {
+      const added = await Axios.get(
+        `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
+      )
+      this.setState({ products: added.data })
+    } catch (error) {
+      console.log('message: ', error)
+    }
+  }
+  
   changeHandler = event => {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
@@ -98,16 +85,17 @@ class VendorEdit extends Component {
         product_name: this.state.product_name,
         product_description: this.state.product_description,
         product_price: this.state.product_price,
-        product_img: this.state.product_img
+        product_image: this.state.product_image
       }
       const postItem = {
         market_id: this.state.id,
         product_name: this.state.product_name,
         product_description: this.state.product_description,
         product_price: this.state.product_price,
-        product_img: this.state.product_img,
+        product_image: this.state.product_image,
         product_category: 1
       }
+      console.log(postItem)
       Axios.post('https://vendme.herokuapp.com/api/products', postItem)
         .then(res => {
           console.log(res)
@@ -117,7 +105,7 @@ class VendorEdit extends Component {
             product_name: '',
             product_description: '',
             product_price: '',
-            product_img: ''
+            product_image: ''
           })
           this.getProducts()
         })
@@ -157,6 +145,7 @@ class VendorEdit extends Component {
   }
   render() {
     const { classes } = this.props
+
     return (
       <div className={classes.root}>
         <Typography variant="h6" align="left" className={classes.titles}>
@@ -219,13 +208,10 @@ class VendorEdit extends Component {
             Add a item to your inventory
           </Typography>
           <AddItems
-            mystate={this.state}
+            submitItemToAdd ={this.submitItemToAdd}
+            productInfo={this.state}
             changeHandler={this.changeHandler}
-            submitItemToAdd={this.submitItemToAdd}
             removeStall={this.removeStall}
-            quantity={this.state.quantity}
-            description={this.state.description}
-            item={this.state.item}
           />
           <Typography variant="h6" align="left" className={classes.titles}>
             Current Inventory
@@ -238,11 +224,13 @@ class VendorEdit extends Component {
             All of your current listed items
           </Typography>
           <div className={classes.table}>
-            {/* <EditItemsTable
-              items={[...marketObj.products, ...this.state.products]}
-              items={marketObj.products}
+            <EditItemsTable
+              itemsInfo={this.state}
+              items={this.state.products}
+
+              // items={itemsObj}
               removeItem={this.removeItem}
-            /> */}
+            />
           </div>
         </>
       </div>

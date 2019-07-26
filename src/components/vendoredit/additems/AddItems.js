@@ -6,6 +6,8 @@ import styles from './additems.styles.js'
 
 const AddItems = props => {
   const { classes } = props
+  const products = props.productInfo;
+  
   return (
     <Paper className={classes.container}>
       <div className={classes.form}>
@@ -15,7 +17,7 @@ const AddItems = props => {
           margin="dense"
           name="product_name"
           required
-          value={props.product_name}
+          value={products.product_name}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
         />
@@ -25,7 +27,7 @@ const AddItems = props => {
           margin="dense"
           name="product_description"
           required
-          value={props.product_description}
+          value={products.product_description}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
         />
@@ -36,7 +38,7 @@ const AddItems = props => {
           name="product_price"
           type="number"
           inputProps={{ min: 1 }}
-          value={props.product_price}
+          value={products.product_price}
           onChange={props.changeHandler}
           className={classes.textFieldStalls}
         />

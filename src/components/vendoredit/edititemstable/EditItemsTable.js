@@ -29,10 +29,9 @@ const styles = theme => ({
   }
 })
 
-function EditStallsTable(props) {
+function EditItemsTable(props) {
   const { classes } = props
   const data = props.items
-  console.log(data)
 
   return (
     <Paper className={classes.root}>
@@ -41,16 +40,16 @@ function EditStallsTable(props) {
           <TableRow>
             <TableCell className={classes.cell}>Item</TableCell>
             <TableCell className={classes.cell}>Description</TableCell>
-            <TableCell className={classes.cell}>QTY</TableCell>
+            <TableCell className={classes.cell}>Price</TableCell>
             <TableCell className={classes.cell} />
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(data => (
-            <TableRow key={data.id}>
-              <TableCell className={classes.cell}>{data.item}</TableCell>
-              <TableCell className={classes.cell}>{data.description}</TableCell>
-              <TableCell className={classes.cell}>{data.quantity}</TableCell>
+          {data && data.map(data => (
+            <TableRow key={'items-' + data.id}>
+              <TableCell className={classes.cell}>{data.product_name}</TableCell>
+              <TableCell className={classes.cell}>{data.product_description}</TableCell>
+              <TableCell className={classes.cell}>{data.product_price}</TableCell>
               <TableCell className={classes.cell}>
                 <IconButton
                   color="primary"
@@ -74,8 +73,8 @@ function EditStallsTable(props) {
   )
 }
 
-EditStallsTable.propTypes = {
+EditItemsTable.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(EditStallsTable)
+export default withStyles(styles)(EditItemsTable)
