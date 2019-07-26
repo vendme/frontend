@@ -46,7 +46,7 @@ const AddStall = props => {
       <TextField
         id="standard-dense"
         label="Price"
-        type="text"
+        type="number"
         margin="dense"
         inputProps={{ min: 0 }}
         name="stall_price"

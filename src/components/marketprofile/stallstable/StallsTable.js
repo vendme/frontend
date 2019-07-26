@@ -29,15 +29,15 @@ const styles = theme => ({
 })
 
 let id = 0
-function createData(quantity, width, length) {
+function createData(stall_name, width, length) {
   id += 1
-  return { id, quantity, width, length }
+  return { id, stall_name, width, length }
 }
 
 function StallsTable(props) {
   const { classes } = props
   const data = props.stalls.map(stall => {
-    return createData(stall.quantity, stall.width, stall.length)
+    return createData(stall.stall_name, stall.width, stall.length)
   })
   return (
     <Paper className={classes.root}>
@@ -54,7 +54,7 @@ function StallsTable(props) {
         <TableBody>
           {data.map(data => (
             <TableRow key={data.id}>
-              <TableCell className={classes.cell}>{data.name}</TableCell>
+              <TableCell className={classes.cell}>{data.stall_name}</TableCell>
               <TableCell className={classes.cell}>{data.width}</TableCell>
               <TableCell className={classes.cell}>{data.length}</TableCell>
               <TableCell className={classes.cell}>
