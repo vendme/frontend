@@ -16,12 +16,13 @@ import styles from './VendorProfile.styles.js'
 class VendorProfile extends Component {
   state = {
     id: null,
-    user_vendor: 'Unnamed Vendor',
+    vendor_name: 'Unnamed Vendor',
     market_name: 'Unnamed Market',
     market_id: null,
     bio: 'No bio',
     zip_code: 'No zipcode',
     address: 'No address',
+    phone_number: 'No Number',
     state: 'No state',
     city: 'No city',
     inventory: [
@@ -46,23 +47,16 @@ class VendorProfile extends Component {
   componentDidMount = async _ => {
     try {
       const vendor = await Axios.get(
-        'https://vendme.herokuapp.com/api/vendor/11'
+        'https://vendme.herokuapp.com/api/vendor/' + this.props.match.params.id
       )
+      const { vendor_name, id, bio, market_id, phone_number } = vendor.data
       const market = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/1'
+        'https://vendme.herokuapp.com/api/market/' + market_id
       )
-      const { user_vendor, id, bio } = vendor.data
-      const {
-        market_name,
-        market_id,
-        address,
-        city,
-        state,
-        zip_code
-      } = market.data
-      if (user_vendor)
+      const { market_name, address, city, state, zip_code } = market.data
+      if (vendor_name)
         this.setState({
-          user_vendor
+          vendor_name
         })
       this.setState({
         market_name,
@@ -72,7 +66,8 @@ class VendorProfile extends Component {
         city,
         state,
         zip_code,
-        bio
+        bio,
+        phone_number
       })
     } catch (error) {
       console.log('Message: ', error)

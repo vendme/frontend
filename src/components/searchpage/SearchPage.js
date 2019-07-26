@@ -34,7 +34,6 @@ class SearchPage extends Component {
   componentDidMount = async _ => {
     try {
       const markets = await Axios.get('https://vendme.herokuapp.com/api/market')
-      console.log(markets.data)
       this.setState({
         markets: markets.data
       })
