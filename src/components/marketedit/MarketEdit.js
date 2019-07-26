@@ -78,15 +78,24 @@ class MarketEdit extends Component {
         bio,
         stall_price
       })
+      try {
+        const added = await Axios.get(
+          `https://vendme.herokuapp.com/api/market/${id}/stalls`
+        )
+        console.log(added)
+        this.setState({ submittedStallList: added.data })
+      } catch (error) {
+        console.log('message: ', error)
+      }
     } catch (error) {
       console.log('Message: ', error)
     }
   }
 
-  getStalls = async _ => {
+  getStalls = async () => {
     try {
       const added = await Axios.get(
-        `https://vendme.herokuapp.com/api/market/${this.state.id}/stalls`
+        `https://vendme.herokuapp.com/api/market/${this.props.match.params.id}/stalls`
       )
       this.setState({ submittedStallList: added.data })
     } catch (error) {
@@ -97,7 +106,9 @@ class MarketEdit extends Component {
   changeHandler = event => {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
-    console.log(this.state.width)
+  }
+  updateStallHandler = (stall) => {
+    this.setState({ stall_name: stall.stall_name, width: stall.width, length: stall.length, description: stall.description, stall_price: stall.stall_price })
   }
 
   submitStallToAdd = () => {
@@ -111,15 +122,15 @@ class MarketEdit extends Component {
         stall_price: this.state.stall_price
       }
       const postStall = {
+        stall_name: this.state.stall_name,
         market_id: this.state.id,
-        vendor_id: 1,
-        category_id: 3,
-        // stall_name: this.state.stall_name,
-        width: this.state.width,
+        vendor_id: null,
+        category_id: null,
         length: this.state.length,
+        width: this.state.width,
         availability: true,
         description: this.state.description,
-        stall_photo: {},
+        stall_photo: null,
         stall_price: this.state.stall_price,
         rent_message: true
       }
@@ -176,7 +187,41 @@ class MarketEdit extends Component {
       })
   }
 
-  onEdit = stallsId => {}
+  onEdit = stallsId => {
+    console.log("Stalls: ", stallsId)
+    const updated = {
+      stall_name: this.state.stall_name,
+      market_id: this.state.id,
+      vendor_id: 1,
+      category_id: 3,
+      length: this.state.length,
+      width: this.state.width,
+      availability: true,
+      description: this.state.description,
+      stall_photo: null,
+      stall_price: this.state.stall_price,
+      rent_message: false
+    }
+    console.log("Updated Data: ", updated)
+    Axios.put(
+      `https://vendme.herokuapp.com/api/stalls/${stallsId}`,
+      updated
+    )
+      .then(res => {
+        this.getStalls()
+        console.log(res)
+        this.setState({
+          stall_name: '',
+          width: '',
+          length: '',
+          description: '',
+          stall_price: ''
+        })
+      })
+      .catch(error => {
+        console.log(JSON.stringify(error))
+      })
+  }
 
   render() {
     const { classes } = this.props
@@ -184,7 +229,7 @@ class MarketEdit extends Component {
     return (
       <div className={classes.root}>
         <Typography variant="h6" align="left" className={classes.titles}>
-          Edit Profile
+          Edit Market Profile
         </Typography>
         <Typography
           variant="subtitle1"
@@ -291,7 +336,9 @@ class MarketEdit extends Component {
             <EditStallsTable
               changeHandler={this.changeHandler}
               removeStall={this.removeStall}
+              updateStallHandler={this.updateStallHandler}
               onEdit={this.onEdit}
+              stallInfo={this.state}
               stalls={this.state.submittedStallList}
             />
           </div>
