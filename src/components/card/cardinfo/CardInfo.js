@@ -122,8 +122,7 @@ function CardInfo(props) {
               : 'zip code'
           }`}
         </Typography>
-        {match.path.includes('/marketprofile') ||
-        match.path.includes('/vendorprofile') ? (
+        {match.path.includes('/marketprofile') ? (
           <Chip
             className={classes.chip}
             color="secondary"
