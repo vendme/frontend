@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -64,38 +64,44 @@ const styles = theme => {
 
 function CardInfo(props) {
   const { classes, info, match } = props
+  const [hours, setHours] = useState('No Hours Posted')
 
-  const getDate = hours => {
-    const pattern = /\s*;\s*/
-    const allTimes = hours.split(pattern)
-    const converted = allTimes.map(times => {
-      times = times.split`,`
-      return times.map(time => {
-        if (time === 'null') {
-          return 'Closed'
-        }
-        time = Number(time)
-        if (!null && time > 1200) {
-          time = time - 1200 + 'pm'
-          time = [
-            time.slice(0, [time.length - 4]),
-            ':',
-            time.slice([time.length - 4])
-          ].join('')
-        }
-        if (!null && time <= 1200) {
-          time = time + 'am'
-          time = [
-            time.slice(0, [time.length - 4]),
-            ':',
-            time.slice([time.length - 4])
-          ].join('')
-        }
-        return time
-      })
-    })
-    return String(converted[new Date().getDay()]).replace(/,/gi, ' - ')
-  }
+  useEffect(
+    _ => {
+      if (info.hours) {
+        const pattern = /\s*;\s*/
+        const allTimes = info.hours.split(pattern)
+        const converted = allTimes.map(times => {
+          times = times.split`,`
+          return times.map(time => {
+            if (time === 'null') {
+              return 'Closed'
+            }
+            time = Number(time)
+            if (!null && time > 1200) {
+              time = time - 1200 + 'pm'
+              time = [
+                time.slice(0, [time.length - 4]),
+                ':',
+                time.slice([time.length - 4])
+              ].join('')
+            }
+            if (!null && time <= 1200) {
+              time = time + 'am'
+              time = [
+                time.slice(0, [time.length - 4]),
+                ':',
+                time.slice([time.length - 4])
+              ].join('')
+            }
+            return time
+          })
+        })
+        setHours(String(converted[new Date().getDay()]).replace(/,/gi, ' - '))
+      }
+    },
+    [info.hours]
+  )
 
   return (
     <CardContent className={classes.content}>
@@ -106,7 +112,7 @@ function CardInfo(props) {
       />
       <div className={classes.info}>
         <Typography className={classes.title} variant="h6" component="h2">
-          {`${(info && info.user_vendor) ||
+          {`${(info && info.vendor_name) ||
             (info && info.market_name) ||
             `Unnamed vendor`}`}
         </Typography>
@@ -114,24 +120,20 @@ function CardInfo(props) {
           {info && info.address}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {`${info && info.city ? info.city + ',' : 'city,'} ${
-            info && info.state ? info.state : 'state'
+          {`${info && info.city ? info.city + ',' : ''} ${
+            info && info.state ? info.state : ''
           } ${
             info && info.zip_code
               ? info.zip_code.split``.splice(0, 5).join``
-              : 'zip code'
+              : ''
           }`}
         </Typography>
-        {match.path.includes('/marketprofile') ? (
+        {info.hours && match.path.includes('/marketprofile') ? (
           <Chip
             className={classes.chip}
             color="secondary"
             variant="outlined"
-            label={
-              !getDate(info.hours)
-                ? `Open: ${getDate(info.hours)}`
-                : 'No hours posted'
-            }
+            label={hours}
           />
         ) : null}
       </div>

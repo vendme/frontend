@@ -25,23 +25,7 @@ class VendorProfile extends Component {
     phone_number: 'No Number',
     state: 'No state',
     city: 'No city',
-    inventory: [
-      {
-        item: 'Ball Cap',
-        description: 'Warm and pleasant to the eyes.',
-        quantity: 7
-      },
-      {
-        item: 'Handmade Tee',
-        description: 'Also warm and pleasant to the eyes.',
-        quantity: 10
-      },
-      {
-        item: 'Nostalgic Hamburger Doily',
-        description: 'Ah the good old days.',
-        quantity: 25
-      }
-    ]
+    inventory: []
   }
 
   componentDidMount = async _ => {
