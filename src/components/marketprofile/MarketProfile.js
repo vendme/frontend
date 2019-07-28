@@ -16,6 +16,7 @@ import CardInfo from '../card/cardinfo/CardInfo'
 import tokenDateChecker from '../../services/tokenDateChecker'
 
 import styles from './marketprofile.styles.js'
+import VendorsList from './vendorslist/VendorsList'
 
 class MarketProfile extends Component {
   state = {
@@ -117,6 +118,9 @@ class MarketProfile extends Component {
               stalls={this.state.submittedStallList}
               id={this.state.id}
             />
+          </div>
+          <div className={classes.vendors}>
+            <VendorsList />
           </div>
         </div>
       </div>
