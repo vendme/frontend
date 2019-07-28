@@ -20,21 +20,10 @@ const AccountPage = ({ firebase, classes, history }) => {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(false)
-  // const [user, setUser] = useState(null)
   useEffect(_ => {
     firebase.getIdToken().then(idToken => {
       Axios.defaults.headers.common['Authorization'] = idToken
     })
-    // ;(async function verifyData() {
-    //   if (tokenDateChecker()) {
-    //     const { data } = await Axios.get(
-    //       'https://vendme.herokuapp.com/auth/verify'
-    //     )
-    //     setUser(data)
-    //   } else {
-    //     history.push('/login')
-    //   }
-    // })()
   })
   const fileSelectedHandler = _ => {
     window.cloudinary.openUploadWidget(
