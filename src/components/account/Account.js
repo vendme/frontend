@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
-import {
-  Button,
-  IconButton,
-  withStyles,
-  Snackbar,
-  SnackbarContent
-} from '@material-ui/core'
-import { Attachment, Save, Close, Error } from '@material-ui/icons'
-import { red, green } from '@material-ui/core/colors'
+import { Button, withStyles } from '@material-ui/core'
+import { Attachment, Save } from '@material-ui/icons'
 
 import { AuthUserContext, withAuthorization } from '../session'
 import PasswordChangeForm from '../passwordchange'
-import styles from './account.styles.js'
 import tokenDateChecker from '../../services/tokenDateChecker'
+import Snackbar from '../snackbar/Snackbar'
+import styles from './account.styles.js'
 
 const AccountPage = ({ firebase, classes, history }) => {
+  const [user, setUser] = useState({})
   const [file, setFile] = useState(null)
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(false)
   useEffect(_ => {
-    firebase.getIdToken().then(idToken => {
-      Axios.defaults.headers.common['Authorization'] = idToken
-    })
+    async function fetchData() {
+      if (tokenDateChecker()) {
+        const { data } = await Axios.get(
+          'https://vendme.herokuapp.com/auth/verify'
+        )
+        setUser(data)
+        firebase.getIdToken().then(idToken => {
+          Axios.defaults.headers.common['Authorization'] = idToken
+        })
+      } else {
+        history.push('/login')
+      }
+    }
+    fetchData()
   })
   const fileSelectedHandler = _ => {
     window.cloudinary.openUploadWidget(
@@ -37,29 +43,22 @@ const AccountPage = ({ firebase, classes, history }) => {
       }
     )
   }
-  const submitFile = async _ => {
-    if (tokenDateChecker()) {
-      const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/auth/verify'
-      )
-      Axios.put('https://vendme.herokuapp.com/api/users/' + data.id, {
-        profile_pic: file
+  const submitFile = _ => {
+    Axios.put('https://vendme.herokuapp.com/api/users/' + user.id, {
+      profile_pic: file
+    })
+      .then(res => {
+        setOpen(true)
+        setMessage('Succesfully saved change.')
+        setError(false)
       })
-        .then(res => {
-          setOpen(true)
-          setMessage('Succesfully saved change.')
-          setError(false)
-        })
-        .catch(err => {
-          setOpen(true)
-          setMessage(
-            'There was an error saving your changes, please try again later.'
-          )
-          setError(true)
-        })
-    } else {
-      history.push('/login')
-    }
+      .catch(err => {
+        setOpen(true)
+        setMessage(
+          'There was an error saving your changes, please try again later.'
+        )
+        setError(true)
+      })
   }
   const onClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -70,53 +69,19 @@ const AccountPage = ({ firebase, classes, history }) => {
   }
   return (
     <>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
-        }}
-        open={open}
-        autoHideDuration={6000}
-        onClose={onClose}
-        style={{ margin: '3.5rem 0', left: 'calc(50% + 27px)' }}>
-        <SnackbarContent
-          aria-describedby="client-snackbar"
-          message={
-            <span
-              id="client-snackbar"
-              style={{
-                display: 'flex',
-                alignItems: 'center'
-              }}>
-              {error && (
-                <Error
-                  style={{
-                    fontSize: 20,
-                    opacity: 0.9,
-                    marginRight: '8px'
-                  }}
-                />
-              )}
-              {message}
-            </span>
-          }
-          style={{ backgroundColor: error ? red[700] : green[700] }}
-          action={[
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              onClick={onClose}>
-              <Close style={{ fontSize: 20 }} />
-            </IconButton>
-          ]}
-        />
-      </Snackbar>
+      <Snackbar open={open} onClose={onClose} error={error} message={message} />
       <AuthUserContext.Consumer>
         {authUser => (
           <div>
             <h1>Account: {authUser.email}</h1>
-            <h2>Account Type: {authUser.email}</h2>
+            <h2>
+              Account Type:{' '}
+              {user.account_type === 1
+                ? 'Market'
+                : user.account_type === 2
+                ? 'Vendor'
+                : 'Customer'}
+            </h2>
             <PasswordChangeForm />
           </div>
         )}
@@ -142,7 +107,15 @@ const AccountPage = ({ firebase, classes, history }) => {
         </div>
         {file ? (
           <img className={classes.picture} src={file} alt="Picked File" />
-        ) : null}
+        ) : (
+          user.profile_pic && (
+            <img
+              className={classes.picture}
+              src={user.profile_pic}
+              alt="Picked File"
+            />
+          )
+        )}
       </div>
     </>
   )
