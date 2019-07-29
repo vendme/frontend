@@ -43,16 +43,33 @@ class VendorEdit extends Component {
           vendor_logo,
           products
         })
+
+        const add = [
+          {
+            product_name: 'iphone',
+            product_description: 'iphone',
+            product_price: '1000.00',
+            product_image: ''
+          },
+          {
+            product_name: 'Steak Board',
+            product_description: 'Plate with wheels to roll steaks.',
+            product_price: '27.00',
+            product_image: ''
+          }
+        ];
+
+        this.setState({products: add})
         
-        try {
-          const added = await Axios.get(
-            `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
-            )
-            this.setState({ products: added.data })
-            console.log("Got it!", this.state.products)
-        } catch (error) {
-          console.log('message: ', error)
-        }
+        // try {
+        //   const added = await Axios.get(
+        //     `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
+        //     )
+        //     this.setState({ products: added.data })
+        //     console.log("Got it!", this.state.products)
+        // } catch (error) {
+        //   console.log('message: ', error)
+        // }
       } catch (error) {
         console.log('Message: ', error)
       }
@@ -72,6 +89,9 @@ class VendorEdit extends Component {
   changeHandler = event => {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
+  }
+  updateProductHandler = (item) => {
+    this.setState({ product_name: item.product_name, product_description: item.product_description, product_price: item.product_price })
   }
 
   submitItemToAdd = () => {
@@ -138,6 +158,37 @@ class VendorEdit extends Component {
           return item.id !== pId ? item : null
         })
         this.setState({ products: updated })
+      })
+      .catch(error => {
+        console.log(JSON.stringify(error))
+      })
+  }
+  onEdit = itemId => {
+    console.log("Item: ", itemId)
+    const updated = {
+      market_id: this.state.id,
+      product_name: this.state.product_name,
+      // vendor_id: this.state.id,
+      product_description: this.state.product_description,
+      product_price: this.state.product_price,
+      product_image: this.state.product_image,
+      category_id: 3,
+    }
+    console.log("Updated Data: ", updated)
+    Axios.put(
+      `https://vendme.herokuapp.com/api/product/${itemId}`,
+      updated
+    )
+      .then(res => {
+        this.getProducts()
+        console.log(res)
+        this.setState({
+          product_name: '',
+          // vendor_id: this.state.id,
+          product_description: '',
+          product_price: '',
+          product_image: ''
+        })
       })
       .catch(error => {
         console.log(JSON.stringify(error))
@@ -227,6 +278,7 @@ class VendorEdit extends Component {
             <EditItemsTable
               itemsInfo={this.state}
               items={this.state.products}
+              updateProductHandler={this.updateProductHandler}
 
               // items={itemsObj}
               removeItem={this.removeItem}
