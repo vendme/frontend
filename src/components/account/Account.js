@@ -3,6 +3,7 @@ import Axios from 'axios'
 import { Button, withStyles } from '@material-ui/core'
 import { Attachment, Save } from '@material-ui/icons'
 
+import cloudinaryUpload from '../../services/cloudinary'
 import { AuthUserContext, withAuthorization } from '../session'
 import PasswordChangeForm from '../passwordchange'
 import tokenDateChecker from '../../services/tokenDateChecker'
@@ -16,32 +17,25 @@ const AccountPage = ({ firebase, classes, history }) => {
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(false)
   useEffect(_ => {
-    async function fetchData() {
-      if (tokenDateChecker()) {
-        const { data } = await Axios.get(
-          'https://vendme.herokuapp.com/auth/verify'
-        )
-        setUser(data)
-        firebase.getIdToken().then(idToken => {
-          Axios.defaults.headers.common['Authorization'] = idToken
-        })
-      } else {
-        history.push('/login')
+    if (Object.keys(user).length === 0) {
+      async function fetchData() {
+        if (tokenDateChecker()) {
+          const { data } = await Axios.get(
+            'https://vendme.herokuapp.com/auth/verify'
+          )
+          setUser(data)
+          firebase.getIdToken().then(idToken => {
+            Axios.defaults.headers.common['Authorization'] = idToken
+          })
+        } else {
+          history.push('/login')
+        }
       }
+      fetchData()
     }
-    fetchData()
   })
   const fileSelectedHandler = _ => {
-    window.cloudinary.openUploadWidget(
-      {
-        cloud_name: 'vendme',
-        upload_preset: 'jdm3qonc',
-        tags: ['profile_pic']
-      },
-      function(error, result) {
-        if (result) setFile(result[0].secure_url)
-      }
-    )
+    cloudinaryUpload(setFile)
   }
   const submitFile = _ => {
     Axios.put('https://vendme.herokuapp.com/api/users/' + user.id, {
