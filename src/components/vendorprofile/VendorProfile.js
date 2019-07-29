@@ -12,6 +12,7 @@ import InventoryTable from './inventorytable/InventoryTable'
 import CardInfo from '../card/cardinfo/CardInfo'
 
 import styles from './VendorProfile.styles.js'
+import ItemListings from '../itemlistings/ItemListings'
 
 class VendorProfile extends Component {
   state = {
@@ -80,8 +81,8 @@ class VendorProfile extends Component {
             className={classes.subtitles}>
             All items being sold by vendor
           </Typography>
-          <div className={classes.table}>
-            <InventoryTable items={this.state.inventory} id={this.state.id} />
+          <div className={classes.products}>
+            <ItemListings vendor={this.props.match.params.id} />
           </div>
         </div>
       </div>

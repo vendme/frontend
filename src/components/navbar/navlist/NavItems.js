@@ -14,12 +14,14 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 
 export const mainListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="For Sale" />
-    </ListItem>
+    <Link to="/itemlistings">
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="For Sale" />
+      </ListItem>
+    </Link>
     <Link to="/">
       <ListItem button>
         <ListItemIcon>
