@@ -35,23 +35,15 @@ class VendorEdit extends Component {
         const { data } = await Axios.get(
           `https://vendme.herokuapp.com/api/vendor/${this.state.id}`
         )
-        const { vendor_name, bio, phone_number, vendor_logo, products } = data
+        const { market_id, vendor_name, bio, phone_number, vendor_logo } = data
         this.setState({
+          market_id,
           vendor_name,
           bio,
           phone_number,
           vendor_logo,
-          products
         })
-        try {
-          const added = await Axios.get(
-            `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
-            )
-            this.setState({ products: added.data })
-            console.log("Got it!", this.state.products)
-        } catch (error) {
-          console.log('message: ', error)
-        }
+        this.getProducts()
       } catch (error) {
         console.log('Message: ', error)
       }
@@ -63,6 +55,7 @@ class VendorEdit extends Component {
         `https://vendme.herokuapp.com/api/products/vendor/${this.state.id}`
       )
       this.setState({ products: added.data })
+      console.log("Got it!", this.state.products)
     } catch (error) {
       console.log('message: ', error)
     }
@@ -72,6 +65,7 @@ class VendorEdit extends Component {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
   }
+
   updateProductHandler = (item) => {
     this.setState({ product_name: item.product_name, product_description: item.product_description, product_price: item.product_price })
   }
@@ -90,7 +84,8 @@ class VendorEdit extends Component {
         product_image: this.state.product_image
       }
       const postItem = {
-        market_id: this.state.id,
+        market_id: this.state.market_id,
+        vendor_id: this.state.id,
         product_name: this.state.product_name,
         product_description: this.state.product_description,
         product_price: this.state.product_price,
