@@ -9,6 +9,9 @@ export const CardInfo = lazy(() =>
 export const SearchPage = lazy(() =>
   import('../components/searchpage/SearchPage')
 )
+export const VendorsPage = lazy(() =>
+  import('../components/vendorspage/VendorsPage')
+)
 export const SearchBar = lazy(() => import('../components/searchbar/SearchBar'))
 export const MarketEdit = lazy(() =>
   import('../components/marketedit/MarketEdit')
@@ -41,3 +44,4 @@ export const PasswordChangePage = lazy(() =>
 export const AdminPage = lazy(() => import('../components/admin'))
 export const Account = lazy(() => import('../components/account/Account'))
 export const Page404 = lazy(() => import('../components/page404/Page404'))
+export const Pricing = lazy(() => import('../components/pricing/Pricing'))

@@ -30,22 +30,31 @@ export const mainListItems = (
         <ListItemText primary="Markets" />
       </ListItem>
     </Link>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Stalls" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AttachMoneyIcon />
-      </ListItemIcon>
-      <ListItemText primary="Pricing" />
-    </ListItem>
+    <Link to="/vendorspage">
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Stalls" />
+      </ListItem>
+    </Link>
+    <Link to="/pricing">
+      <ListItem button>
+        <ListItemIcon>
+          <AttachMoneyIcon />
+        </ListItemIcon>
+        <ListItemText primary="Pricing" />
+      </ListItem>
+    </Link>
   </div>
 )
 
 export const secondaryListItemsOptions = [
+  <Link to="/pricing">
+    <ListItem button>
+      <ListItemText primary="Pricing" />
+    </ListItem>
+  </Link>,
   <Link to="/signup">
     <ListItem button>
       <ListItemText primary="SignUp" />

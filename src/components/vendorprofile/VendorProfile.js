@@ -21,7 +21,7 @@ class VendorProfile extends Component {
     market_name: 'Unnamed Market',
     market_id: null,
     bio: 'No bio',
-    zip_code: 'No zipcode',
+    zip_code: '',
     address: 'No address',
     phone_number: 'No Number',
     state: 'No state',
@@ -35,25 +35,14 @@ class VendorProfile extends Component {
         'https://vendme.herokuapp.com/api/vendor/' + this.props.match.params.id
       )
       const { vendor_name, id, bio, market_id, phone_number } = vendor.data
-      const market = await Axios.get(
-        'https://vendme.herokuapp.com/api/market/' + market_id
-      )
-      const { market_name, address, city, state, zip_code } = market.data
-      if (vendor_name)
-        this.setState({
-          vendor_name
-        })
-      this.setState({
-        market_name,
-        market_id,
-        id,
-        address,
-        city,
-        state,
-        zip_code,
-        bio,
-        phone_number
-      })
+      if (market_id) {
+        const market = await Axios.get(
+          'https://vendme.herokuapp.com/api/market/' + market_id
+        )
+        const { market_name, address, city, state, zip_code } = market.data
+        this.setState({ market_name, address, city, state, zip_code })
+      }
+      this.setState({ vendor_name, id, bio, market_id, phone_number })
     } catch (error) {
       console.log('Message: ', error)
     }

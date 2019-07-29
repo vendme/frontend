@@ -25,7 +25,7 @@ class MarketProfile extends Component {
     user_market: null,
     market_name: 'Unnamed Market',
     bio: 'No bio',
-    zip_code: 'No zip',
+    zip_code: '',
     address: 'No address',
     state: 'No state',
     city: 'No city',
