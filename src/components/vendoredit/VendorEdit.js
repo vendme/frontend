@@ -43,33 +43,15 @@ class VendorEdit extends Component {
           vendor_logo,
           products
         })
-
-        const add = [
-          {
-            product_name: 'iphone',
-            product_description: 'iphone',
-            product_price: '1000.00',
-            product_image: ''
-          },
-          {
-            product_name: 'Steak Board',
-            product_description: 'Plate with wheels to roll steaks.',
-            product_price: '27.00',
-            product_image: ''
-          }
-        ];
-
-        this.setState({products: add})
-        
-        // try {
-        //   const added = await Axios.get(
-        //     `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
-        //     )
-        //     this.setState({ products: added.data })
-        //     console.log("Got it!", this.state.products)
-        // } catch (error) {
-        //   console.log('message: ', error)
-        // }
+        try {
+          const added = await Axios.get(
+            `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
+            )
+            this.setState({ products: added.data })
+            console.log("Got it!", this.state.products)
+        } catch (error) {
+          console.log('message: ', error)
+        }
       } catch (error) {
         console.log('Message: ', error)
       }
@@ -78,7 +60,7 @@ class VendorEdit extends Component {
   getProducts = async () => {
     try {
       const added = await Axios.get(
-        `https://vendme.herokuapp.com/api/vendor/${this.state.id}/products`
+        `https://vendme.herokuapp.com/api/products/vendor/${this.state.id}`
       )
       this.setState({ products: added.data })
     } catch (error) {
