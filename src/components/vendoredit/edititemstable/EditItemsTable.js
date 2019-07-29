@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 import CreateIcon from '@material-ui/icons/Create'
 import CancelIcon from '@material-ui/icons/Cancel'
+import Button from '@material-ui/core/Button'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
   root: {
@@ -33,6 +39,24 @@ function EditItemsTable(props) {
   const { classes } = props
   const data = props.items
 
+  const [open, setOpen] = useState(false);
+  const [editedId, setEditedId] = useState(null);
+  
+  const handleClickOpen = (item) => {
+    setOpen(true);
+    setEditedId(item.id)
+    props.updateProductHandler(item)
+  }
+  
+  const handleClose = () => {
+    setOpen(false);
+  }
+  const handleUpdate = () => {
+    props.onEdit(editedId)
+    handleClose()
+  }
+  console.log(props.itemsInfo)
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -54,6 +78,7 @@ function EditItemsTable(props) {
                 <IconButton
                   color="primary"
                   className={classes.button}
+                  onClick={() => handleClickOpen(data)}
                   aria-label="Edit Item">
                   <CreateIcon />
                 </IconButton>
@@ -69,6 +94,50 @@ function EditItemsTable(props) {
           ))}
         </TableBody>
       </Table>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Edit Stall</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="stall_name"
+            value={props.itemsInfo.product_name}
+            onChange={props.changeHandler}
+            label="Name"
+            type="text"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="width"
+            value={props.itemsInfo.product_description}
+            onChange={props.changeHandler}
+            label="Width (in)"
+            type="text"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="length"
+            value={props.itemsInfo.product_price}
+            onChange={props.changeHandler}
+            label="Length (in)"
+            type="number"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => handleUpdate()} color="primary">
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   )
 }
