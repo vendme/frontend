@@ -8,6 +8,7 @@ import {
   Login,
   SignUp,
   SearchPage,
+  VendorsPage,
   SearchBar,
   Card,
   CardInfo,
@@ -25,7 +26,8 @@ import {
   PasswordChangePage,
   AdminPage,
   Account,
-  Page404
+  Page404,
+  Pricing
 } from './services/lazyImporter'
 import { withFirebase } from './components/firebase'
 import { withAuthentication } from './components/session'
@@ -53,12 +55,18 @@ class App extends Component {
           checked={this.state.theme ? 1 : 0}>
           <Suspense fallback={'loading'}>
             <Switch>
+              <Route path="/pricing" component={Pricing} />
               <Route path="/signup" component={withFirebase(SignUp)} />
               <Route path="/login" component={withFirebase(Login)} />
               <Route
                 exact
                 path="/"
                 component={_ => <SearchPage theme={this.state.theme} />}
+              />
+              <Route
+                exact
+                path="/vendorspage"
+                component={_ => <VendorsPage theme={this.state.theme} />}
               />
               <Route path="/searchbar" component={SearchBar} />
               <Route path="/card" component={Card} />

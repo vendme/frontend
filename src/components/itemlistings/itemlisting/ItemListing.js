@@ -43,7 +43,7 @@ const ItemListing = props => {
           image={
             listing.product_image || 'http://lorempixel.com/160/160/business'
           }
-          title="Item Picture"
+          title={listing.product_name}
         />
       </Modal>
       <div className={classes.blurBox}>
@@ -59,7 +59,7 @@ const ItemListing = props => {
           image={
             listing.product_image || 'http://lorempixel.com/160/160/business'
           }
-          title="Item Picture"
+          title={listing.product_name}
         />
       </div>
       <div className={classes.about}>

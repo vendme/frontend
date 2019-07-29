@@ -7,18 +7,18 @@ import Card from '../card/Card'
 import Map from '../map/Map'
 import { withAuthorization } from '../session'
 
-import styles from './searchpage.styles.js'
+import styles from './vendorspage.styles'
 
-class SearchPage extends Component {
+class VendorsPage extends Component {
   state = {
-    markets: []
+    vendors: []
   }
 
   componentDidMount = async _ => {
     try {
-      const markets = await Axios.get('https://vendme.herokuapp.com/api/market')
+      const vendors = await Axios.get('https://vendme.herokuapp.com/api/vendor')
       this.setState({
-        markets: markets.data
+        vendors: vendors.data
       })
     } catch (error) {
       console.log('Message: ', error)
@@ -38,13 +38,13 @@ class SearchPage extends Component {
         <div className={classes.map}>
           <Map theme={this.props.theme} />
         </div>
-        <div className={classes.markets}>
-          {this.state.markets.map((market, id) => (
+        <div className={classes.vendors}>
+          {this.state.vendors.map((vendor, id) => (
             <Link
-              key={id + market.market_name}
-              to={`/marketprofile/${market.id}`}>
-              <div className={classes.market}>
-                <Card info={market} />
+              key={id + vendor.vendor_name}
+              to={`/vendorprofile/${vendor.id}`}>
+              <div className={classes.vendor}>
+                <Card info={vendor} />
               </div>
             </Link>
           ))}
@@ -56,4 +56,4 @@ class SearchPage extends Component {
 
 const condition = authUser => !!authUser
 
-export default withAuthorization(condition)(withStyles(styles)(SearchPage))
+export default withAuthorization(condition)(withStyles(styles)(VendorsPage))
