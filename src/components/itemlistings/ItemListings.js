@@ -7,17 +7,28 @@ import { withStyles } from '@material-ui/core'
 import styles from './itemlistings.styles'
 
 function ItemListings(props) {
-  const { classes } = props
+  const { classes, vendor } = props
   const [data, setData] = useState([])
   useEffect(_ => {
-    !data.length &&
-      Axios.get('https://vendme.herokuapp.com/api/products')
-        .then(res => {
-          setData(res.data)
-        })
-        .catch(error => {
-          console.log('message: ', error)
-        })
+    if (!data.length) {
+      if (!vendor) {
+        Axios.get('https://vendme.herokuapp.com/api/products')
+          .then(res => {
+            setData(res.data)
+          })
+          .catch(error => {
+            console.log('message: ', error)
+          })
+      } else {
+        Axios.get('https://vendme.herokuapp.com/api/products/vendor/' + vendor)
+          .then(res => {
+            setData(res.data)
+          })
+          .catch(error => {
+            console.log('message: ', error)
+          })
+      }
+    }
   })
   return (
     <div className={classes.root}>
