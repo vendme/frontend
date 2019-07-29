@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 })
 
-const ProfileInfo = props => {
+const MarketProfileInfo = props => {
   const { classes, input, handleInput } = props
   const { market_name, address, state, city, zip_code } = input
   const {
@@ -90,4 +90,4 @@ const ProfileInfo = props => {
   )
 }
 
-export default withStyles(styles)(ProfileInfo)
+export default withStyles(styles)(MarketProfileInfo)

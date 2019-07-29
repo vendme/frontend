@@ -50,11 +50,6 @@ const AccountType = props => {
         className={classes.buttons}
         onChange={handleChange}>
         <ToggleButton
-          value="customer"
-          className={props.account === 'customer' ? classes.workaround : ''}>
-          Customer
-        </ToggleButton>
-        <ToggleButton
           value="vendor"
           className={props.account === 'vendor' ? classes.workaround : ''}>
           Vendor
