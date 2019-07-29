@@ -12,21 +12,19 @@ import {
 import { withStyles } from '@material-ui/core/styles'
 
 import AccountType from './steps/AccountType'
-import ProfileInfo from './steps/ProfileInfo'
-import AddStalls from './steps/AddStalls'
+import VendorProfileInfo from './steps/VendorProfileInfo'
+import MarketProfileInfo from './steps/MarketProfileInfo'
 import tokenDateChecker from '../../services/tokenDateChecker'
 import styles from './register.styles.js'
 
-const steps = ['Account Type', 'Profile Info', 'Additional Steps']
+const steps = ['Account Type', 'Profile Info']
 
 function getStepContent(
   step,
   accountProp,
   handleAccountProp,
   inputProp,
-  handleInputProp,
-  stallsProp,
-  handleStallsProp
+  handleInputProp
 ) {
   switch (step) {
     case 0:
@@ -34,9 +32,11 @@ function getStepContent(
         <AccountType account={accountProp} handleAccount={handleAccountProp} />
       )
     case 1:
-      return <ProfileInfo input={inputProp} handleInput={handleInputProp} />
-    case 2:
-      return <AddStalls input={stallsProp} handleInput={handleStallsProp} />
+      return accountProp === 'market' ? (
+        <MarketProfileInfo input={inputProp} handleInput={handleInputProp} />
+      ) : (
+        <VendorProfileInfo input={inputProp} handleInput={handleInputProp} />
+      )
     default:
       throw new Error('Unknown step')
   }
@@ -45,30 +45,37 @@ function getStepContent(
 const Register = props => {
   const { classes } = props
   const [activeStep, setActiveStep] = useState(0)
-  const [account, setAccount] = useState('customer')
+  const [account, setAccount] = useState('vendor')
   const [market_name, changeMarket_name] = useState('')
+  const [vendor_name, changeVendor_name] = useState('')
+  const [vendor_logo, changeVendor_logo] = useState('')
+  const [bio, changeBio] = useState('')
+  const [phone_number, changePhone_number] = useState('')
   const [address, changeAddress] = useState('')
   const [state, changeState] = useState('')
   const [city, changeCity] = useState('')
   const [zip_code, changeZip] = useState('')
-  const input = { market_name, address, state, city, zip_code }
+  const input = {
+    market_name,
+    address,
+    state,
+    city,
+    zip_code,
+    vendor_name,
+    vendor_logo,
+    bio,
+    phone_number
+  }
   const handleInputChanges = {
     changeMarket_name,
     changeAddress,
     changeState,
     changeCity,
-    changeZip
-  }
-  const [name, changeName] = useState('')
-  const [width, changeWidth] = useState('')
-  const [length, changeLength] = useState('')
-  const [comment, changeComment] = useState('')
-  const stalls = { name, width, length, comment }
-  const handleStalls = {
-    changeName,
-    changeWidth,
-    changeLength,
-    changeComment
+    changeZip,
+    changeVendor_name,
+    changeVendor_logo,
+    changeBio,
+    changePhone_number
   }
 
   const handleNext = () => {
@@ -86,21 +93,35 @@ const Register = props => {
   const handleSubmit = _ => {
     //set up account in database
     if (tokenDateChecker()) {
-      Axios.post('https://vendme.herokuapp.com/api/market', {
-        market_name,
-        address,
-        city,
-        state,
-        zip_code,
-        phone_num: '132-774-4217',
-        market_info:
-          'Nihil eveniet corrupti harum nisi assumenda non rem. Ipsum commodi ex consectetur itaque neque. Et laboriosam saepe expedita ipsum quos. Natus iure a quam exercitationem deleniti porro non molestiae dolores.',
-        hours_open: '',
-        market_map_file: '',
-        agreement_file: null
-      })
-        .then(res => props.history.push('/'))
-        .catch(err => console.log(err.message))
+      switch (account) {
+        case 'vendor':
+          Axios.post('https://vendme.herokuapp.com/api/vendor', {
+            vendor_name,
+            bio,
+            phone_number,
+            vendor_logo
+          })
+            .then(res => props.history.push('/'))
+            .catch(err => console.log(err.message))
+          break
+        case 'market':
+          Axios.post('https://vendme.herokuapp.com/api/market', {
+            market_name,
+            address,
+            city,
+            state,
+            zip_code,
+            phone_num: '132-774-4217',
+            market_info:
+              'Nihil eveniet corrupti harum nisi assumenda non rem. Ipsum commodi ex consectetur itaque neque. Et laboriosam saepe expedita ipsum quos. Natus iure a quam exercitationem deleniti porro non molestiae dolores.',
+            hours_open: '',
+            market_map_file: '',
+            agreement_file: null
+          })
+            .then(res => props.history.push('/'))
+            .catch(err => console.log(err.message))
+          break
+      }
     } else {
       props.history.push('/login')
     }
@@ -138,9 +159,7 @@ const Register = props => {
                 account,
                 handleAccount,
                 input,
-                handleInputChanges,
-                stalls,
-                handleStalls
+                handleInputChanges
               )}
               <div className={classes.buttons}>
                 {activeStep !== 0 && (
