@@ -18,6 +18,21 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       alignItems: 'center',
       flexDirection: 'column'
     },
+    editcontainer: {
+      position: 'relative',
+      zIndex: "100"
+    },
+    edit: {
+      position: 'absolute',
+      top: spacing(0.5),
+      left: spacing(0.5)
+    },
+    editsymbol: {
+      background: 'rgba(1,1,1, 0.5)',
+      borderRadius: '50%',
+      padding: spacing(0.3),
+      color: "white"
+    },
     profimg: {
       border: '1px solid gray',
       borderRadius: '.25rem',
