@@ -9,9 +9,10 @@ import styles from './itemlistings.styles'
 function ItemListings(props) {
   const { classes, vendor } = props
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
   useEffect(_ => {
-    if (!data.length) {
-      if (!vendor) {
+    if (data.length === 0 && loading) {
+      if (vendor === null) {
         Axios.get('https://vendme.herokuapp.com/api/products')
           .then(res => {
             setData(res.data)
@@ -20,9 +21,10 @@ function ItemListings(props) {
             console.log('message: ', error)
           })
       } else {
-        Axios.get('https://vendme.herokuapp.com/api/products/vendor/' + vendor)
+        Axios.get('https://vendme.herokuapp.com/api/products/vendor/11')
           .then(res => {
             setData(res.data)
+            setLoading(false)
           })
           .catch(error => {
             console.log('message: ', error)
@@ -33,7 +35,7 @@ function ItemListings(props) {
   return (
     <div className={classes.root}>
       {data.map(listing => (
-        <Link to={'/itemlisting/' + listing.id}>
+        <Link key={'listing-' + listing.id} to={'/itemlisting/' + listing.id}>
           <Card
             className={classes.item}
             key={

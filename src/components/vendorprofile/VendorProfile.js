@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Axios from 'axios'
 import {
+  Link,
   Typography,
   withStyles,
   Paper,
@@ -8,15 +9,20 @@ import {
   IconButton
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
+import Create from '@material-ui/icons/Create'
 import InventoryTable from './inventorytable/InventoryTable'
 import CardInfo from '../card/cardinfo/CardInfo'
 
 import styles from './VendorProfile.styles.js'
 import ItemListings from '../itemlistings/ItemListings'
+import tokenDateChecker from '../../services/tokenDateChecker'
 
 class VendorProfile extends Component {
   state = {
+    user: {},
     id: null,
+    user_id: null,
+    user_vendor: null,
     vendor_name: 'Unnamed Vendor',
     market_name: 'Unnamed Market',
     market_id: null,
@@ -30,11 +36,27 @@ class VendorProfile extends Component {
   }
 
   componentDidMount = async _ => {
+    if (tokenDateChecker()) {
+      const { data } = await Axios.get(
+        'https://vendme.herokuapp.com/auth/verify'
+      )
+      this.setState({ user: data })
+    } else {
+      this.props.history.push('/login')
+    }
+
     try {
       const vendor = await Axios.get(
         'https://vendme.herokuapp.com/api/vendor/' + this.props.match.params.id
       )
-      const { vendor_name, id, bio, market_id, phone_number } = vendor.data
+      const {
+        vendor_name,
+        id,
+        bio,
+        market_id,
+        phone_number,
+        user_vendor
+      } = vendor.data
       if (market_id) {
         const market = await Axios.get(
           'https://vendme.herokuapp.com/api/market/' + market_id
@@ -42,7 +64,14 @@ class VendorProfile extends Component {
         const { market_name, address, city, state, zip_code } = market.data
         this.setState({ market_name, address, city, state, zip_code })
       }
-      this.setState({ vendor_name, id, bio, market_id, phone_number })
+      this.setState({
+        vendor_name,
+        id,
+        bio,
+        market_id,
+        phone_number,
+        user_vendor
+      })
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -52,7 +81,14 @@ class VendorProfile extends Component {
     const { classes } = this.props
     return (
       <div className={classes.root}>
-        <CardInfo info={this.state} />
+        <div className={classes.editcontainer}>
+          <CardInfo info={this.state} />
+          {this.state.user.id && this.state.user.id === this.state.user_vendor && (
+            <Link to={'/vendoredit/' + this.state.id} className={classes.edit}>
+              <Create className={classes.editsymbol} />
+            </Link>
+          )}
+        </div>
         <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">

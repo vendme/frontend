@@ -34,7 +34,6 @@ class MarketProfile extends Component {
   }
 
   componentDidMount = async () => {
-    console.log(this.props.match.params.id)
     if (tokenDateChecker()) {
       const { data } = await Axios.get(
         'https://vendme.herokuapp.com/auth/verify'
