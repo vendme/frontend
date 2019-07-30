@@ -98,12 +98,12 @@ function EditItemsTable(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Edit Stall</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            name="stall_name"
+            name="product_name"
             value={props.itemsInfo.product_name}
             onChange={props.changeHandler}
             label="Name"
@@ -113,19 +113,19 @@ function EditItemsTable(props) {
           <TextField
             autoFocus
             margin="dense"
-            name="width"
+            name="product_description"
             value={props.itemsInfo.product_description}
             onChange={props.changeHandler}
-            label="Width (in)"
+            label="Description"
             type="text"
           />
           <TextField
             autoFocus
             margin="dense"
-            name="length"
+            name="product_price"
             value={props.itemsInfo.product_price}
             onChange={props.changeHandler}
-            label="Length (in)"
+            label="Price"
             type="number"
           />
         </DialogContent>
