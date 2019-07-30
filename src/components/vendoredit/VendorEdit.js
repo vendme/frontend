@@ -103,7 +103,7 @@ class VendorEdit extends Component {
             product_price: '',
             product_image: ''
           })
-          // this.getProducts()
+          this.getProducts()
         })
         .catch(error => {
           console.log(JSON.stringify(error))
