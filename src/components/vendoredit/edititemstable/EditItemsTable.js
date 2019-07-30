@@ -45,6 +45,7 @@ function EditItemsTable(props) {
   const handleClickOpen = (item) => {
     setOpen(true);
     setEditedId(item.id)
+    console.log(item.id)
     props.updateProductHandler(item)
   }
   
