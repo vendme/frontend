@@ -55,7 +55,6 @@ class VendorEdit extends Component {
         `https://vendme.herokuapp.com/api/products/vendor/${this.state.id}`
       )
       this.setState({ products: added.data })
-      console.log("Got it!", this.state.products)
     } catch (error) {
       console.log('message: ', error)
     }
@@ -104,7 +103,7 @@ class VendorEdit extends Component {
             product_price: '',
             product_image: ''
           })
-          this.getProducts()
+          // this.getProducts()
         })
         .catch(error => {
           console.log(JSON.stringify(error))
@@ -143,17 +142,17 @@ class VendorEdit extends Component {
   onEdit = itemId => {
     console.log("Item: ", itemId)
     const updated = {
-      market_id: this.state.id,
+      market_id: this.state.market_id,
+      vendor_id: this.state.id,
       product_name: this.state.product_name,
-      // vendor_id: this.state.id,
       product_description: this.state.product_description,
       product_price: this.state.product_price,
       product_image: this.state.product_image,
-      category_id: 3,
+      product_category: 3,
     }
     console.log("Updated Data: ", updated)
     Axios.put(
-      `https://vendme.herokuapp.com/api/product/${itemId}`,
+      `https://vendme.herokuapp.com/api/products/${itemId}`,
       updated
     )
       .then(res => {
@@ -161,7 +160,6 @@ class VendorEdit extends Component {
         console.log(res)
         this.setState({
           product_name: '',
-          // vendor_id: this.state.id,
           product_description: '',
           product_price: '',
           product_image: ''
@@ -255,9 +253,9 @@ class VendorEdit extends Component {
             <EditItemsTable
               itemsInfo={this.state}
               items={this.state.products}
+              changeHandler={this.changeHandler}
               updateProductHandler={this.updateProductHandler}
-
-              // items={itemsObj}
+              onEdit={this.onEdit}
               removeItem={this.removeItem}
             />
           </div>

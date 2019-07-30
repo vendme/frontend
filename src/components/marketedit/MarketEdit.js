@@ -124,7 +124,7 @@ class MarketEdit extends Component {
       const postStall = {
         stall_name: this.state.stall_name,
         market_id: this.state.id,
-        vendor_id: null,
+        vendor_id: 2,
         category_id: null,
         length: this.state.length,
         width: this.state.width,
