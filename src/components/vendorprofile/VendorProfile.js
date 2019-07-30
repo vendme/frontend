@@ -13,7 +13,7 @@ import Create from '@material-ui/icons/Create'
 import InventoryTable from './inventorytable/InventoryTable'
 import CardInfo from '../card/cardinfo/CardInfo'
 
-import styles from './VendorProfile.styles.js'
+import styles from './vendorprofile.styles.js'
 import ItemListings from '../itemlistings/ItemListings'
 import tokenDateChecker from '../../services/tokenDateChecker'
 
