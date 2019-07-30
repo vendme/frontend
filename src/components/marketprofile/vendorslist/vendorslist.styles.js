@@ -40,7 +40,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       marginRight: spacing(1)
     },
     vendors: {
-      marginTop: spacing(6)
+      marginTop: spacing(2)
     },
     vendor: {
       marginBottom: spacing(2)

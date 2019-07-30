@@ -30,6 +30,7 @@ class MarketProfile extends Component {
     state: 'No state',
     city: 'No city',
     hours: 'No hours',
+    phone_num: 'No number',
     submittedStallList: []
   }
 
@@ -55,6 +56,7 @@ class MarketProfile extends Component {
         city,
         state,
         zip_code,
+        phone_num,
         bio,
         hours_open
       } = data
@@ -67,6 +69,7 @@ class MarketProfile extends Component {
         city,
         state,
         zip_code,
+        phone_num,
         bio,
         hours: hours_open
       })
@@ -114,10 +117,24 @@ class MarketProfile extends Component {
           </Typography>
           <div className={classes.table}>
             <StallsTable
+              phone_number={this.state.phone_num}
               stalls={this.state.submittedStallList}
               id={this.state.id}
             />
           </div>
+          <Typography
+            variant="h6"
+            align="left"
+            className={classes.vendorsTitle}>
+            Vendors
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            align="left"
+            className={classes.subtitles}>
+            All vendors at this location from Vendme
+          </Typography>
           <div className={classes.vendors}>
             <VendorsList />
           </div>
