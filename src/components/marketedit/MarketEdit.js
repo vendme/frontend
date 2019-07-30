@@ -95,7 +95,9 @@ class MarketEdit extends Component {
   getStalls = async () => {
     try {
       const added = await Axios.get(
-        `https://vendme.herokuapp.com/api/market/${this.props.match.params.id}/stalls`
+        `https://vendme.herokuapp.com/api/market/${
+          this.props.match.params.id
+        }/stalls`
       )
       this.setState({ submittedStallList: added.data })
     } catch (error) {
@@ -107,8 +109,14 @@ class MarketEdit extends Component {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
   }
-  updateStallHandler = (stall) => {
-    this.setState({ stall_name: stall.stall_name, width: stall.width, length: stall.length, description: stall.description, stall_price: stall.stall_price })
+  updateStallHandler = stall => {
+    this.setState({
+      stall_name: stall.stall_name,
+      width: stall.width,
+      length: stall.length,
+      description: stall.description,
+      stall_price: stall.stall_price
+    })
   }
 
   submitStallToAdd = () => {
@@ -124,7 +132,7 @@ class MarketEdit extends Component {
       const postStall = {
         stall_name: this.state.stall_name,
         market_id: this.state.id,
-        vendor_id: 2,
+        vendor_id: null,
         category_id: null,
         length: this.state.length,
         width: this.state.width,
@@ -134,6 +142,7 @@ class MarketEdit extends Component {
         stall_price: this.state.stall_price,
         rent_message: true
       }
+      console.log(postStall)
       Axios.post('https://vendme.herokuapp.com/api/stalls', postStall)
         .then(res => {
           updatedList.push(add)
@@ -188,7 +197,7 @@ class MarketEdit extends Component {
   }
 
   onEdit = stallsId => {
-    console.log("Stalls: ", stallsId)
+    console.log('Stalls: ', stallsId)
     const updated = {
       stall_name: this.state.stall_name,
       market_id: this.state.id,
@@ -202,11 +211,8 @@ class MarketEdit extends Component {
       stall_price: this.state.stall_price,
       rent_message: false
     }
-    console.log("Updated Data: ", updated)
-    Axios.put(
-      `https://vendme.herokuapp.com/api/stalls/${stallsId}`,
-      updated
-    )
+    console.log('Updated Data: ', updated)
+    Axios.put(`https://vendme.herokuapp.com/api/stalls/${stallsId}`, updated)
       .then(res => {
         this.getStalls()
         console.log(res)

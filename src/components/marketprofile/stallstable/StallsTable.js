@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { Tooltip } from '@material-ui/core/'
 import IconButton from '@material-ui/core/IconButton'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import Table from '@material-ui/core/Table'
@@ -61,12 +62,16 @@ function StallsTable(props) {
                 {data.length * data.width}
               </TableCell>
               <TableCell className={classes.cell}>
-                <IconButton
-                  color="primary"
-                  className={classes.button}
-                  aria-label="Add to shopping cart">
-                  <ShoppingCartIcon />
-                </IconButton>
+                <Tooltip
+                  title={'call to rent: ' + props.phone_number}
+                  aria-label={props.phone_number}>
+                  <IconButton
+                    color="primary"
+                    className={classes.button}
+                    aria-label="Add to shopping cart">
+                    <ShoppingCartIcon />
+                  </IconButton>
+                </Tooltip>
               </TableCell>
             </TableRow>
           ))}
