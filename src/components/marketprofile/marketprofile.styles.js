@@ -57,6 +57,12 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       width: '100%',
       maxWidth: 600
     },
+    vendorsTitle: {
+      display: 'block',
+      width: '100%',
+      maxWidth: 600,
+      marginTop: spacing(4)
+    },
     subtitles: {
       display: 'block',
       width: '100%',

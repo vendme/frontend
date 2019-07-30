@@ -11,8 +11,9 @@ function ItemListings(props) {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   useEffect(_ => {
+    console.log(vendor)
     if (data.length === 0 && loading) {
-      if (vendor === null) {
+      if (vendor == null) {
         Axios.get('https://vendme.herokuapp.com/api/products')
           .then(res => {
             setData(res.data)
@@ -21,7 +22,7 @@ function ItemListings(props) {
             console.log('message: ', error)
           })
       } else {
-        Axios.get('https://vendme.herokuapp.com/api/products/vendor/11')
+        Axios.get('https://vendme.herokuapp.com/api/products/vendor/' + vendor)
           .then(res => {
             setData(res.data)
             setLoading(false)
