@@ -49,8 +49,8 @@ class SignUp extends React.Component {
               `{"idToken":"${idToken}","expires_at":"${Date.now() + 3600000}"}`
             )
             Axios.defaults.headers.common['Authorization'] = idToken
-            // Axios.post('https://vendme.herokuapp.com/auth/register', {
-            Axios.post('http://localhost:9000/auth/register', {
+            Axios.post('https://vendme.herokuapp.com/auth/register', {
+              // Axios.post('http://localhost:9000/auth/register', {
               email: authUser.user.email,
               account_type: 1,
               profile_pic:
