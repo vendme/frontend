@@ -12,6 +12,8 @@ import {
 import { Error, Close } from '@material-ui/icons'
 import { red } from '@material-ui/core/colors'
 
+import * as ROUTES from '../../constants/routes'
+
 const INITIAL_STATE = {
   email: '',
   passwordOne: '',
@@ -49,6 +51,7 @@ class SignUp extends React.Component {
               `{"idToken":"${idToken}","expires_at":"${Date.now() + 3600000}"}`
             )
             Axios.defaults.headers.common['Authorization'] = idToken
+            console.log(idToken, authUser.user.email)
             Axios.post('https://vendme.herokuapp.com/auth/register', {
               // Axios.post('http://localhost:9000/auth/register', {
               email: authUser.user.email,
@@ -56,7 +59,7 @@ class SignUp extends React.Component {
               profile_pic:
                 'https://res.cloudinary.com/vendme/image/upload/v1563242911/sample.jpg'
             })
-              .then(res => console.log(res))
+              .then(res => this.props.history.push('/register'))
               .catch(err => console.log(err))
             this.setState({ ...INITIAL_STATE })
           })
