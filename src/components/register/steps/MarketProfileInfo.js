@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { TextField } from '@material-ui/core'
+import LocationSearch from '../../locationsearch/LocationSearch'
 
 const styles = theme => ({
   root: {
@@ -11,7 +12,9 @@ const styles = theme => ({
   address: {
     display: 'flex',
     justifyContent: 'space-between',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    width: '100%',
+    marginTop: theme.spacing(2)
   },
   textFieldName: {
     width: '100%'
@@ -31,6 +34,12 @@ const MarketProfileInfo = props => {
     changeCity,
     changeZip
   } = handleInput
+  const updateLocation = location => {
+    changeAddress(location.street)
+    changeState(location.state)
+    changeCity(location.city)
+    changeZip(location.zip_code)
+  }
 
   return (
     <div className={classes.root}>
@@ -45,46 +54,7 @@ const MarketProfileInfo = props => {
         className={classes.textFieldName}
       />
       <div className={classes.address}>
-        <TextField
-          id="standard-dense"
-          label="Street"
-          margin="dense"
-          name="address"
-          value={address}
-          inputProps={{ maxLength: 32 }}
-          onChange={e => changeAddress(e.target.value)}
-          className={classes.textField}
-        />
-        <TextField
-          id="standard-dense"
-          label="State"
-          margin="dense"
-          name="state"
-          value={state}
-          inputProps={{ maxLength: 12 }}
-          onChange={e => changeState(e.target.value)}
-          className={classes.textField}
-        />
-        <TextField
-          id="standard-dense"
-          label="City"
-          margin="dense"
-          name="city"
-          value={city}
-          inputProps={{ maxLength: 24 }}
-          onChange={e => changeCity(e.target.value)}
-          className={classes.textField}
-        />
-        <TextField
-          id="standard-dense"
-          label="Zipcode"
-          margin="dense"
-          name="zip_code"
-          value={zip_code}
-          inputProps={{ maxLength: 10 }}
-          onChange={e => changeZip(e.target.value)}
-          className={classes.textField}
-        />
+        <LocationSearch updateLocation={updateLocation} />
       </div>
     </div>
   )

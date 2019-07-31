@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Grow from '@material-ui/core/Grow'
@@ -13,6 +14,7 @@ import Switch from '@material-ui/core/Switch'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { AuthUserContext, withAuthorization } from '../../session'
+import tokenDateChecker from '../../../services/tokenDateChecker'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,8 +27,33 @@ const useStyles = makeStyles(theme => ({
 
 const AccountList = props => {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [user, setUser] = useState({})
+  const [type, setType] = useState('')
   const anchorRef = React.useRef(null)
+  useEffect(_ => {
+    if (Object.keys(user).length === 0) {
+      async function fetchData() {
+        if (tokenDateChecker()) {
+          const { data } = await axios.get(
+            'https://vendme.herokuapp.com/auth/verify'
+          )
+          setUser(data)
+          props.firebase.getIdToken().then(idToken => {
+            axios.defaults.headers.common['Authorization'] = idToken
+          })
+        } else {
+          props.history.push('/login')
+        }
+      }
+      fetchData()
+    }
+    if (user.id)
+      axios
+        .get('https://vendme.herokuapp.com/api/users/type/' + user.id)
+        .then(res => setType(res.data.id))
+        .catch(err => console.log(err))
+  })
 
   function handleToggle() {
     setOpen(prevOpen => !prevOpen)
@@ -42,9 +69,7 @@ const AccountList = props => {
   function handleLogout(event) {
     props.firebase
       .doSignOut()
-      .then(authUser => {
-        console.log(authUser)
-      })
+      .then(authUser => {})
       .catch(error => {
         console.log(error.message)
       })
@@ -87,7 +112,14 @@ const AccountList = props => {
                         {authUser => authUser.email}
                       </AuthUserContext.Consumer>
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <Link
+                      to={
+                        user.account_type === 1
+                          ? '/marketprofile/' + type
+                          : '/vendorprofile/' + type
+                      }>
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    </Link>
                     <Link to="/account">
                       <MenuItem onClick={handleClose}>My account</MenuItem>
                     </Link>

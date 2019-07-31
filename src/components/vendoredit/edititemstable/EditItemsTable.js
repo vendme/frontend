@@ -39,23 +39,22 @@ function EditItemsTable(props) {
   const { classes } = props
   const data = props.items
 
-  const [open, setOpen] = useState(false);
-  const [editedId, setEditedId] = useState(null);
-  
-  const handleClickOpen = (item) => {
-    setOpen(true);
+  const [open, setOpen] = useState(false)
+  const [editedId, setEditedId] = useState(null)
+
+  const handleClickOpen = item => {
+    setOpen(true)
     setEditedId(item.id)
     props.updateProductHandler(item)
   }
-  
+
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
   }
   const handleUpdate = () => {
     props.onEdit(editedId)
     handleClose()
   }
-  console.log(props.itemsInfo)
 
   return (
     <Paper className={classes.root}>
@@ -69,29 +68,36 @@ function EditItemsTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data && data.map(data => (
-            <TableRow key={'items-' + data.id}>
-              <TableCell className={classes.cell}>{data.product_name}</TableCell>
-              <TableCell className={classes.cell}>{data.product_description}</TableCell>
-              <TableCell className={classes.cell}>{data.product_price}</TableCell>
-              <TableCell className={classes.cell}>
-                <IconButton
-                  color="primary"
-                  className={classes.button}
-                  onClick={() => handleClickOpen(data)}
-                  aria-label="Edit Item">
-                  <CreateIcon />
-                </IconButton>
-                <IconButton
-                  color="primary"
-                  className={classes.button}
-                  onClick={ () => props.removeItem(data.id) }
-                  aria-label="Remove Item">
-                  <CancelIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
+          {data &&
+            data.map(data => (
+              <TableRow key={'items-' + data.id}>
+                <TableCell className={classes.cell}>
+                  {data.product_name}
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  {data.product_description}
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  {data.product_price}
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  <IconButton
+                    color="primary"
+                    className={classes.button}
+                    onClick={() => handleClickOpen(data)}
+                    aria-label="Edit Item">
+                    <CreateIcon />
+                  </IconButton>
+                  <IconButton
+                    color="primary"
+                    className={classes.button}
+                    onClick={() => props.removeItem(data.id)}
+                    aria-label="Remove Item">
+                    <CancelIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
       <Dialog

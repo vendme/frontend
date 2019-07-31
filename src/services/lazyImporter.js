@@ -45,3 +45,6 @@ export const AdminPage = lazy(() => import('../components/admin'))
 export const Account = lazy(() => import('../components/account/Account'))
 export const Page404 = lazy(() => import('../components/page404/Page404'))
 export const Pricing = lazy(() => import('../components/pricing/Pricing'))
+export const LocationSearch = lazy(() =>
+  import('../components/locationsearch/LocationSearch')
+)

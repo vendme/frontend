@@ -11,7 +11,6 @@ function ItemListings(props) {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   useEffect(_ => {
-    console.log(vendor)
     if (data.length === 0 && loading) {
       if (vendor == null) {
         Axios.get('https://vendme.herokuapp.com/api/products')

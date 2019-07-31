@@ -1,25 +1,61 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
+import axios from 'axios'
 import Feature from 'ol/Feature.js'
+import Overlay from 'ol/Overlay.js'
 import Geolocation from 'ol/Geolocation.js'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import { fromLonLat } from 'ol/proj.js'
-// import Point from 'ol/geom/Point.js'
+import Point from 'ol/geom/Point.js'
 import { Vector as VectorLayer } from 'ol/layer.js'
 import { Vector as VectorSource } from 'ol/source.js'
-// import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js'
+import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js'
+import { toStringHDMS } from 'ol/coordinate.js'
+import TileLayer from 'ol/layer/Tile.js'
+import { toLonLat } from 'ol/proj.js'
+import TileJSON from 'ol/source/TileJSON.js'
 import olms from 'ol-mapbox-style'
 
+import { withStyles } from '@material-ui/core'
+import styles from './map.styles.js'
 import darkmap from './darkmap'
 import lightmap from './lightmap'
+
 let place = fromLonLat([-98, 38])
 let view = new View({
   center: place,
   zoom: 4
 })
+const geocoder = new window.google.maps.Geocoder()
 class MapDiv extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      markers: []
+    }
+    this.map = null
+  }
   componentDidMount() {
+    var container = document.getElementById('popup')
+    var content = document.getElementById('popup-content')
+    var closer = document.getElementById('popup-closer')
+
+    var overlay = new Overlay({
+      element: container,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
+      }
+    })
+    closer.onclick = function() {
+      overlay.setPosition(undefined)
+      closer.blur()
+      return false
+    }
+
     this.map = new Map({
+      overlays: [overlay],
       target: 'map',
       view
     })
@@ -27,9 +63,30 @@ class MapDiv extends React.Component {
       this.map,
       this.props.theme === false || this.props.theme === 0 ? lightmap : darkmap
     ])
+    this.map.on('pointermove', evt => {
+      var coordinate = evt.coordinate
+      var pixel = evt.pixel
+      var feature = this.map.forEachFeatureAtPixel(pixel, feature => feature)
+      content.style.display = feature && feature.market ? '' : 'none'
+      container.style.display = feature && feature.market ? '' : 'none'
+      closer.style.display = feature && feature.market ? '' : 'none'
+      if (feature && feature.market) {
+        overlay.setPosition(coordinate)
+        content.innerHTML = `<div><div>${feature.market}</div><div>${
+          feature.address
+        }</div></div>`
+      }
+    })
+    this.map.on('click', evt => {
+      var coordinate = evt.coordinate
+      var pixel = evt.pixel
+      var feature = this.map.forEachFeatureAtPixel(pixel, feature => feature)
+      if (feature && feature.market) {
+        this.props.history.push('marketprofile/' + feature.market_id)
+      }
+    })
 
     this.geolocation = new Geolocation({
-      // enableHighAccuracy must be set to true to have the heading value.
       trackingOptions: {
         enableHighAccuracy: true
       },
@@ -37,25 +94,8 @@ class MapDiv extends React.Component {
     })
 
     this.accuracyFeature = new Feature()
-    // this.geolocation.on('change:accuracyGeometry', _ => {
-    //   this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry())
-    // })
 
     this.positionFeature = new Feature()
-    // this.positionFeature.setStyle(
-    //   new Style({
-    //     image: new CircleStyle({
-    //       radius: 6,
-    //       fill: new Fill({
-    //         color: '#CC3333'
-    //       }),
-    //       stroke: new Stroke({
-    //         color: '#fff',
-    //         width: 2
-    //       })
-    //     })
-    //   })
-    // )
 
     this.geolocation.setTracking(true)
     this.geolocation.on('change:position', _ => {
@@ -66,9 +106,6 @@ class MapDiv extends React.Component {
         zoom: 11,
         duration: 2000
       })
-      // this.positionFeature.setGeometry(
-      //   this.coordinates ? new Point(this.coordinates) : null
-      // )
     })
     view.animate({
       center: place,
@@ -83,16 +120,78 @@ class MapDiv extends React.Component {
       })
     })
   }
+  markerMaker = (lon, lat, market_id, market, address) => {
+    var marker = new Feature()
+    marker.setStyle(
+      new Style({
+        image: new CircleStyle({
+          radius: 6,
+          fill: new Fill({
+            color: '#CC3333'
+          }),
+          stroke: new Stroke({
+            color: '#fff',
+            width: 2
+          })
+        })
+      })
+    )
+    marker.setGeometry(new Point(fromLonLat([lat, lon])))
+    const newMarkers = this.state.markers
+    marker.market_id = market_id
+    marker.market = market
+    marker.address = address
+    newMarkers.push(marker)
+    this.setState({ markers: newMarkers })
+  }
+  makeMarkers = _ => {
+    this.props.markets.forEach(market => {
+      geocoder.geocode(
+        {
+          address: `${market.address}, ${market.city}, ${market.state} ${
+            market.zip_code
+          }`
+        },
+        (results, status) => {
+          if (status == window.google.maps.GeocoderStatus.OK) {
+            this.markerMaker(
+              results[0].geometry.location.lat(),
+              results[0].geometry.location.lng(),
+              market.id,
+              market.market_name,
+              `${market.address}, ${market.city}, ${market.state} ${
+                market.zip_code
+              }`
+            )
+          }
+        }
+      )
+    })
+    if (this.state.markers.length > 6) {
+      new VectorLayer({
+        map: this.map,
+        source: new VectorSource({
+          features: this.state.markers
+        })
+      })
+    }
+  }
   componentWillUnmount() {
     this.myRef = null
   }
   render() {
+    const { classes } = this.props
+    this.makeMarkers()
     return (
       <>
         <div ref={this.myRef} id="map" style={{ height: '400px' }} />
+        <div id="popup" className={classes.popup}>
+          <a href="#" id="popup-closer" className={classes.closer} />
+          <div id="popup-content" />
+        </div>
       </>
     )
   }
 }
 
-export default MapDiv
+export default withStyles(styles)(withRouter(MapDiv))

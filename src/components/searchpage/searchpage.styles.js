@@ -18,6 +18,18 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       alignItems: 'center',
       flexDirection: 'column'
     },
+    titles: {
+      display: 'block',
+      width: '100%',
+      marginTop: spacing(2),
+      maxWidth: 750
+    },
+    subtitles: {
+      display: 'block',
+      width: '100%',
+      maxWidth: 750,
+      color: palette.grey['600']
+    },
     searchbar: {
       minWidth: '280px',
       ...theme,
@@ -40,7 +52,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       marginRight: spacing(1)
     },
     markets: {
-      marginTop: spacing(6)
+      marginTop: spacing(2)
     },
     market: {
       marginBottom: spacing(2)

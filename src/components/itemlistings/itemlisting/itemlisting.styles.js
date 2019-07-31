@@ -1,5 +1,4 @@
 const styles = ({ spacing, palette, breakpoints }) => {
-  console.log(palette)
   return {
     root: {
       position: 'relative',
