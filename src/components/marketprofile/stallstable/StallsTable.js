@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import StripeCheckout from 'react-stripe-checkout'
+import Axios from 'axios'
+import StripeModule from '../stripe/StripeModule'
 import { withStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
@@ -45,12 +48,11 @@ function createData(stall_name, width, length) {
   return { id, stall_name, width, length }
 }
 
-
 function StallsTable(props) {
   const { classes } = props
   
   const [open, setOpen] = useState(false);
-  const [duration, setDuration] = useState(1);
+  const [duration, setDuration] = useState(5000);
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -113,9 +115,9 @@ function StallsTable(props) {
               onChange={e => setDuration(e.target.value)}
               input={<Input id="duration" />}
             >
-              <MenuItem value={1}>One Day</MenuItem>
-              <MenuItem value={2}>Two Days</MenuItem>
-              <MenuItem value={7}>Seven Days</MenuItem>
+              <MenuItem value={5000}>One Day</MenuItem>
+              <MenuItem value={10000}>Two Days</MenuItem>
+              <MenuItem value={25000}>Seven Days</MenuItem>
             </Select>
           </FormControl>
         </form>
@@ -124,9 +126,10 @@ function StallsTable(props) {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <StripeModule amount={duration}/>
+        {/* <Button onClick={handleClose} color="primary">
           Rent
-        </Button>
+        </Button> */}
       </DialogActions>
     </Dialog>
   </div>
