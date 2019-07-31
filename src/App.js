@@ -27,7 +27,8 @@ import {
   AdminPage,
   Account,
   Page404,
-  Pricing
+  Pricing,
+  LocationSearch
 } from './services/lazyImporter'
 import { withFirebase } from './components/firebase'
 import { withAuthentication } from './components/session'
@@ -37,10 +38,8 @@ class App extends Component {
     theme: 0
   }
   handleTheme = _ => {
-    console.log(this.state.theme)
     window.localStorage.setItem('theme', `${!this.state.theme}`)
     this.setState(prevState => ({ theme: !prevState.theme }))
-    console.log(this.state.theme)
   }
   componentDidMount() {
     this.setState({
@@ -92,6 +91,7 @@ class App extends Component {
               <Route path="/admin" component={AdminPage} />
               <Route path="/account" component={Account} />
               <Route path="/404" component={Page404} />
+              <Route path="/locationsearch" component={LocationSearch} />
             </Switch>
           </Suspense>
         </NavBar>

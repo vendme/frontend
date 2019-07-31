@@ -31,22 +31,22 @@ class VendorEdit extends Component {
   }
 
   getVendor = async () => {
-      try {
-        const { data } = await Axios.get(
-          `https://vendme.herokuapp.com/api/vendor/${this.state.id}`
-        )
-        const { market_id, vendor_name, bio, phone_number, vendor_logo } = data
-        this.setState({
-          market_id,
-          vendor_name,
-          bio,
-          phone_number,
-          vendor_logo,
-        })
-        this.getProducts()
-      } catch (error) {
-        console.log('Message: ', error)
-      }
+    try {
+      const { data } = await Axios.get(
+        `https://vendme.herokuapp.com/api/vendor/${this.state.id}`
+      )
+      const { market_id, vendor_name, bio, phone_number, vendor_logo } = data
+      this.setState({
+        market_id,
+        vendor_name,
+        bio,
+        phone_number,
+        vendor_logo
+      })
+      this.getProducts()
+    } catch (error) {
+      console.log('Message: ', error)
+    }
   }
 
   getProducts = async () => {
@@ -54,19 +54,25 @@ class VendorEdit extends Component {
       const added = await Axios.get(
         `https://vendme.herokuapp.com/api/products/vendor/${this.state.id}`
       )
-      this.setState({ products: added.data })
+      this.setState({
+        products: added.data.sort((a, b) => a.id - b.id)
+      })
     } catch (error) {
       console.log('message: ', error)
     }
   }
-  
+
   changeHandler = event => {
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  updateProductHandler = (item) => {
-    this.setState({ product_name: item.product_name, product_description: item.product_description, product_price: item.product_price })
+  updateProductHandler = item => {
+    this.setState({
+      product_name: item.product_name,
+      product_description: item.product_description,
+      product_price: item.product_price
+    })
   }
 
   submitItemToAdd = () => {
@@ -140,7 +146,7 @@ class VendorEdit extends Component {
       })
   }
   onEdit = itemId => {
-    console.log("Item: ", itemId)
+    console.log('Item: ', itemId)
     const updated = {
       market_id: this.state.market_id,
       vendor_id: this.state.id,
@@ -148,13 +154,10 @@ class VendorEdit extends Component {
       product_description: this.state.product_description,
       product_price: this.state.product_price,
       product_image: this.state.product_image,
-      product_category: 3,
+      product_category: 3
     }
-    console.log("Updated Data: ", updated)
-    Axios.put(
-      `https://vendme.herokuapp.com/api/products/${itemId}`,
-      updated
-    )
+    console.log('Updated Data: ', updated)
+    Axios.put(`https://vendme.herokuapp.com/api/products/${itemId}`, updated)
       .then(res => {
         this.getProducts()
         console.log(res)
@@ -234,7 +237,7 @@ class VendorEdit extends Component {
             Add a item to your inventory
           </Typography>
           <AddItems
-            submitItemToAdd ={this.submitItemToAdd}
+            submitItemToAdd={this.submitItemToAdd}
             productInfo={this.state}
             changeHandler={this.changeHandler}
             removeStall={this.removeStall}

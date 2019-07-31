@@ -154,6 +154,11 @@ export const secondaryListItemsOptions = [
     <ListItem button>
       <ListItemText primary="Account" />
     </ListItem>
+  </Link>,
+  <Link to="/locationsearch">
+    <ListItem button>
+      <ListItemText primary="Location Search" />
+    </ListItem>
   </Link>
 ]
 

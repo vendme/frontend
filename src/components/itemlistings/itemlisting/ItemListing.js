@@ -16,7 +16,6 @@ const ItemListing = props => {
         'https://vendme.herokuapp.com/api/products/' + props.match.params.id
       )
         .then(res => {
-          console.log(res.data)
           setListing(res.data)
         })
         .catch(error => {
