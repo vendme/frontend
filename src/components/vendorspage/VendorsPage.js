@@ -29,7 +29,7 @@ class VendorsPage extends Component {
     const { classes } = this.props
     return (
       <div className={classes.root}>
-        <Paper className={classes.searchbar} color="primary" elevation={1}>
+        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
             <SearchIcon />
@@ -37,7 +37,7 @@ class VendorsPage extends Component {
         </Paper>
         <div className={classes.map}>
           <Map theme={this.props.theme} />
-        </div>
+        </div> */}
         <div className={classes.vendors}>
           {this.state.vendors.map((vendor, id) => (
             <Link

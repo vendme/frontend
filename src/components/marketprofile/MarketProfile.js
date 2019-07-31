@@ -18,6 +18,8 @@ import tokenDateChecker from '../../services/tokenDateChecker'
 import styles from './marketprofile.styles.js'
 import VendorsList from './vendorslist/VendorsList'
 
+
+
 class MarketProfile extends Component {
   state = {
     user_id: null,
@@ -85,7 +87,6 @@ class MarketProfile extends Component {
       console.log('message: ', error)
     }
   }
-
   render() {
     const { classes } = this.props
     return (

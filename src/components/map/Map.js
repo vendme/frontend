@@ -145,6 +145,7 @@ class MapDiv extends React.Component {
     this.setState({ markers: newMarkers })
   }
   makeMarkers = _ => {
+    this.props.market &&
     this.props.markets.forEach(market => {
       geocoder.geocode(
         {
