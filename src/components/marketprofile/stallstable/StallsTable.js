@@ -51,14 +51,13 @@ function createData(stall_name, width, length) {
 }
 
 function StallsTable(props) {
-  const { classes } = props
-  
   const { classes, firebase, history } = props
+
   const [open, setOpen] = useState(false);
-  const [duration, setDuration] = useState(10000);
+  const [duration, setDuration] = useState(5000);
   const [chosenStall, setChosenStall] = useState(null);
   const [user, setUser] = useState({})
-  const [duration, setDuration] = useState(5000)
+  const [type, setType] = useState('')
 
   useEffect(_ => {
     if (Object.keys(user).length === 0) {
@@ -68,6 +67,7 @@ function StallsTable(props) {
             'https://vendme.herokuapp.com/auth/verify'
           )
           setUser(data)
+          console.log(data)
           firebase.getIdToken().then(idToken => {
             Axios.defaults.headers.common['Authorization'] = idToken
           })
@@ -77,10 +77,20 @@ function StallsTable(props) {
       }
       fetchData()
     }
+    if (user.id)
+      Axios
+        .get('https://vendme.herokuapp.com/api/users/type/' + user.id)
+        .then(res => setType(res.data.id))
   })
 
-  const handleClickOpen = () => {
-    if (user.account_type === 2) setOpen(true)
+  const handleClickOpen = (stall) => {
+    // if (user.account_type === 2) 
+    setOpen(true)
+    setChosenStall(stall)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   let days = 1;
@@ -96,18 +106,7 @@ function StallsTable(props) {
   }
 
   expires.setDate(expires.getDate()+days)
-
-  console.log(expires)
-  
-  const handleClickOpen = (stall) => {
-    setOpen(true);
-    setChosenStall(stall)
-    console.log(stall)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
+ 
 
   // const data = props.stalls.map(stall => {
   //   return createData(stall.stall_name, stall.width, stall.length)
@@ -175,7 +174,7 @@ function StallsTable(props) {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <StripeModule stall={chosenStall} amount={duration}/>
+        <StripeModule vendorId={type} expires={expires} stall={chosenStall} amount={duration}/>
         {/* <Button onClick={handleClose} color="primary">
           Rent
         </Button> */}

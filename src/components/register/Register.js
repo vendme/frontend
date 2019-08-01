@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import { withFirebase } from '../firebase'
 import Axios from 'axios'
 import {
   Paper,
@@ -43,7 +44,7 @@ function getStepContent(
 }
 
 const Register = props => {
-  const { classes } = props
+  const { classes, firebase, history } = props
   const [activeStep, setActiveStep] = useState(0)
   const [account, setAccount] = useState('vendor')
   const [market_name, changeMarket_name] = useState('')
@@ -57,6 +58,7 @@ const Register = props => {
   const [zip_code, changeZip] = useState('')
   const [lon, changeLon] = useState('')
   const [lat, changeLat] = useState('')
+  const [user, setUser] = useState({})
   const input = {
     market_name,
     address,
@@ -84,6 +86,26 @@ const Register = props => {
     changePhone_number
   }
 
+  useEffect(_=>{
+    if (Object.keys(user).length === 0) {
+      async function fetchData() {
+        if (tokenDateChecker()) {
+          const { data } = await Axios.get(
+            'https://vendme.herokuapp.com/auth/verify'
+          )
+          setUser(data)
+          console.log(data)
+          firebase.getIdToken().then(idToken => {
+            Axios.defaults.headers.common['Authorization'] = idToken
+          })
+        } else {
+          history.push('/login')
+        }
+      }
+      fetchData()
+    }
+  })
+
   const handleNext = () => {
     setActiveStep(activeStep + 1)
   }
@@ -97,7 +119,7 @@ const Register = props => {
   }
 
   const changeUserAccount = type => {
-    Axios.put('https://vendme.herokuapp.com/api/users', {
+    Axios.put('https://vendme.herokuapp.com/api/users/' + user.id, {
       account_type: type
     }).catch(err => console.log(err.message))
   }
@@ -207,4 +229,4 @@ const Register = props => {
   )
 }
 
-export default withStyles(styles)(withRouter(Register))
+export default withFirebase(withStyles(styles)(withRouter(Register)))

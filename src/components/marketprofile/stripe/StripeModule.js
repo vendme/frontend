@@ -5,28 +5,30 @@ import axios from 'axios'
 const StripeModule = props => {
   const publishableKey = 'pk_test_lp8BmFIO2cR5VLED0xJMLNqY00jqSmId7g'
 
+  const rented = {
+    stall_name: props.stall.stall_name,
+    market_id: props.stall.market_id,
+    vendor_id: props.vendorId,
+    category_id: 3,
+    length: props.stall.length,
+    width: props.stall.width,
+    availability: true,
+    description: props.stall.description,
+    stall_photo: props.stall.stall_photo,
+    contract_expires: props.expires,
+    stall_price: props.stall.stall_price,
+    rent_message: true
+  };
+  
   const onToken = token => {
     const body = {
       amount: props.amount,
       token: token
-    };    
-    const rented = {
-      stall_name: props.stall.stall_name,
-      market_id: this.state.id,
-      vendor_id: 1,
-      category_id: 3,
-      length: this.state.length,
-      width: this.state.width,
-      availability: true,
-      description: this.state.description,
-      stall_photo: null,
-      contract_expires: null,
-      stall_price: props.stall.stall_price,
-      rent_message: true
-    }
-    console.log(props)
+    };
+
     axios.post("https://vendme.herokuapp.com/api/payments", body)
       .then(response => {
+        console.log(rented)
         console.log(response)
         alert('Payment Success')
       })
