@@ -33,32 +33,37 @@ function ItemListings(props) {
     }
   })
   return (
-    <div className={classes.root}>
-      {data.map(listing => (
-        <Link key={'listing-' + listing.id} to={'/itemlisting/' + listing.id}>
-          <Card
-            className={classes.item}
-            key={
-              'listing' + listing.id + listing.market_id + listing.vendor_id
-            }>
-            <CardMedia
-              className={classes.cover}
-              image={
-                listing.product_image ||
-                'http://lorempixel.com/160/160/business'
-              }
-              title={listing.product_name}
-            />
-            <Typography component="h2" variant="h5" className={classes.name}>
-              {listing.product_name}
-            </Typography>
-            <Typography component="h3" variant="h5" className={classes.price}>
-              {'$' + listing.product_price}
-            </Typography>
-          </Card>
-        </Link>
-      ))}
-    </div>
+    <>
+      <Typography component="h6" variant="h4" align="center" className={classes.title}>
+        All Product Listings
+      </Typography>
+      <div className={classes.root}>
+        {data.map(listing => (
+          <Link key={'listing-' + listing.id} to={'/itemlisting/' + listing.id}>
+            <Card
+              className={classes.item}
+              key={
+                'listing' + listing.id + listing.market_id + listing.vendor_id
+              }>
+              <CardMedia
+                className={classes.cover}
+                image={
+                  listing.product_image ||
+                  'http://lorempixel.com/160/160/business'
+                }
+                title={listing.product_name}
+              />
+              <Typography component="h2" variant="h5" className={classes.name}>
+                {listing.product_name}
+              </Typography>
+              <Typography component="h3" variant="h5" className={classes.price}>
+                {'$' + listing.product_price}
+              </Typography>
+            </Card>
+          </Link>
+        ))}
+      </div>
+    </>
   )
 }
 
