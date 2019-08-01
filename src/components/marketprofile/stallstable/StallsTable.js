@@ -4,9 +4,11 @@ import { withFirebase } from '../../firebase'
 import tokenDateChecker from '../../../services/tokenDateChecker'
 import Axios from 'axios'
 import StripeModule from '../stripe/StripeModule'
+import { red, green } from '@material-ui/core/colors'
 import { withStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import AlbumIcon from '@material-ui/icons/Album'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -41,7 +43,8 @@ const styles = theme => ({
     padding: '0.5rem 2vw',
     '&:nth-of-type(1)': {
       paddingLeft: '30px'
-    }
+    },
+    textAlign: 'center'
   }
 })
 
@@ -62,6 +65,7 @@ function StallsTable(props) {
   const [appear, setAppear] = useState(false)
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(false)
+  const [amount, setAmount] = useState(duration)
 
   const onClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -97,10 +101,17 @@ function StallsTable(props) {
   const handleClickOpen = (stall) => {
     if (user.account_type === 2) setOpen(true)
     setChosenStall(stall)
+    setAmount(parseInt(stall.stall_price * 100) + duration)
   }
-
+  
   const handleClose = () => {
     setOpen(false)
+  }
+  
+  const selectChange = e => {
+    setDuration(e.target.value)
+    setAmount(parseInt(chosenStall.stall_price * 100) + e.target.value)
+    console.log(amount)
   }
 
   let days = 1;
@@ -129,6 +140,7 @@ function StallsTable(props) {
               <TableCell className={classes.cell}>Width (in)</TableCell>
               <TableCell className={classes.cell}>Length (in)</TableCell>
               <TableCell className={classes.cell}>Size (in&sup2;)</TableCell>
+              <TableCell className={classes.cell}>Availability</TableCell>
               <TableCell className={classes.cell}>Rent</TableCell>
             </TableRow>
           </TableHead>
@@ -143,14 +155,18 @@ function StallsTable(props) {
                 <TableCell className={classes.cell}>
                   {data.length * data.width}
                 </TableCell>
+                <TableCell className={classes.cell}><AlbumIcon style={{color: data.contract_expires <= Date.now() || data.availability === false ? red[700] : green[700]}}/></TableCell>
                 <TableCell className={classes.cell}>
-                  <IconButton
+                  {data.contract_expires <= Date.now() || data.availability === false ? (
+                    null ) : (
+                    <IconButton
                     onClick={() => handleClickOpen(data)}
                     color="primary"
                     className={classes.button}
                     aria-label="Add to shopping cart">
                     <ShoppingCartIcon />
                   </IconButton>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -161,20 +177,21 @@ function StallsTable(props) {
       <DialogTitle id="form-dialog-title">Rent Stall Information</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please select a time duration from below.
+          Please select a time duration from below. 
         </DialogContentText>
         <form>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="duration">Duration</InputLabel>
             <Select
               value={duration}
-              onChange={e => setDuration(e.target.value)}
+              onChange={selectChange}
               input={<Input id="duration" />}
             >
               <MenuItem value={5000}>One Day</MenuItem>
               <MenuItem value={10000}>Two Days</MenuItem>
               <MenuItem value={25000}>Seven Days</MenuItem>
             </Select>
+            <span>Price: {amount}</span>  
           </FormControl>
         </form>
       </DialogContent>
@@ -182,7 +199,7 @@ function StallsTable(props) {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <StripeModule setAppear={setAppear} setMessage={setMessage} setError={setError} handleClose={handleClose} vendorId={type} expires={expires} stall={chosenStall} amount={duration}/>
+        <StripeModule setAppear={setAppear} setMessage={setMessage} setError={setError} handleClose={handleClose} vendorId={type} expires={expires} stall={chosenStall} amount={amount}/>
         </DialogActions>
       </Dialog>
     </div>
