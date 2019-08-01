@@ -66,7 +66,17 @@ const StripeModule = props => {
             rented
           )
           .then(res => {
-            console.log(res)
+            axios
+              .put(
+                `https://vendme.herokuapp.com/api/vendor/${props.vendorId}`,
+                { market_id: props.stall.market_id }
+              )
+              .then(res => {
+                props.getStalls(props.stall.market_id)
+              })
+              .catch(error => {
+                console.log(JSON.stringify(error))
+              })
           })
           .catch(error => {
             console.log(JSON.stringify(error))
@@ -74,7 +84,6 @@ const StripeModule = props => {
 
         setAppear(true)
         props.handleClose()
-        console.log(response)
         setMessage('Purchase was Successful')
         setError(false)
       })

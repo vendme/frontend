@@ -22,12 +22,17 @@ const AddItems = ({
   fileSelectedHandler,
   changeHandler,
   productInfo,
-  submitFile
+  submitFile,
+  editing
 }) => {
   return (
     <Paper className={classes.container}>
       <Snackbar open={open} onClose={onClose} error={error} message={message} />
-      {file && <img className={classes.picture} src={file} alt="Picked File" />}
+      {!editing
+        ? file && (
+            <img className={classes.picture} src={file} alt="Picked File" />
+          )
+        : ''}
       <div className={classes.form}>
         <TextField
           id="standard-dense"
@@ -35,7 +40,7 @@ const AddItems = ({
           margin="dense"
           name="product_name"
           required
-          value={productInfo.product_name}
+          value={!editing ? productInfo.product_name : ''}
           onChange={changeHandler}
           className={classes.textFieldStalls}
         />
@@ -45,7 +50,7 @@ const AddItems = ({
           margin="dense"
           name="product_description"
           required
-          value={productInfo.product_description}
+          value={!editing ? productInfo.product_description : ''}
           onChange={changeHandler}
           className={classes.textFieldStalls}
         />
@@ -56,7 +61,7 @@ const AddItems = ({
           name="product_price"
           type="number"
           inputProps={{ min: 1 }}
-          value={productInfo.product_price}
+          value={!editing ? productInfo.product_price : ''}
           onChange={changeHandler}
           className={classes.textFieldStalls}
         />
@@ -66,7 +71,7 @@ const AddItems = ({
           variant="outlined"
           className={classes.button}
           style={{ display: 'block' }}
-          onClick={_ => fileSelectedHandler()}>
+          onClick={fileSelectedHandler}>
           Add image
         </Button>
         <Button

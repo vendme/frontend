@@ -30,7 +30,8 @@ class VendorEdit extends Component {
     file: null,
     open: false,
     message: null,
-    error: false
+    error: false,
+    editing: false
   }
 
   componentDidMount = async id => {
@@ -137,7 +138,8 @@ class VendorEdit extends Component {
     this.setState({
       product_name: item.product_name,
       product_description: item.product_description,
-      product_price: item.product_price
+      product_price: item.product_price,
+      product_image: item.product_image
     })
   }
   updateProfile = () => {
@@ -150,55 +152,88 @@ class VendorEdit extends Component {
       updated
     )
       .then(res => {
-        this.setState({open: true})
-        this.setState({message:'Update was Successful'})
-        this.setState({error: false})
-        console.log(res)
+        this.setState({
+          open: true,
+          message: 'Succesfully updated profile.',
+          setError: false
+        })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
-        this.setState('There was an error updating your profile, please try again.')
-        this.setState(true)
+        this.setState({
+          open: true,
+          message:
+            'There was an error updating your profile, please try again.',
+          setError: true
+        })
       })
   }
   removeItem = pId => {
     Axios.delete(`https://vendme.herokuapp.com/api/products/${pId}`)
       .then(res => {
-        console.log('message: ', res)
         const updated = this.state.products.filter(item => {
           return item.id !== pId ? item : null
         })
-        this.setState({ products: updated })
+        this.setState({
+          products: updated,
+          open: true,
+          message: 'Succesfully removed item.',
+          setError: false
+        })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'Succesfully updated profile.',
+          setError: false
+        })
       })
   }
+  editing = _ => {
+    this.setState({ editing: true })
+  }
+  closeEdit = _ => {
+    this.setState({
+      product_name: '',
+      product_description: '',
+      product_price: '',
+      product_image: '',
+      file: null,
+      open: false,
+      message: null,
+      error: false,
+      editing: false
+    })
+  }
   onEdit = itemId => {
-    console.log('Item: ', itemId)
     const updated = {
       market_id: this.state.market_id,
       vendor_id: this.state.id,
       product_name: this.state.product_name,
       product_description: this.state.product_description,
       product_price: this.state.product_price,
-      product_image: this.state.product_image,
-      product_category: 3
+      product_image: this.state.file
     }
-    console.log('Updated Data: ', updated)
     Axios.put(`https://vendme.herokuapp.com/api/products/${itemId}`, updated)
       .then(res => {
         this.getProducts()
-        console.log(res)
         this.setState({
           product_name: '',
           product_description: '',
           product_price: '',
-          product_image: ''
+          product_image: '',
+          file: null,
+          open: true,
+          message: 'Succesfully updated item.',
+          setError: false,
+          editing: false
         })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'Succesfully updated profile.',
+          setError: false
+        })
       })
   }
   render() {
@@ -206,7 +241,12 @@ class VendorEdit extends Component {
 
     return (
       <div className={classes.root}>
-        <Snackbar open={this.state.open} onClose={this.onClose} error={this.state.error} message={this.state.message} />
+        <Snackbar
+          open={this.state.open}
+          onClose={this.onClose}
+          error={this.state.error}
+          message={this.state.message}
+        />
         <Typography variant="h6" align="left" className={classes.titles}>
           Edit Vendor Profile
         </Typography>
@@ -272,6 +312,7 @@ class VendorEdit extends Component {
             fileSelectedHandler={this.fileSelectedHandler}
             onClose={this.onClose}
             submitFile={this.submitFile}
+            editing={this.state.editing}
           />
           <Typography variant="h6" align="left" className={classes.titles}>
             Current Inventory
@@ -290,10 +331,14 @@ class VendorEdit extends Component {
               changeHandler={this.changeHandler}
               updateProductHandler={this.updateProductHandler}
               onEdit={this.onEdit}
+              editing={this.editing}
               removeItem={this.removeItem}
+              file={this.state.file}
+              fileSelectedHandler={this.fileSelectedHandler}
+              closeEdit={this.closeEdit}
             />
           </div>
-          <Link to={"/vendorprofile/" + this.state.id}>
+          <Link to={'/vendorprofile/' + this.state.id}>
             <Button fullWidth color="primary">
               Back to Profile
             </Button>
