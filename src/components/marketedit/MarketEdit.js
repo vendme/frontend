@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Typography,
@@ -20,11 +21,19 @@ class MarketEdit extends Component {
     user_id: null,
     user_market: null,
     market_name: '',
-    bio: '',
-    zip_code: '',
+    lon: '',
+    lad: '',
     address: '',
     state: '',
     city: '',
+    zip_code: '',
+    phone_num: '',
+    market_info: '',
+    hours_open: '',
+    market_map_file: '',
+    agreement_file: null,
+    created_at: '',
+    user_market: '',
     submittedStallList: [],
     stall_name: '',
     width: '',
@@ -56,27 +65,39 @@ class MarketEdit extends Component {
         'https://vendme.herokuapp.com/api/market/' + this.props.match.params.id
       )
       const {
-        market_name,
         id,
-        user_market,
+        market_name,
+        lon,
+        lad,
         address,
         city,
         state,
         zip_code,
-        bio,
-        stall_price
+        phone_num,
+        market_info,
+        hours_open,
+        market_map_file,
+        agreement_file,
+        created_at,
+        user_market
       } = data
 
       this.setState({
-        market_name,
         id,
-        user_market,
+        market_name,
+        lon,
+        lad,
         address,
         city,
         state,
         zip_code,
-        bio,
-        stall_price
+        phone_num,
+        market_info,
+        hours_open,
+        market_map_file,
+        agreement_file,
+        created_at,
+        user_market
       })
       try {
         const added = await Axios.get(
@@ -165,11 +186,21 @@ class MarketEdit extends Component {
 
   updateProfile = () => {
     const updated = {
+      id: this.state.id,
       market_name: this.state.market_name,
+      lon: this.state.lon,
+      lad: this.state.lad,
       address: this.state.address,
       state: this.state.state,
       city: this.state.city,
-      zip_code: this.state.zip_code
+      zip_code: this.state.zip_code,
+      phone_num: this.state.phone_num,
+      market_info: this.state.market_info,
+      hours_open: this.state.hours_open,
+      market_map_file: this.state.market_map_file,
+      agreement_file: this.state.agreement_file,
+      created_at: this.state.created_at,
+      user_market: this.state.user_market
     }
     Axios.put(
       `https://vendme.herokuapp.com/api/market/${this.state.id}`,
@@ -296,6 +327,33 @@ class MarketEdit extends Component {
               onChange={this.changeHandler}
               className={classes.textField}
             />
+            <TextField
+              id="standard-dense"
+              label="Hours Open"
+              margin="dense"
+              name="hours_open"
+              value={this.state.hours_open}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
+            <TextField
+              id="standard-dense"
+              label="Phone Number"
+              margin="dense"
+              name="phone_num"
+              value={this.state.phone_num}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
+            <TextField
+              id="standard-dense"
+              label="Bio"
+              margin="dense"
+              name="market_info"
+              value={this.state.market_info}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
             <div className={classes.buttons}>
               <Button
                 onClick={this.updateProfile}
@@ -347,6 +405,11 @@ class MarketEdit extends Component {
               stalls={this.state.submittedStallList}
             />
           </div>
+          <Link to={"/marketprofile/" + this.state.id}>
+            <Button fullWidth color="primary">
+              Back to Profile
+            </Button>
+          </Link>
         </>
       </div>
     )
