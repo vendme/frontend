@@ -213,7 +213,7 @@ function StallsTable(props) {
           <DialogContentText>
             Please select a time duration from below.
           </DialogContentText>
-          <form>
+          <form className={classes.form}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="duration">Duration</InputLabel>
               <Select
@@ -224,8 +224,13 @@ function StallsTable(props) {
                 <MenuItem value={10000}>Two Days</MenuItem>
                 <MenuItem value={25000}>Seven Days</MenuItem>
               </Select>
-              <span>Price: {amount}</span>
             </FormControl>
+            <div className={classes.price}>
+              Price:
+              <DialogContentText className={classes.amount}>
+                ${parseFloat(amount / 100).toFixed(2)}
+              </DialogContentText>
+            </div>
           </form>
         </DialogContent>
         <DialogActions>
