@@ -16,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import cloudinaryUpload from '../../../services/cloudinary'
 
 const styles = theme => ({
   root: {
@@ -31,22 +32,30 @@ const styles = theme => ({
     padding: theme.spacing(2)
   },
   button: {
-    padding: 0,
+    padding: theme.spacing(1),
     margin: theme.spacing(0, 1)
+  },
+  edit: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  picture: {
+    maxWidth: 80,
+    height: 80,
+    margin: theme.spacing(1)
   }
 })
 
 function EditItemsTable(props) {
   const { classes } = props
   const data = props.items
-
   const [open, setOpen] = useState(false)
   const [editedId, setEditedId] = useState(null)
 
   const handleClickOpen = item => {
     setOpen(true)
     setEditedId(item.id)
-    console.log(item.id)
     props.updateProductHandler(item)
   }
 
@@ -109,7 +118,7 @@ function EditItemsTable(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.edit}>
           <TextField
             autoFocus
             margin="dense"
@@ -138,12 +147,24 @@ function EditItemsTable(props) {
             label="Price"
             type="number"
           />
+          {console.log(props)}
+          <img
+            className={classes.picture}
+            src={props.itemsInfo.product_image}
+          />
+          <Button
+            variant="outlined"
+            className={classes.button}
+            style={{ display: 'block' }}
+            onClick={props.fileSelectedHandler}>
+            Change Image
+          </Button>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => handleUpdate()} color="primary">
+          <Button onClick={handleUpdate} color="primary">
             Update
           </Button>
         </DialogActions>

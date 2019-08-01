@@ -135,7 +135,8 @@ class VendorEdit extends Component {
     this.setState({
       product_name: item.product_name,
       product_description: item.product_description,
-      product_price: item.product_price
+      product_price: item.product_price,
+      product_image: item.product_image
     })
   }
   updateProfile = () => {
@@ -148,50 +149,70 @@ class VendorEdit extends Component {
       updated
     )
       .then(res => {
-        console.log(res)
+        this.setState({
+          open: true,
+          message: 'Succesfully updated profile.',
+          setError: false
+        })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'There was an error',
+          setError: true
+        })
       })
   }
   removeItem = pId => {
     Axios.delete(`https://vendme.herokuapp.com/api/products/${pId}`)
       .then(res => {
-        console.log('message: ', res)
         const updated = this.state.products.filter(item => {
           return item.id !== pId ? item : null
         })
-        this.setState({ products: updated })
+        this.setState({
+          products: updated,
+          open: true,
+          message: 'Succesfully removed item.',
+          setError: false
+        })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'Succesfully updated profile.',
+          setError: false
+        })
       })
   }
   onEdit = itemId => {
-    console.log('Item: ', itemId)
     const updated = {
       market_id: this.state.market_id,
       vendor_id: this.state.id,
       product_name: this.state.product_name,
       product_description: this.state.product_description,
       product_price: this.state.product_price,
-      product_image: this.state.product_image,
-      product_category: 3
+      product_image: this.state.file
     }
-    console.log('Updated Data: ', updated)
     Axios.put(`https://vendme.herokuapp.com/api/products/${itemId}`, updated)
       .then(res => {
         this.getProducts()
-        console.log(res)
         this.setState({
           product_name: '',
           product_description: '',
           product_price: '',
-          product_image: ''
+          product_image: '',
+          file: null,
+          open: true,
+          message: 'Succesfully updated item.',
+          setError: false
         })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'Succesfully updated profile.',
+          setError: false
+        })
       })
   }
   render() {
@@ -283,6 +304,8 @@ class VendorEdit extends Component {
               updateProductHandler={this.updateProductHandler}
               onEdit={this.onEdit}
               removeItem={this.removeItem}
+              file={this.state.file}
+              fileSelectedHandler={this.fileSelectedHandler}
             />
           </div>
         </>

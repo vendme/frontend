@@ -66,7 +66,7 @@ const AddItems = ({
           variant="outlined"
           className={classes.button}
           style={{ display: 'block' }}
-          onClick={_ => fileSelectedHandler()}>
+          onClick={fileSelectedHandler}>
           Add image
         </Button>
         <Button
