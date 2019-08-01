@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Typography,
@@ -292,6 +293,11 @@ class VendorEdit extends Component {
               removeItem={this.removeItem}
             />
           </div>
+          <Link to={"/vendorprofile/" + this.state.id}>
+            <Button fullWidth color="primary">
+              Back to Profile
+            </Button>
+          </Link>
         </>
       </div>
     )
