@@ -52,19 +52,38 @@ function StallsTable(props) {
   const { classes } = props
   
   const [open, setOpen] = useState(false);
-  const [duration, setDuration] = useState(5000);
+  const [duration, setDuration] = useState(10000);
+  const [chosenStall, setChosenStall] = useState(null);
+
+  let days = 1;
+  const expires = new Date();
+  if(duration === 5000){
+    days = 1
+  }
+  else if(duration === 10000){
+    days = 2
+  }
+  else if(duration === 25000){
+    days = 7
+  }
+
+  expires.setDate(expires.getDate()+days)
+
+  console.log(expires)
   
-  const handleClickOpen = () => {
+  const handleClickOpen = (stall) => {
     setOpen(true);
+    setChosenStall(stall)
+    console.log(stall)
   }
 
   const handleClose = () => {
     setOpen(false);
   }
 
-  const data = props.stalls.map(stall => {
-    return createData(stall.stall_name, stall.width, stall.length)
-  })
+  // const data = props.stalls.map(stall => {
+  //   return createData(stall.stall_name, stall.width, stall.length)
+  // })
   return (
     <div>
       <Paper className={classes.root}>
@@ -79,7 +98,7 @@ function StallsTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map(data => (
+            {props.stalls.map(data => (
               <TableRow key={data.id}>
                 <TableCell className={classes.cell}>{data.stall_name}</TableCell>
                 <TableCell className={classes.cell}>{data.width}</TableCell>
@@ -89,7 +108,7 @@ function StallsTable(props) {
                 </TableCell>
                 <TableCell className={classes.cell}>
                   <IconButton
-                    onClick={handleClickOpen}
+                    onClick={() => handleClickOpen(data)}
                     color="primary"
                     className={classes.button}
                     aria-label="Add to shopping cart">
@@ -126,7 +145,7 @@ function StallsTable(props) {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <StripeModule amount={duration}/>
+        <StripeModule stall={chosenStall} amount={duration}/>
         {/* <Button onClick={handleClose} color="primary">
           Rent
         </Button> */}
