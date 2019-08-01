@@ -43,6 +43,8 @@ const styles = ({ spacing, palette, breakpoints }) => {
       margin: 'auto'
     },
     about: {
+      display: 'flex',
+      justifyContent: 'space-between',
       width: 650,
       maxWidth: 650,
       margin: 'auto'
@@ -81,7 +83,26 @@ const styles = ({ spacing, palette, breakpoints }) => {
     },
     divider: {
       margin: spacing(2, 0, 2, 0)
-    }
+    },
+    vendor: {
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column',
+      padding: spacing(2)
+    },
+    vendor_pic: {
+      width: 80,
+      height: 80,
+      marginBottom: spacing(1),
+      borderRadius: '50%'
+    },
+    button: {
+      marginTop: spacing(1)
+    },
+    left: {
+      width: '70%'
+    },
+    right: { width: '25%' }
   }
 }
 export default styles

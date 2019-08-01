@@ -35,7 +35,7 @@ export const mainListItems = (
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Stalls" />
+        <ListItemText primary="Vendors" />
       </ListItem>
     </Link>
     <Link to="/pricing">
