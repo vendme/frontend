@@ -297,9 +297,6 @@ class MarketEdit extends Component {
               className={classes.textField}
             />
             <div className={classes.buttons}>
-              <Button variant="contained" className={classes.button}>
-                Cancel
-              </Button>
               <Button
                 onClick={this.updateProfile}
                 variant="contained"

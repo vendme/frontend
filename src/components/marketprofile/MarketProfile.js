@@ -4,10 +4,10 @@ import { withRouter } from 'react-router-dom'
 import Axios from 'axios'
 import {
   Typography,
-  withStyles,
-  Paper,
-  InputBase,
-  IconButton
+  withStyles
+  // Paper,
+  // InputBase,
+  // IconButton
 } from '@material-ui/core'
 import { Create } from '@material-ui/icons'
 import SearchIcon from '@material-ui/icons/Search'
@@ -17,8 +17,6 @@ import tokenDateChecker from '../../services/tokenDateChecker'
 
 import styles from './marketprofile.styles.js'
 import VendorsList from './vendorslist/VendorsList'
-
-
 
 class MarketProfile extends Component {
   state = {
@@ -99,12 +97,12 @@ class MarketProfile extends Component {
             </Link>
           )}
         </div>
-        <Paper className={classes.searchbar} color="primary" elevation={1}>
+        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
             <SearchIcon />
           </IconButton>
-        </Paper>
+        </Paper> */}
         <div className={classes.availinfo}>
           <Typography variant="h6" align="left" className={classes.titles}>
             Stalls

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import Axios from 'axios'
 import {
   Typography,
-  withStyles,
-  Paper,
-  InputBase,
-  IconButton
+  Card,
+  withStyles
+  // Paper,
+  // InputBase,
+  // IconButton
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import Create from '@material-ui/icons/Create'
@@ -32,7 +33,8 @@ class VendorProfile extends Component {
     phone_number: 'No Number',
     state: 'No state',
     city: 'No city',
-    inventory: []
+    inventory: [],
+    stalls: []
   }
 
   componentDidMount = async _ => {
@@ -49,29 +51,39 @@ class VendorProfile extends Component {
       const vendor = await Axios.get(
         'https://vendme.herokuapp.com/api/vendor/' + this.props.match.params.id
       )
-      const {
-        vendor_name,
-        id,
-        bio,
-        market_id,
-        phone_number,
-        user_vendor
-      } = vendor.data
-      if (market_id) {
-        const market = await Axios.get(
-          'https://vendme.herokuapp.com/api/market/' + market_id
-        )
-        const { market_name, address, city, state, zip_code } = market.data
-        this.setState({ market_name, address, city, state, zip_code })
-      }
+      const { vendor_name, id, bio, phone_number, user_vendor } = vendor.data
       this.setState({
         vendor_name,
         id,
         bio,
-        market_id,
         phone_number,
         user_vendor
       })
+    } catch (error) {
+      console.log('Message: ', error)
+    }
+
+    try {
+      const stalls = await Axios.get(
+        `https://vendme.herokuapp.com/api/vendor/${
+          this.props.match.params.id
+        }/stalls`
+      )
+      if (stalls.data[0] && stalls.data[0].market_id) {
+        const market = await Axios.get(
+          'https://vendme.herokuapp.com/api/market/' + stalls.data[0].market_id
+        )
+        const { market_name, address, city, state, zip_code, id } = market.data
+        this.setState({
+          market_name,
+          address,
+          city,
+          state,
+          zip_code,
+          market_id: id
+        })
+      }
+      this.setState({ stalls: stalls.data })
     } catch (error) {
       console.log('Message: ', error)
     }
@@ -89,23 +101,48 @@ class VendorProfile extends Component {
             </Link>
           )}
         </div>
-        <Paper className={classes.searchbar} color="primary" elevation={1}>
+        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
             <SearchIcon />
           </IconButton>
-        </Paper>
+        </Paper> */}
+        <Typography variant="h6" align="left" className={classes.titles}>
+          Stalls
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          align="left"
+          className={classes.subtitles}>
+          All stalls owned by this vendor
+        </Typography>
+        {this.state.stalls &&
+          this.state.stalls.map(stall => {
+            return (
+              <Link to={'/marketprofile/' + this.state.market_id}>
+                <Card className={classes.stall}>
+                  <Typography
+                    variant="h6"
+                    align="left"
+                    className={classes.titles}>
+                    {stall.stall_name}
+                  </Typography>
+                </Card>
+              </Link>
+            )
+          })}
+        <Typography variant="h6" align="left" className={classes.titles}>
+          Inventory
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          align="left"
+          className={classes.subtitles}>
+          All items being sold by vendor
+        </Typography>
         <div className={classes.availinfo}>
-          <Typography variant="h6" align="left" className={classes.titles}>
-            Inventory
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            gutterBottom
-            align="left"
-            className={classes.subtitles}>
-            All items being sold by vendor
-          </Typography>
           <div className={classes.products}>
             <ItemListings vendor={this.props.match.params.id} />
           </div>

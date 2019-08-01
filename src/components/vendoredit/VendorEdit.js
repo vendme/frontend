@@ -235,9 +235,6 @@ class VendorEdit extends Component {
               className={classes.textFieldArea}
             />
             <div className={classes.buttons}>
-              <Button variant="contained" className={classes.button}>
-                Cancel
-              </Button>
               <Button
                 onClick={this.updateProfile}
                 variant="contained"

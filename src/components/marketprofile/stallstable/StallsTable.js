@@ -28,6 +28,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
 import Snackbar from '../../snackbar/Snackbar'
+import { spacing } from '@material-ui/system'
 
 const styles = theme => ({
   root: {
@@ -40,11 +41,20 @@ const styles = theme => ({
     }
   },
   cell: {
-    padding: '0.5rem 2vw',
-    '&:nth-of-type(1)': {
-      paddingLeft: '30px'
-    },
+    padding: theme.spacing(2),
     textAlign: 'center'
+  },
+  form: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  formControl: {
+    width: '50%'
+  },
+  price: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginRight: theme.spacing(2)
   }
 })
 
@@ -57,9 +67,9 @@ function createData(stall_name, width, length) {
 function StallsTable(props) {
   const { classes, firebase, history } = props
 
-  const [open, setOpen] = useState(false);
-  const [duration, setDuration] = useState(5000);
-  const [chosenStall, setChosenStall] = useState(null);
+  const [open, setOpen] = useState(false)
+  const [duration, setDuration] = useState(5000)
+  const [chosenStall, setChosenStall] = useState(null)
   const [user, setUser] = useState({})
   const [type, setType] = useState('')
   const [appear, setAppear] = useState(false)
@@ -93,45 +103,48 @@ function StallsTable(props) {
       fetchData()
     }
     if (user.id)
-      Axios
-        .get('https://vendme.herokuapp.com/api/users/type/' + user.id)
-        .then(res => setType(res.data.id))
+      Axios.get('https://vendme.herokuapp.com/api/users/type/' + user.id).then(
+        res => setType(res.data.id)
+      )
   })
 
-  const handleClickOpen = (stall) => {
+  const handleClickOpen = stall => {
     if (user.account_type === 2) setOpen(true)
     setChosenStall(stall)
     setAmount(parseInt(stall.stall_price * 100) + duration)
   }
-  
+
   const handleClose = () => {
     setOpen(false)
   }
-  
+
   const selectChange = e => {
     setDuration(e.target.value)
     setAmount(parseInt(chosenStall.stall_price * 100) + e.target.value)
     console.log(amount)
   }
 
-  let days = 1;
+  let days = 1
 
-  const expires = new Date();
-  if(duration === 5000){
+  const expires = new Date()
+  if (duration === 5000) {
     days = 1
-  }
-  else if(duration === 10000){
+  } else if (duration === 10000) {
     days = 2
-  }
-  else if(duration === 25000){
+  } else if (duration === 25000) {
     days = 7
   }
-  
-  expires.setDate(expires.getDate()+days)
+
+  expires.setDate(expires.getDate() + days)
 
   return (
     <div>
-      <Snackbar open={appear} onClose={onClose} error={error} message={message} />
+      <Snackbar
+        open={appear}
+        onClose={onClose}
+        error={error}
+        message={message}
+      />
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
@@ -155,24 +168,35 @@ function StallsTable(props) {
                 <TableCell className={classes.cell}>
                   {data.length * data.width}
                 </TableCell>
-                <TableCell className={classes.cell}><AlbumIcon style={{color: data.contract_expires === null ? green[700] : data.contract_expires <= Date.now() || data.availability === false ? red[700] : green[700]}}/></TableCell>
                 <TableCell className={classes.cell}>
-                  {data.contract_expires === null ? 
-                  (
+                  <AlbumIcon
+                    style={{
+                      color:
+                        data.contract_expires === null
+                          ? green[700]
+                          : data.contract_expires <= Date.now() ||
+                            data.availability === false
+                          ? red[700]
+                          : green[700]
+                    }}
+                  />
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  {data.contract_expires === null ? (
                     <IconButton
-                    onClick={() => handleClickOpen(data)}
-                    className={classes.button}
-                    aria-label="Add to shopping cart">
-                    <ShoppingCartIcon />
-                  </IconButton>
-                  ) : data.contract_expires <= Date.now() || data.availability === false ? (
-                    null ) : (
+                      onClick={() => handleClickOpen(data)}
+                      className={classes.button}
+                      aria-label="Add to shopping cart">
+                      <ShoppingCartIcon />
+                    </IconButton>
+                  ) : data.contract_expires <= Date.now() ||
+                    data.availability === false ? null : (
                     <IconButton
-                    onClick={() => handleClickOpen(data)}
-                    className={classes.button}
-                    aria-label="Add to shopping cart">
-                    <ShoppingCartIcon />
-                  </IconButton>
+                      onClick={() => handleClickOpen(data)}
+                      className={classes.button}
+                      aria-label="Add to shopping cart">
+                      <ShoppingCartIcon />
+                    </IconButton>
                   )}
                 </TableCell>
               </TableRow>
@@ -180,42 +204,49 @@ function StallsTable(props) {
           </TableBody>
         </Table>
       </Paper>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Rent Stall Information</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Please select a time duration from below. 
-        </DialogContentText>
-        <form>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="duration">Duration</InputLabel>
-            <Select
-              value={duration}
-              onChange={selectChange}
-              input={<Input id="duration" />}
-            >
-              <MenuItem value={5000}>One Day</MenuItem>
-              <MenuItem value={10000}>Two Days</MenuItem>
-              <MenuItem value={25000}>Seven Days</MenuItem>
-            </Select>
-            <span>Price: {amount}</span>  
-          </FormControl>
-        </form>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <StripeModule 
-          setAppear={setAppear} 
-          setMessage={setMessage} 
-          setError={setError} 
-          handleClose={handleClose} 
-          vendorId={type} 
-          expires={expires} 
-          stall={chosenStall} 
-          amount={amount}
-        />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Rent Stall Information</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please select a time duration from below.
+          </DialogContentText>
+          <form className={classes.form}>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="duration">Duration</InputLabel>
+              <Select
+                value={duration}
+                onChange={selectChange}
+                input={<Input id="duration" />}>
+                <MenuItem value={5000}>One Day</MenuItem>
+                <MenuItem value={10000}>Two Days</MenuItem>
+                <MenuItem value={25000}>Seven Days</MenuItem>
+              </Select>
+            </FormControl>
+            <div className={classes.price}>
+              Price:
+              <DialogContentText className={classes.amount}>
+                ${parseFloat(amount / 100).toFixed(2)}
+              </DialogContentText>
+            </div>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <StripeModule
+            setAppear={setAppear}
+            setMessage={setMessage}
+            setError={setError}
+            handleClose={handleClose}
+            vendorId={type}
+            expires={expires}
+            stall={chosenStall}
+            amount={amount}
+          />
         </DialogActions>
       </Dialog>
     </div>

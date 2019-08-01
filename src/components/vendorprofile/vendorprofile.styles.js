@@ -20,7 +20,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
     },
     editcontainer: {
       position: 'relative',
-      zIndex: "100"
+      zIndex: '100'
     },
     edit: {
       position: 'absolute',
@@ -31,7 +31,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       background: 'rgba(1,1,1, 0.5)',
       borderRadius: '50%',
       padding: spacing(0.3),
-      color: "white"
+      color: 'white'
     },
     profimg: {
       border: '1px solid gray',
@@ -51,17 +51,17 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       marginTop: spacing(4)
     },
     table: {
-      maxWidth: 600
+      maxWidth: 800
     },
     titles: {
       display: 'block',
       width: '100%',
-      maxWidth: 600
+      maxWidth: 800
     },
     subtitles: {
       display: 'block',
       width: '100%',
-      maxWidth: 600,
+      maxWidth: 800,
       marginBottom: spacing(2),
       color: palette.grey['600']
     },
@@ -85,6 +85,9 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
     iconButton: {
       padding: spacing(1),
       marginRight: spacing(1)
+    },
+    stall: {
+      padding: spacing(2)
     }
   }
 }
