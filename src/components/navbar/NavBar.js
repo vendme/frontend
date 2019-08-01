@@ -15,7 +15,8 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
-import { mainListItems, secondaryListItems } from './navlist/NavItems'
+import { mainListItems } from './navlist/NavItems'
+// import { secondaryListItems } from './navlist/NavItems'
 import AccountList from './accountlist/AccountList'
 
 import styles from './navbar.styles.js'
@@ -95,7 +96,7 @@ class NavBar extends React.Component {
             <Divider />
             <List>{mainListItems}</List>
             <Divider />
-            <List className={classes.list}>{secondaryListItems}</List>
+            {/* <List className={classes.list}>{secondaryListItems}</List> */}
           </div>
         </Drawer>
         <main className={classes.content}>
