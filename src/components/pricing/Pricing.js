@@ -10,6 +10,7 @@ import StarIcon from '@material-ui/icons/StarBorder'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
+import StripeModule from '../marketprofile/stripe/StripeModule'
 import styles from './pricing.styles'
 
 const tiers = [
@@ -93,23 +94,25 @@ const Pricing = props => {
                   </div>
                   <ul>
                     {tier.description.map(line => (
-                      <Typography
-                        component="li"
-                        variant="subtitle1"
-                        align="center"
-                        key={line}>
-                        {line}
-                      </Typography>
+                      <StripeModule />
+                      // <Typography
+                      //   component="li"
+                      //   variant="subtitle1"
+                      //   align="center"
+                      //   key={line}>
+                      //   {line}
+                      // </Typography>
                     ))}
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button
+                  <StripeModule />
+                  {/* <Button
                     fullWidth
                     variant={tier.buttonVariant}
                     color="primary">
                     {tier.buttonText}
-                  </Button>
+                  </Button> */}
                 </CardActions>
               </Card>
             </Grid>
