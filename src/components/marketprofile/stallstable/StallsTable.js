@@ -84,8 +84,7 @@ function StallsTable(props) {
   })
 
   const handleClickOpen = (stall) => {
-    // if (user.account_type === 2) 
-    setOpen(true)
+    if (user.account_type === 2) setOpen(true)
     setChosenStall(stall)
   }
 
