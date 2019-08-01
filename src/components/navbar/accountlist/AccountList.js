@@ -48,6 +48,7 @@ const AccountList = props => {
       }
       fetchData()
     }
+    
     if (user.id)
       axios
         .get('https://vendme.herokuapp.com/api/users/type/' + user.id)
@@ -113,7 +114,7 @@ const AccountList = props => {
                     </MenuItem>
                     <Link
                       to={
-                        user.account_type === 1
+                        user.account_type == 1
                           ? '/marketprofile/' + type
                           : '/vendorprofile/' + type
                       }>
