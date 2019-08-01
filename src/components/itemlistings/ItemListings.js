@@ -47,7 +47,7 @@ function ItemListings(props) {
                 listing.product_image ||
                 'http://lorempixel.com/160/160/business'
               }
-              title="Market"
+              title={listing.product_name}
             />
             <Typography component="h2" variant="h5" className={classes.name}>
               {listing.product_name}

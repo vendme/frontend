@@ -86,7 +86,7 @@ const Register = props => {
     changePhone_number
   }
 
-  useEffect(_=>{
+  useEffect(_ => {
     if (Object.keys(user).length === 0) {
       async function fetchData() {
         if (tokenDateChecker()) {
@@ -119,6 +119,7 @@ const Register = props => {
   }
 
   const changeUserAccount = type => {
+    console.log('user: ', user)
     Axios.put('https://vendme.herokuapp.com/api/users/' + user.id, {
       account_type: type
     }).catch(err => console.log(err.message))

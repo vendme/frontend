@@ -28,10 +28,11 @@ const styles = theme => ({
     }
   },
   cell: {
-    padding: '0.5rem 2vw',
-    '&:nth-of-type(1)': {
-      paddingLeft: '30px'
-    }
+    padding: theme.spacing(2)
+  },
+  button: {
+    padding: 0,
+    margin: theme.spacing(0, 1)
   }
 })
 
@@ -81,7 +82,9 @@ function EditItemsTable(props) {
                 <TableCell className={classes.cell}>
                   {data.product_price}
                 </TableCell>
-                <TableCell className={classes.cell}>
+                <TableCell
+                  style={{ display: 'flex', justifyContent: 'flex-end' }}
+                  className={classes.cell}>
                   <IconButton
                     color="primary"
                     className={classes.button}

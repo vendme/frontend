@@ -21,6 +21,20 @@ const styles = ({ spacing, breakpoints, palette }) => ({
     [breakpoints.down('600')]: {
       width: '100%'
     }
+  },
+  buttons: {
+    marginTop: spacing(1),
+    width: '90%',
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  button: {
+    width: '40%'
+  },
+  picture: {
+    maxWidth: '90%',
+    maxHeight: 300,
+    margin: 'auto'
   }
 })
 export default styles

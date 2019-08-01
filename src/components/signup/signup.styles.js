@@ -22,8 +22,14 @@ const styles = ({ spacing, breakpoints, palette }) => ({
     marginTop: spacing(1)
   },
   submit: {
+    marginTop: spacing(3)
+  },
+  signin: {
+    display: 'block',
+    width: '100%',
     marginTop: spacing(3),
-    backgroundColor: palette.primary.dark
+    textDecoration: 'none',
+    borderRadius: 5
   },
   google: {
     display: 'block',
