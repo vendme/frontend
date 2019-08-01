@@ -68,9 +68,9 @@ function CardInfo(props) {
 
   useEffect(
     _ => {
-      if (info.hours) {
+      if (info.hours_open) {
         const pattern = /\s*;\s*/
-        const allTimes = info.hours.split(pattern)
+        const allTimes = info.hours_open.split(pattern)
         const converted = allTimes.map(times => {
           times = times.split`,`
           return times.map(time => {
@@ -100,7 +100,7 @@ function CardInfo(props) {
         setHours(String(converted[new Date().getDay()]).replace(/,/gi, ' - '))
       }
     },
-    [info.hours]
+    [info.hours_open]
   )
 
   return (
@@ -128,12 +128,12 @@ function CardInfo(props) {
               : ''
           }`}
         </Typography>
-        {info.hours && match.path.includes('/marketprofile') ? (
+        {info.hours_open && match.path.includes('/marketprofile') ? (
           <Chip
             className={classes.chip}
             color="secondary"
             variant="outlined"
-            label={hours}
+            label={info.hours_open}
           />
         ) : null}
       </div>

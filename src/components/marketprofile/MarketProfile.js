@@ -24,13 +24,18 @@ class MarketProfile extends Component {
     id: null,
     user_market: null,
     market_name: 'Unnamed Market',
-    bio: 'No bio',
-    zip_code: '',
+    lon: '',
+    lad: '',
     address: 'No address',
     state: 'No state',
     city: 'No city',
-    hours: 'No hours',
+    zip_code: '',
     phone_num: 'No number',
+    market_info: 'No bio',
+    hours_open: 'No hours',
+    market_map_file: '',
+    agreement_file: '',
+    created_at: '',
     submittedStallList: []
   }
 
@@ -49,29 +54,39 @@ class MarketProfile extends Component {
         `https://vendme.herokuapp.com/api/market/${this.props.match.params.id}`
       )
       const {
-        market_name,
         id,
-        user_market,
+        market_name,
+        lon,
+        lad,
         address,
         city,
         state,
         zip_code,
         phone_num,
-        bio,
-        hours_open
+        market_info,
+        hours_open,
+        market_map_file,
+        agreement_file,
+        created_at,
+        user_market
       } = data
 
       this.setState({
-        market_name,
         id,
-        user_market,
+        market_name,
+        lon,
+        lad,
         address,
         city,
         state,
         zip_code,
         phone_num,
-        bio,
-        hours: hours_open
+        market_info,
+        hours_open,
+        market_map_file,
+        agreement_file,
+        created_at,
+        user_market,
       })
       try {
         this.getStalls(id)
