@@ -1,8 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Button,
-  Link,
   FormControl,
   FormControlLabel,
   Checkbox,
@@ -71,15 +71,13 @@ const SignUpForm = props => {
             className={classes.submit}>
             Sign up
           </Button>
-          <Link
-            href="http://vendme.herokuapp.com/auth/google"
-            variant="body2"
-            className={classes.google}>
-            <img
-              src={gooogleButton2}
-              className={classes.googleButton}
-              alt="Google Sign In"
-            />
+          <Link fullWidth to="/login" className={classes.signin}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.signin}>
+              Log in
+            </Button>
           </Link>
         </form>
       </Paper>

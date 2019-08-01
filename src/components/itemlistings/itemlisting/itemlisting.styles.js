@@ -8,10 +8,12 @@ const styles = ({ spacing, palette, breakpoints }) => {
       marginTop: spacing(-3)
     },
     modal: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       position: 'absolute',
-      top: '50%',
-      left: '50%'
-      // transform: `translate(50%, -50%)`
+      width: '100vw',
+      height: '100vh'
     },
     blurBox: {
       position: 'fixed',
@@ -36,6 +38,10 @@ const styles = ({ spacing, palette, breakpoints }) => {
       margin: 'auto',
       marginBottom: spacing(3)
     },
+    pictureModal: {
+      height: 600,
+      maxWidth: 600
+    },
     picture: {
       width: 350,
       height: 350,
@@ -43,6 +49,8 @@ const styles = ({ spacing, palette, breakpoints }) => {
       margin: 'auto'
     },
     about: {
+      display: 'flex',
+      justifyContent: 'space-between',
       width: 650,
       maxWidth: 650,
       margin: 'auto'
@@ -81,7 +89,26 @@ const styles = ({ spacing, palette, breakpoints }) => {
     },
     divider: {
       margin: spacing(2, 0, 2, 0)
-    }
+    },
+    vendor: {
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column',
+      padding: spacing(2)
+    },
+    vendor_pic: {
+      width: 80,
+      height: 80,
+      marginBottom: spacing(1),
+      borderRadius: '50%'
+    },
+    button: {
+      marginTop: spacing(1)
+    },
+    left: {
+      width: '70%'
+    },
+    right: { width: '25%' }
   }
 }
 export default styles

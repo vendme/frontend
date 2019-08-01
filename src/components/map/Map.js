@@ -61,7 +61,8 @@ class MapDiv extends React.Component {
     this.map.on('pointermove', evt => {
       var coordinate = evt.coordinate
       var pixel = evt.pixel
-      var feature = this.map.forEachFeatureAtPixel(pixel, feature => feature)
+      var feature =
+        this.map && this.map.forEachFeatureAtPixel(pixel, feature => feature)
       content.style.display = feature && feature.market ? '' : 'none'
       container.style.display = feature && feature.market ? '' : 'none'
       closer.style.display = feature && feature.market ? '' : 'none'
@@ -75,7 +76,8 @@ class MapDiv extends React.Component {
     this.map.on('click', evt => {
       var coordinate = evt.coordinate
       var pixel = evt.pixel
-      var feature = this.map.forEachFeatureAtPixel(pixel, feature => feature)
+      var feature =
+        this.map && this.map.forEachFeatureAtPixel(pixel, feature => feature)
       if (feature && feature.market) {
         this.props.history.push('marketprofile/' + feature.market_id)
       }
@@ -139,28 +141,17 @@ class MapDiv extends React.Component {
     newMarkers.push(marker)
     this.setState({ markers: newMarkers })
   }
-  makeMarkers = _ => {
-    this.props.markets &&
-      this.props.markets.forEach(market => {
-        geocoder.geocode(
-          {
-            address: `${market.address}, ${market.city}, ${market.state} ${
-              market.zip_code
-            }`
-          },
-          (results, status) => {
-            if (status === window.google.maps.GeocoderStatus.OK) {
-              this.markerMaker(
-                results[0].geometry.location.lat(),
-                results[0].geometry.location.lng(),
-                market.id,
-                market.market_name,
-                `${market.address}, ${market.city}, ${market.state} ${
-                  market.zip_code
-                }`
-              )
-            }
-          }
+  makeMarkers = marketsProp => {
+    marketsProp &&
+      marketsProp.forEach(market => {
+        this.markerMaker(
+          Number(market.lon),
+          Number(market.lat),
+          market.id,
+          market.market_name,
+          `${market.address}, ${market.city}, ${market.state} ${
+            market.zip_code
+          }`
         )
       })
     if (this.state.markers.length > 6) {
@@ -172,12 +163,14 @@ class MapDiv extends React.Component {
       })
     }
   }
+  componentWillReceiveProps(nextProps) {
+    this.makeMarkers(nextProps.markets)
+  }
   componentWillUnmount() {
     this.myRef = null
   }
   render() {
     const { classes } = this.props
-    this.makeMarkers()
     return (
       <>
         <div ref={this.myRef} id="map" style={{ height: '400px' }} />

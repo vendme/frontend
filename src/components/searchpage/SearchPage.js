@@ -15,9 +15,14 @@ import { withAuthorization } from '../session'
 
 import styles from './searchpage.styles.js'
 
+var google = window.google
+var service = new google.maps.DistanceMatrixService()
+
 class SearchPage extends Component {
   state = {
-    markets: []
+    markets: [],
+    markets_distances: [],
+    origin: null
   }
 
   componentDidMount = async _ => {
@@ -29,21 +34,59 @@ class SearchPage extends Component {
     } catch (error) {
       console.log('Message: ', error)
     }
+    this.sortByDistance()
+  }
+
+  sortByDistance = _ => {
+    service.getDistanceMatrix(
+      {
+        origins: [this.state.origin],
+        destinations: this.state.markets.map(market => {
+          return new google.maps.LatLng({
+            lat: parseFloat(market.lon),
+            lng: parseFloat(market.lat)
+          })
+        }),
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.IMPERIAL,
+        avoidHighways: false,
+        avoidTolls: false
+      },
+      (res, status) => {
+        const distances = res.rows[0].elements.map((result, id) => {
+          return {
+            ...this.state.markets[id],
+            distance: result.distance ? result.distance.value : Infinity
+          }
+        })
+        this.setState({ markets_distances: distances })
+        const sort = this.state.markets_distances.sort((a, b) => {
+          return a.distance - b.distance
+        })
+        console.log(sort)
+        this.setState({ markets: sort })
+      }
+    )
   }
 
   render() {
+    navigator.geolocation.getCurrentPosition(pos => {
+      this.setState({
+        origin: new google.maps.LatLng({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude
+        })
+      })
+    })
     const { classes } = this.props
     return (
       <div className={classes.root}>
-        <Paper className={classes.searchbar} color="primary" elevation={1}>
+        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
             <SearchIcon />
           </IconButton>
-        </Paper>
-        <div className={classes.map}>
-          <Map markets={this.state.markets} theme={this.props.theme} />
-        </div>
+        </Paper> */}
         <Typography variant="h6" align="left" className={classes.titles}>
           Markets
         </Typography>
@@ -54,6 +97,9 @@ class SearchPage extends Component {
           className={classes.subtitles}>
           All Markets in your area
         </Typography>
+        <div className={classes.map}>
+          <Map markets={this.state.markets} theme={this.props.theme} />
+        </div>
         <div className={classes.markets}>
           {this.state.markets.map((market, id) => (
             <Link
