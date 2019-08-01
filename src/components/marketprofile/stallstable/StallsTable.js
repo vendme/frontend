@@ -155,13 +155,20 @@ function StallsTable(props) {
                 <TableCell className={classes.cell}>
                   {data.length * data.width}
                 </TableCell>
-                <TableCell className={classes.cell}><AlbumIcon style={{color: data.contract_expires <= Date.now() || data.availability === false ? red[700] : green[700]}}/></TableCell>
+                <TableCell className={classes.cell}><AlbumIcon style={{color: data.contract_expires === null ? green[700] : data.contract_expires <= Date.now() || data.availability === false ? red[700] : green[700]}}/></TableCell>
                 <TableCell className={classes.cell}>
-                  {data.contract_expires <= Date.now() || data.availability === false ? (
+                  {data.contract_expires === null ? 
+                  (
+                    <IconButton
+                    onClick={() => handleClickOpen(data)}
+                    className={classes.button}
+                    aria-label="Add to shopping cart">
+                    <ShoppingCartIcon />
+                  </IconButton>
+                  ) : data.contract_expires <= Date.now() || data.availability === false ? (
                     null ) : (
                     <IconButton
                     onClick={() => handleClickOpen(data)}
-                    color="primary"
                     className={classes.button}
                     aria-label="Add to shopping cart">
                     <ShoppingCartIcon />
@@ -199,7 +206,16 @@ function StallsTable(props) {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <StripeModule setAppear={setAppear} setMessage={setMessage} setError={setError} handleClose={handleClose} vendorId={type} expires={expires} stall={chosenStall} amount={amount}/>
+        <StripeModule 
+          setAppear={setAppear} 
+          setMessage={setMessage} 
+          setError={setError} 
+          handleClose={handleClose} 
+          vendorId={type} 
+          expires={expires} 
+          stall={chosenStall} 
+          amount={amount}
+        />
         </DialogActions>
       </Dialog>
     </div>
