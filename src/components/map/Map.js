@@ -62,7 +62,8 @@ class MapDiv extends React.Component {
       var coordinate = evt.coordinate
       var pixel = evt.pixel
       var feature =
-        this.map && this.map.forEachFeatureAtPixel(pixel, feature => feature)
+        this.map.forEachFeatureAtPixel &&
+        this.map.forEachFeatureAtPixel(pixel, feature => feature)
       content.style.display = feature && feature.market ? '' : 'none'
       container.style.display = feature && feature.market ? '' : 'none'
       closer.style.display = feature && feature.market ? '' : 'none'
@@ -77,7 +78,8 @@ class MapDiv extends React.Component {
       var coordinate = evt.coordinate
       var pixel = evt.pixel
       var feature =
-        this.map && this.map.forEachFeatureAtPixel(pixel, feature => feature)
+        this.map.forEachFeatureAtPixel &&
+        this.map.forEachFeatureAtPixel(pixel, feature => feature)
       if (feature && feature.market) {
         this.props.history.push('marketprofile/' + feature.market_id)
       }
@@ -134,12 +136,18 @@ class MapDiv extends React.Component {
       })
     )
     marker.setGeometry(new Point(fromLonLat([lat, lon])))
+    let exists = false
     const newMarkers = this.state.markers
     marker.market_id = market_id
     marker.market = market
     marker.address = address
-    newMarkers.push(marker)
-    this.setState({ markers: newMarkers })
+    for (let i = 0; i < this.state.markers.length; i++) {
+      if (this.state.markers[i].market_id === marker.market_id) exists = true
+    }
+    if (!exists) {
+      newMarkers.push(marker)
+      this.setState({ markers: newMarkers })
+    }
   }
   makeMarkers = marketsProp => {
     marketsProp &&

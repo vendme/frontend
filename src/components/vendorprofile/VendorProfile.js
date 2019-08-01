@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import Axios from 'axios'
 import {
   Typography,
-  withStyles,
-  Paper,
-  InputBase,
-  IconButton
+  withStyles
+  // Paper,
+  // InputBase,
+  // IconButton
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import Create from '@material-ui/icons/Create'
@@ -89,12 +89,12 @@ class VendorProfile extends Component {
             </Link>
           )}
         </div>
-        <Paper className={classes.searchbar} color="primary" elevation={1}>
+        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
           <InputBase className={classes.input} placeholder="Search..." />
           <IconButton className={classes.iconButton} aria-label="Search">
             <SearchIcon />
           </IconButton>
-        </Paper>
+        </Paper> */}
         <div className={classes.availinfo}>
           <Typography variant="h6" align="left" className={classes.titles}>
             Inventory

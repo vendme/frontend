@@ -50,23 +50,23 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
     },
     table: {
       width: '100%',
-      maxWidth: 600
+      maxWidth: 800
     },
     titles: {
       display: 'block',
       width: '100%',
-      maxWidth: 600
+      maxWidth: 800
     },
     vendorsTitle: {
       display: 'block',
       width: '100%',
-      maxWidth: 600,
+      maxWidth: 800,
       marginTop: spacing(4)
     },
     subtitles: {
       display: 'block',
       width: '100%',
-      maxWidth: 600,
+      maxWidth: 800,
       marginBottom: spacing(2),
       color: palette.grey['600']
     },
