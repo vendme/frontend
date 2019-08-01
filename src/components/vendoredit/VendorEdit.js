@@ -11,6 +11,7 @@ import Axios from 'axios'
 import AddItems from './additems/AddItems'
 import EditItemsTable from './edititemstable/EditItemsTable'
 
+import cloudinaryUpload from '../../services/cloudinary'
 import styles from './vendoredit.style.js'
 
 class VendorEdit extends Component {
@@ -23,11 +24,74 @@ class VendorEdit extends Component {
     product_name: '',
     product_description: '',
     product_price: '',
-    product_image: ''
+    product_image: '',
+    file: null,
+    open: false,
+    message: null,
+    error: false
   }
 
   componentDidMount = async id => {
     this.getVendor()
+  }
+
+  fileSelectedHandler = _ => {
+    cloudinaryUpload(f => this.setState({ file: f }))
+  }
+  submitFile = _ => {
+    if (
+      this.state.product_name &&
+      this.state.product_price &&
+      this.state.product_description
+    ) {
+      const updatedList = this.state.products
+      const add = {
+        product_image: this.state.file,
+        product_name: this.state.product_name,
+        product_description: this.state.product_description,
+        product_price: this.state.product_price
+      }
+      const postItem = {
+        market_id: this.state.market_id,
+        vendor_id: this.state.id,
+        product_image: this.state.file,
+        product_name: this.state.product_name,
+        product_description: this.state.product_description,
+        product_price: this.state.product_price,
+        product_category: 1
+      }
+      console.log(postItem)
+      Axios.post('https://vendme.herokuapp.com/api/products', postItem)
+        .then(res => {
+          updatedList.push(add)
+          this.setState({
+            products: updatedList,
+            product_name: '',
+            product_description: '',
+            product_price: '',
+            product_image: '',
+            open: true,
+            message: 'Succesfully added item.',
+            setError: false,
+            file: null
+          })
+          this.getProducts()
+        })
+        .catch(error => {
+          this.setState({
+            open: true,
+            message:
+              'There was an error saving your changes, please try again later.',
+            setError: true
+          })
+        })
+    }
+  }
+  onClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({ open: false, setError: false })
   }
 
   getVendor = async () => {
@@ -73,48 +137,6 @@ class VendorEdit extends Component {
       product_description: item.product_description,
       product_price: item.product_price
     })
-  }
-
-  submitItemToAdd = () => {
-    if (
-      this.state.product_name &&
-      this.state.product_price &&
-      this.state.product_description
-    ) {
-      const updatedList = this.state.products
-      const add = {
-        product_name: this.state.product_name,
-        product_description: this.state.product_description,
-        product_price: this.state.product_price,
-        product_image: this.state.product_image
-      }
-      const postItem = {
-        market_id: this.state.market_id,
-        vendor_id: this.state.id,
-        product_name: this.state.product_name,
-        product_description: this.state.product_description,
-        product_price: this.state.product_price,
-        product_image: this.state.product_image,
-        product_category: 1
-      }
-      console.log(postItem)
-      Axios.post('https://vendme.herokuapp.com/api/products', postItem)
-        .then(res => {
-          console.log(res)
-          updatedList.push(add)
-          this.setState({
-            products: updatedList,
-            product_name: '',
-            product_description: '',
-            product_price: '',
-            product_image: ''
-          })
-          this.getProducts()
-        })
-        .catch(error => {
-          console.log(JSON.stringify(error))
-        })
-    }
   }
   updateProfile = () => {
     const updated = {
@@ -241,6 +263,10 @@ class VendorEdit extends Component {
             productInfo={this.state}
             changeHandler={this.changeHandler}
             removeStall={this.removeStall}
+            file={this.state.file}
+            fileSelectedHandler={this.fileSelectedHandler}
+            onClose={this.onClose}
+            submitFile={this.submitFile}
           />
           <Typography variant="h6" align="left" className={classes.titles}>
             Current Inventory

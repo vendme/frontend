@@ -48,7 +48,7 @@ const AccountList = props => {
       }
       fetchData()
     }
-    
+
     if (user.id)
       axios
         .get('https://vendme.herokuapp.com/api/users/type/' + user.id)

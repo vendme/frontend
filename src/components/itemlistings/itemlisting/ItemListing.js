@@ -7,7 +7,11 @@ import {
   Card,
   CardMedia,
   Typography,
-  Button
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core'
 
@@ -16,9 +20,10 @@ import styles from './itemlisting.styles'
 const ItemListing = props => {
   const { classes } = props
   const [listing, setListing] = useState({})
-  const [vendor, setVendor] = useState('')
+  const [vendor, setVendor] = useState({})
   const [market, setMarket] = useState({})
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [openPhone, setOpenPhone] = useState(false)
   useEffect(_ => {
     if (Object.keys(listing).length === 0) {
       Axios.get(
@@ -33,30 +38,57 @@ const ItemListing = props => {
     }
     Axios.get(
       'https://vendme.herokuapp.com/api/vendor/' + listing.vendor_id
-    ).then(res => setVendor(res.data.vendor_name))
+    ).then(res => setVendor(res.data))
   })
   const handleOpen = () => {
     setOpen(true)
   }
-
   const handleClose = () => {
     setOpen(false)
+  }
+  const handleOpenPhone = () => {
+    setOpenPhone(true)
+  }
+  const handleClosePhone = () => {
+    setOpenPhone(false)
   }
   return (
     <div className={classes.root}>
       <Modal
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          width: '100vw',
+          height: '100vh'
+        }}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={open}
         onClose={handleClose}>
-        <CardMedia
-          classNames={classes.picture}
-          image={
+        <img
+          className={classes.pictureModal}
+          src={
             listing.product_image || 'http://lorempixel.com/160/160/business'
           }
-          title={listing.product_name}
+          alt={listing.product_name}
         />
       </Modal>
+      <Dialog
+        open={openPhone}
+        onClose={handleClosePhone}
+        aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Contact Vendor</DialogTitle>
+        <DialogContent>
+          {vendor.phone_number || 'No phone number'}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClosePhone} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div className={classes.blurBox}>
         <div
           className={classes.picturesContainer}
@@ -97,11 +129,12 @@ const ItemListing = props => {
               className={classes.vendor_pic}
               src="http://lorempixel.com/160/160/business"
             />
-            <Typography variant="subtitle1">{vendor}</Typography>
+            <Typography variant="subtitle1">{vendor.vendor_name}</Typography>
             <Button
               variant="contained"
               color="primary"
-              className={classes.button}>
+              className={classes.button}
+              onClick={handleOpenPhone}>
               MAKE OFFER
             </Button>
           </Card>

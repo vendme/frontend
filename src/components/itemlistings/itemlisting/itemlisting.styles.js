@@ -8,10 +8,12 @@ const styles = ({ spacing, palette, breakpoints }) => {
       marginTop: spacing(-3)
     },
     modal: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       position: 'absolute',
-      top: '50%',
-      left: '50%'
-      // transform: `translate(50%, -50%)`
+      width: '100vw',
+      height: '100vh'
     },
     blurBox: {
       position: 'fixed',
@@ -35,6 +37,10 @@ const styles = ({ spacing, palette, breakpoints }) => {
       maxWidth: '100%',
       margin: 'auto',
       marginBottom: spacing(3)
+    },
+    pictureModal: {
+      height: 600,
+      maxWidth: 600
     },
     picture: {
       width: 350,
