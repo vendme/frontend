@@ -106,7 +106,6 @@ function StallsTable(props) {
   }
 
   expires.setDate(expires.getDate()+days)
- 
 
   // const data = props.stalls.map(stall => {
   //   return createData(stall.stall_name, stall.width, stall.length)

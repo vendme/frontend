@@ -28,7 +28,7 @@ const StripeModule = props => {
 
     axios.post("https://vendme.herokuapp.com/api/payments", body)
       .then(response => {
-        console.log(rented)
+        
         console.log(response)
         alert('Payment Success')
       })
