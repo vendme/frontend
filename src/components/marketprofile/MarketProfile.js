@@ -74,16 +74,19 @@ class MarketProfile extends Component {
         hours: hours_open
       })
       try {
-        const added = await Axios.get(
-          `https://vendme.herokuapp.com/api/market/${id}/stalls`
-        )
-        this.setState({ submittedStallList: added.data })
+        this.getStalls(id)
       } catch (error) {
         console.log('message: ', error)
       }
     } catch (error) {
       console.log('message: ', error)
     }
+  }
+  getStalls = async id => {
+    const added = await Axios.get(
+      `https://vendme.herokuapp.com/api/market/${id}/stalls`
+    )
+    this.setState({ submittedStallList: added.data })
   }
   render() {
     const { classes } = this.props
@@ -116,6 +119,7 @@ class MarketProfile extends Component {
           </Typography>
           <div className={classes.table}>
             <StallsTable
+              getStalls={this.getStalls}
               stalls={this.state.submittedStallList}
               id={this.state.id}
             />

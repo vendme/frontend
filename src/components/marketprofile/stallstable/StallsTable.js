@@ -246,6 +246,7 @@ function StallsTable(props) {
             expires={expires}
             stall={chosenStall}
             amount={amount}
+            getStalls={props.getStalls}
           />
         </DialogActions>
       </Dialog>

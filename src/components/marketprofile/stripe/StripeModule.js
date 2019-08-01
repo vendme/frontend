@@ -72,7 +72,7 @@ const StripeModule = props => {
                 { market_id: props.stall.market_id }
               )
               .then(res => {
-                console.log(res)
+                props.getStalls(props.stall.market_id)
               })
               .catch(error => {
                 console.log(JSON.stringify(error))
@@ -84,7 +84,6 @@ const StripeModule = props => {
 
         setAppear(true)
         props.handleClose()
-        console.log(response)
         setMessage('Purchase was Successful')
         setError(false)
       })
