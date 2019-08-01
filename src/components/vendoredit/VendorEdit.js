@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Typography,
@@ -10,6 +11,7 @@ import {
 import Axios from 'axios'
 import AddItems from './additems/AddItems'
 import EditItemsTable from './edititemstable/EditItemsTable'
+import Snackbar from '../snackbar/Snackbar'
 
 import cloudinaryUpload from '../../services/cloudinary'
 import styles from './vendoredit.style.js'
@@ -158,7 +160,8 @@ class VendorEdit extends Component {
       .catch(error => {
         this.setState({
           open: true,
-          message: 'There was an error',
+          message:
+            'There was an error updating your profile, please try again.',
           setError: true
         })
       })
@@ -220,6 +223,12 @@ class VendorEdit extends Component {
 
     return (
       <div className={classes.root}>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.onClose}
+          error={this.state.error}
+          message={this.state.message}
+        />
         <Typography variant="h6" align="left" className={classes.titles}>
           Edit Vendor Profile
         </Typography>
@@ -308,6 +317,11 @@ class VendorEdit extends Component {
               fileSelectedHandler={this.fileSelectedHandler}
             />
           </div>
+          <Link to={'/vendorprofile/' + this.state.id}>
+            <Button fullWidth color="primary">
+              Back to Profile
+            </Button>
+          </Link>
         </>
       </div>
     )
