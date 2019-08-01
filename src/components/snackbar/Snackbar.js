@@ -5,6 +5,7 @@ import { Close, Error } from '@material-ui/icons'
 import { red, green } from '@material-ui/core/colors'
 
 const Snackbar = ({ open, onClose, message, error }) => {
+
   return (
     <SnackbarComponent
       anchorOrigin={{

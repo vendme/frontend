@@ -107,7 +107,7 @@ class MarketProfile extends Component {
         </Paper>
         <div className={classes.availinfo}>
           <Typography variant="h6" align="left" className={classes.titles}>
-            Available Stalls
+            Stalls
           </Typography>
           <Typography
             variant="subtitle1"

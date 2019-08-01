@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import StripeCheckout from 'react-stripe-checkout'
 import axios from 'axios'
 import { withStyles } from '@material-ui/core'
 import { fade } from '@material-ui/core/styles/colorManipulator'
+
 const styles = ({ spacing, palette, transitions, breakpoints }) => {
   return {
     stripe: {
@@ -33,6 +34,8 @@ const StripeModule = props => {
   const { classes } = props
   const publishableKey = process.env.REACT_APP_STRIPE_KEY
 
+  const { setAppear, setMessage, setError } = props
+
   const rented = {
     stall_name: props.stall.stall_name,
     market_id: props.stall.market_id,
@@ -40,29 +43,45 @@ const StripeModule = props => {
     category_id: 3,
     length: props.stall.length,
     width: props.stall.width,
-    availability: true,
+    availability: false,
     description: props.stall.description,
     stall_photo: props.stall.stall_photo,
     contract_expires: props.expires,
     stall_price: props.stall.stall_price,
     rent_message: true
-  };
-  
+  }
+
   const onToken = token => {
     const body = {
       amount: props.amount,
       token: token
-    };
+    }
 
-    axios.post("https://vendme.herokuapp.com/api/payments", body)
+    axios
+      .post('https://vendme.herokuapp.com/api/payments', body)
       .then(response => {
-        
+        axios
+          .put(
+            `https://vendme.herokuapp.com/api/stalls/${props.stall.id}`,
+            rented
+          )
+          .then(res => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(JSON.stringify(error))
+          })
+
+        setAppear(true)
+        props.handleClose()
         console.log(response)
-        alert('Payment Success')
+        setMessage('Purchase was Successful')
+        setError(false)
       })
       .catch(error => {
         console.log('Payment Error: ', error)
-        alert('Payment Error')
+        setMessage('There was an error with your payment, please try again.')
+        setError(true)
       })
   }
   return (
