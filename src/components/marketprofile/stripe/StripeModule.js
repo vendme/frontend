@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import StripeCheckout from 'react-stripe-checkout'
 import axios from 'axios'
-
 const StripeModule = props => {
   const publishableKey = 'pk_test_lp8BmFIO2cR5VLED0xJMLNqY00jqSmId7g'
+
+  const { setAppear, setMessage, setError } = props
 
   const rented = {
     stall_name: props.stall.stall_name,
@@ -12,7 +13,7 @@ const StripeModule = props => {
     category_id: 3,
     length: props.stall.length,
     width: props.stall.width,
-    availability: true,
+    availability: false,
     description: props.stall.description,
     stall_photo: props.stall.stall_photo,
     contract_expires: props.expires,
@@ -28,13 +29,27 @@ const StripeModule = props => {
 
     axios.post("https://vendme.herokuapp.com/api/payments", body)
       .then(response => {
-        
+
+        axios.put(`https://vendme.herokuapp.com/api/stalls/${props.stall.id}`, rented)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error))
+        })
+
+        setAppear(true)
+        props.handleClose()
         console.log(response)
-        alert('Payment Success')
+        setMessage('Purchase was Successful')
+        setError(false)
       })
       .catch(error => {
         console.log('Payment Error: ', error)
-        alert('Payment Error')
+        setMessage(
+          'There was an error with your payment, please try again.'
+        )
+        setError(true)
       })
   }
   return (

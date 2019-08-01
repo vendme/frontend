@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { withFirebase } from '../../firebase'
 import tokenDateChecker from '../../../services/tokenDateChecker'
 import Axios from 'axios'
@@ -25,6 +24,8 @@ import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+
+import Snackbar from '../../snackbar/Snackbar'
 
 const styles = theme => ({
   root: {
@@ -58,6 +59,17 @@ function StallsTable(props) {
   const [chosenStall, setChosenStall] = useState(null);
   const [user, setUser] = useState({})
   const [type, setType] = useState('')
+  const [appear, setAppear] = useState(false)
+  const [message, setMessage] = useState(null)
+  const [error, setError] = useState(false)
+
+  const onClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setAppear(false)
+    setError(false)
+  }
 
   useEffect(_ => {
     if (Object.keys(user).length === 0) {
@@ -67,7 +79,6 @@ function StallsTable(props) {
             'https://vendme.herokuapp.com/auth/verify'
           )
           setUser(data)
-          console.log(data)
           firebase.getIdToken().then(idToken => {
             Axios.defaults.headers.common['Authorization'] = idToken
           })
@@ -93,6 +104,7 @@ function StallsTable(props) {
   }
 
   let days = 1;
+
   const expires = new Date();
   if(duration === 5000){
     days = 1
@@ -103,14 +115,12 @@ function StallsTable(props) {
   else if(duration === 25000){
     days = 7
   }
-
+  
   expires.setDate(expires.getDate()+days)
 
-  // const data = props.stalls.map(stall => {
-  //   return createData(stall.stall_name, stall.width, stall.length)
-  // })
   return (
     <div>
+      <Snackbar open={appear} onClose={onClose} error={error} message={message} />
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
@@ -172,10 +182,7 @@ function StallsTable(props) {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <StripeModule vendorId={type} expires={expires} stall={chosenStall} amount={duration}/>
-        {/* <Button onClick={handleClose} color="primary">
-          Rent
-        </Button> */}
+        <StripeModule setAppear={setAppear} setMessage={setMessage} setError={setError} handleClose={handleClose} vendorId={type} expires={expires} stall={chosenStall} amount={duration}/>
         </DialogActions>
       </Dialog>
     </div>
