@@ -12,8 +12,6 @@ import {
 import { Error, Close } from '@material-ui/icons'
 import { red } from '@material-ui/core/colors'
 
-import * as ROUTES from '../../constants/routes'
-
 const INITIAL_STATE = {
   email: '',
   passwordOne: '',
@@ -52,7 +50,6 @@ class SignUp extends React.Component {
             )
             Axios.defaults.headers.common['Authorization'] = idToken
             Axios.post('https://vendme.herokuapp.com/auth/register', {
-              // Axios.post('http://localhost:9000/auth/register', {
               email: authUser.user.email,
               account_type: 1,
               profile_pic:

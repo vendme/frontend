@@ -52,7 +52,9 @@ class LocationSearch extends React.Component {
           }`,
           city: results[0].address_components[3].short_name,
           state: results[0].address_components[5].short_name,
-          zip_code: results[0].address_components[7].short_name
+          zip_code: results[0].address_components[7].short_name,
+          lon: results[0].geometry.location.lng(),
+          lat: results[0].geometry.location.lat()
         }
         service.getDistanceMatrix(
           {
@@ -70,7 +72,6 @@ class LocationSearch extends React.Component {
       })
       .catch(error => console.error('Error: ', error))
     function callback(res, status) {
-      console.log(res)
       console.log(res.rows[0].elements[0].distance.text + ' away')
     }
   }

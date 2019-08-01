@@ -16,7 +16,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { renderComponent } from 'recompose';
 
 const styles = theme => ({
   root: {
@@ -38,18 +37,18 @@ const styles = theme => ({
 
 function EditStallsTable(props) {
   const { classes } = props
-  
-  const [open, setOpen] = useState(false);
-  const [editedId, setEditedId] = useState(null);
-  
-  const handleClickOpen = (stall) => {
-    setOpen(true);
+
+  const [open, setOpen] = useState(false)
+  const [editedId, setEditedId] = useState(null)
+
+  const handleClickOpen = stall => {
+    setOpen(true)
     setEditedId(stall.id)
     props.updateStallHandler(stall)
   }
-  
+
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
   }
   const handleUpdate = () => {
     props.onEdit(editedId)

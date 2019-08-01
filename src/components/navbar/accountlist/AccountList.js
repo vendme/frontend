@@ -52,7 +52,6 @@ const AccountList = props => {
       axios
         .get('https://vendme.herokuapp.com/api/users/type/' + user.id)
         .then(res => setType(res.data.id))
-        .catch(err => console.log(err))
   })
 
   function handleToggle() {

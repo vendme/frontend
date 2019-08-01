@@ -26,19 +26,23 @@ const styles = theme => ({
 
 const MarketProfileInfo = props => {
   const { classes, input, handleInput } = props
-  const { market_name, address, state, city, zip_code } = input
+  const { market_name } = input
   const {
     changeMarket_name,
     changeAddress,
     changeState,
     changeCity,
-    changeZip
+    changeZip,
+    changeLon,
+    changeLat
   } = handleInput
   const updateLocation = location => {
     changeAddress(location.street)
     changeState(location.state)
     changeCity(location.city)
     changeZip(location.zip_code)
+    changeLon(location.lon)
+    changeLat(location.lat)
   }
 
   return (
