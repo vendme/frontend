@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState} from 'react'
+import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -10,13 +11,15 @@ import StarIcon from '@material-ui/icons/StarBorder'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
-import StripeModule from '../marketprofile/stripe/StripeModule'
+import PriceStripeModule from './stripe/PriceStripeModule'
+import Snackbar from '../snackbar/Snackbar'
 import styles from './pricing.styles'
 
 const tiers = [
   {
     title: 'Free',
-    price: '0',
+    displayPrice: '0',
+    price: null,
     description: ['10 stalls', 'Email support'],
     buttonText: 'Sign up for free',
     buttonVariant: 'outlined'
@@ -24,14 +27,16 @@ const tiers = [
   {
     title: 'Pro',
     subheader: 'Most popular',
-    price: '15',
+    displayPrice: '15',
+    price: 1500,
     description: ['50 stalls', 'Phone & email support'],
     buttonText: 'Get started',
     buttonVariant: 'contained'
   },
   {
     title: 'Enterprise',
-    price: '30',
+    displayPrice: '30',
+    price: 3000,
     description: ['Unlimited stalls', 'Premium pins for our map'],
     buttonText: 'Contact us',
     buttonVariant: 'outlined'
@@ -41,8 +46,22 @@ const tiers = [
 const Pricing = props => {
   const { classes } = props
 
+  const [open, setOpen] = useState(false);
+  const [appear, setAppear] = useState(false)
+  const [message, setMessage] = useState(null)
+  const [error, setError] = useState(false)
+
+  const onClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setAppear(false)
+    setError(false)
+  }
+
   return (
     <React.Fragment>
+      <Snackbar open={appear} onClose={onClose} error={error} message={message} />
       <CssBaseline />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
@@ -86,7 +105,7 @@ const Pricing = props => {
                 <CardContent>
                   <div className={classes.cardPricing}>
                     <Typography component="h2" variant="h3" color="textPrimary">
-                      ${tier.price}
+                      ${tier.displayPrice}
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
                       /mo
@@ -94,25 +113,31 @@ const Pricing = props => {
                   </div>
                   <ul>
                     {tier.description.map(line => (
-                      <StripeModule />
-                      // <Typography
-                      //   component="li"
-                      //   variant="subtitle1"
-                      //   align="center"
-                      //   key={line}>
-                      //   {line}
-                      // </Typography>
+                      <Typography
+                        component="li"
+                        variant="subtitle1"
+                        align="center"
+                        key={line}>
+                        {line}
+                      </Typography>
                     ))}
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <StripeModule />
-                  {/* <Button
-                    fullWidth
-                    variant={tier.buttonVariant}
-                    color="primary">
-                    {tier.buttonText}
-                  </Button> */}
+                  {tier.price === null ? (
+                  <Link to="/login">
+                    <Button fullWidth variant={tier.buttonVariant} color="primary">
+                      {tier.buttonText}
+                    </Button>
+                  </Link>
+                  ) : (
+                    <PriceStripeModule
+                      setAppear={setAppear} 
+                      setMessage={setMessage} 
+                      setError={setError}  
+                      amount={tier.price}
+                    />
+                  )}
                 </CardActions>
               </Card>
             </Grid>
