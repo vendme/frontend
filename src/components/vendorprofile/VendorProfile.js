@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import Create from '@material-ui/icons/Create'
-import InventoryTable from './inventorytable/InventoryTable'
+// import InventoryTable from './inventorytable/InventoryTable'
 import CardInfo from '../card/cardinfo/CardInfo'
 
 import styles from './vendorprofile.styles.js'

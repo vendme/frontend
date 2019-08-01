@@ -23,13 +23,8 @@ const styles = theme => ({
 
 const VendorProfileInfo = props => {
   const { classes, input, handleInput } = props
-  const { vendor_name, vendor_logo, bio, phone_number } = input
-  const {
-    changeVendor_name,
-    changeVendor_logo,
-    changeBio,
-    changePhone_number
-  } = handleInput
+  const { vendor_name, bio } = input
+  const { changeVendor_name, changeBio } = handleInput
 
   return (
     <div className={classes.root}>
