@@ -84,8 +84,7 @@ function StallsTable(props) {
   })
 
   const handleClickOpen = (stall) => {
-    // if (user.account_type === 2) 
-    setOpen(true)
+    if (user.account_type === 2) setOpen(true)
     setChosenStall(stall)
   }
 
@@ -106,7 +105,6 @@ function StallsTable(props) {
   }
 
   expires.setDate(expires.getDate()+days)
- 
 
   // const data = props.stalls.map(stall => {
   //   return createData(stall.stall_name, stall.width, stall.length)
