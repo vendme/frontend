@@ -85,6 +85,9 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
     iconButton: {
       padding: spacing(1),
       marginRight: spacing(1)
+    },
+    stall: {
+      padding: spacing(2)
     }
   }
 }
