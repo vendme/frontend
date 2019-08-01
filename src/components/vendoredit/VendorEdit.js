@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Typography,
@@ -10,6 +11,7 @@ import {
 import Axios from 'axios'
 import AddItems from './additems/AddItems'
 import EditItemsTable from './edititemstable/EditItemsTable'
+import Snackbar from '../snackbar/Snackbar'
 
 import cloudinaryUpload from '../../services/cloudinary'
 import styles from './vendoredit.style.js'
@@ -148,10 +150,15 @@ class VendorEdit extends Component {
       updated
     )
       .then(res => {
+        this.setState({open: true})
+        this.setState({message:'Update was Successful'})
+        this.setState({error: false})
         console.log(res)
       })
       .catch(error => {
         console.log(JSON.stringify(error))
+        this.setState('There was an error updating your profile, please try again.')
+        this.setState(true)
       })
   }
   removeItem = pId => {
@@ -199,6 +206,7 @@ class VendorEdit extends Component {
 
     return (
       <div className={classes.root}>
+        <Snackbar open={this.state.open} onClose={this.onClose} error={this.state.error} message={this.state.message} />
         <Typography variant="h6" align="left" className={classes.titles}>
           Edit Vendor Profile
         </Typography>
@@ -285,6 +293,11 @@ class VendorEdit extends Component {
               removeItem={this.removeItem}
             />
           </div>
+          <Link to={"/vendorprofile/" + this.state.id}>
+            <Button fullWidth color="primary">
+              Back to Profile
+            </Button>
+          </Link>
         </>
       </div>
     )
