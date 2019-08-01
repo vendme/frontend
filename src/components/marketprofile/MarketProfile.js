@@ -118,7 +118,6 @@ class MarketProfile extends Component {
           </Typography>
           <div className={classes.table}>
             <StallsTable
-              phone_number={this.state.phone_num}
               stalls={this.state.submittedStallList}
               id={this.state.id}
             />

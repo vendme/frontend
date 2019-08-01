@@ -139,6 +139,7 @@ class MarketEdit extends Component {
         availability: true,
         description: this.state.description,
         stall_photo: null,
+        contract_expires: null,
         stall_price: this.state.stall_price,
         rent_message: true
       }
@@ -208,6 +209,7 @@ class MarketEdit extends Component {
       availability: true,
       description: this.state.description,
       stall_photo: null,
+      contract_expires: null,
       stall_price: this.state.stall_price,
       rent_message: false
     }

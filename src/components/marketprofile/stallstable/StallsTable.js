@@ -52,9 +52,12 @@ function createData(stall_name, width, length) {
 
 function StallsTable(props) {
   const { classes, firebase, history } = props
-  const [open, setOpen] = useState(false)
+
+  const [open, setOpen] = useState(false);
+  const [duration, setDuration] = useState(5000);
+  const [chosenStall, setChosenStall] = useState(null);
   const [user, setUser] = useState({})
-  const [duration, setDuration] = useState(5000)
+  const [type, setType] = useState('')
 
   useEffect(_ => {
     if (Object.keys(user).length === 0) {
@@ -64,6 +67,7 @@ function StallsTable(props) {
             'https://vendme.herokuapp.com/auth/verify'
           )
           setUser(data)
+          console.log(data)
           firebase.getIdToken().then(idToken => {
             Axios.defaults.headers.common['Authorization'] = idToken
           })
@@ -73,19 +77,38 @@ function StallsTable(props) {
       }
       fetchData()
     }
+    if (user.id)
+      Axios
+        .get('https://vendme.herokuapp.com/api/users/type/' + user.id)
+        .then(res => setType(res.data.id))
   })
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (stall) => {
     if (user.account_type === 2) setOpen(true)
+    setChosenStall(stall)
   }
 
   const handleClose = () => {
     setOpen(false)
   }
 
-  const data = props.stalls.map(stall => {
-    return createData(stall.stall_name, stall.width, stall.length)
-  })
+  let days = 1;
+  const expires = new Date();
+  if(duration === 5000){
+    days = 1
+  }
+  else if(duration === 10000){
+    days = 2
+  }
+  else if(duration === 25000){
+    days = 7
+  }
+
+  expires.setDate(expires.getDate()+days)
+
+  // const data = props.stalls.map(stall => {
+  //   return createData(stall.stall_name, stall.width, stall.length)
+  // })
   return (
     <div>
       <Paper className={classes.root}>
@@ -100,7 +123,7 @@ function StallsTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map(data => (
+            {props.stalls.map(data => (
               <TableRow key={data.id}>
                 <TableCell className={classes.cell}>
                   {data.stall_name}
@@ -112,7 +135,7 @@ function StallsTable(props) {
                 </TableCell>
                 <TableCell className={classes.cell}>
                   <IconButton
-                    onClick={handleClickOpen}
+                    onClick={() => handleClickOpen(data)}
                     color="primary"
                     className={classes.button}
                     aria-label="Add to shopping cart">
@@ -124,35 +147,33 @@ function StallsTable(props) {
           </TableBody>
         </Table>
       </Paper>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Rent Stall Information</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please select a time duration from below.
-          </DialogContentText>
-          <form>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="duration">Duration</InputLabel>
-              <Select
-                value={duration}
-                onChange={e => setDuration(e.target.value)}
-                input={<Input id="duration" />}>
-                <MenuItem value={5000}>One Day</MenuItem>
-                <MenuItem value={10000}>Two Days</MenuItem>
-                <MenuItem value={25000}>Seven Days</MenuItem>
-              </Select>
-            </FormControl>
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <StripeModule amount={duration} />
-          {/* <Button onClick={handleClose} color="primary">
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">Rent Stall Information</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Please select a time duration from below.
+        </DialogContentText>
+        <form>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="duration">Duration</InputLabel>
+            <Select
+              value={duration}
+              onChange={e => setDuration(e.target.value)}
+              input={<Input id="duration" />}
+            >
+              <MenuItem value={5000}>One Day</MenuItem>
+              <MenuItem value={10000}>Two Days</MenuItem>
+              <MenuItem value={25000}>Seven Days</MenuItem>
+            </Select>
+          </FormControl>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Cancel
+        </Button>
+        <StripeModule vendorId={type} expires={expires} stall={chosenStall} amount={duration}/>
+        {/* <Button onClick={handleClose} color="primary">
           Rent
         </Button> */}
         </DialogActions>

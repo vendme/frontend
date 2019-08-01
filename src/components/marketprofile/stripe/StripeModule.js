@@ -33,14 +33,30 @@ const StripeModule = props => {
   const { classes } = props
   const publishableKey = process.env.REACT_APP_STRIPE_KEY
 
+  const rented = {
+    stall_name: props.stall.stall_name,
+    market_id: props.stall.market_id,
+    vendor_id: props.vendorId,
+    category_id: 3,
+    length: props.stall.length,
+    width: props.stall.width,
+    availability: true,
+    description: props.stall.description,
+    stall_photo: props.stall.stall_photo,
+    contract_expires: props.expires,
+    stall_price: props.stall.stall_price,
+    rent_message: true
+  };
+  
   const onToken = token => {
     const body = {
       amount: props.amount,
       token: token
-    }
-    axios
-      .post('https://vendme.herokuapp.com/api/payments', body)
+    };
+
+    axios.post("https://vendme.herokuapp.com/api/payments", body)
       .then(response => {
+        
         console.log(response)
         alert('Payment Success')
       })
