@@ -30,7 +30,8 @@ class VendorEdit extends Component {
     file: null,
     open: false,
     message: null,
-    error: false
+    error: false,
+    editing: false
   }
 
   componentDidMount = async id => {
@@ -187,6 +188,22 @@ class VendorEdit extends Component {
         })
       })
   }
+  editing = _ => {
+    this.setState({ editing: true })
+  }
+  closeEdit = _ => {
+    this.setState({
+      product_name: '',
+      product_description: '',
+      product_price: '',
+      product_image: '',
+      file: null,
+      open: false,
+      message: null,
+      error: false,
+      editing: false
+    })
+  }
   onEdit = itemId => {
     const updated = {
       market_id: this.state.market_id,
@@ -207,7 +224,8 @@ class VendorEdit extends Component {
           file: null,
           open: true,
           message: 'Succesfully updated item.',
-          setError: false
+          setError: false,
+          editing: false
         })
       })
       .catch(error => {
@@ -294,6 +312,7 @@ class VendorEdit extends Component {
             fileSelectedHandler={this.fileSelectedHandler}
             onClose={this.onClose}
             submitFile={this.submitFile}
+            editing={this.state.editing}
           />
           <Typography variant="h6" align="left" className={classes.titles}>
             Current Inventory
@@ -312,9 +331,11 @@ class VendorEdit extends Component {
               changeHandler={this.changeHandler}
               updateProductHandler={this.updateProductHandler}
               onEdit={this.onEdit}
+              editing={this.editing}
               removeItem={this.removeItem}
               file={this.state.file}
               fileSelectedHandler={this.fileSelectedHandler}
+              closeEdit={this.closeEdit}
             />
           </div>
           <Link to={'/vendorprofile/' + this.state.id}>
