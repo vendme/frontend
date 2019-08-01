@@ -1,6 +1,5 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import axios from 'axios'
 import Feature from 'ol/Feature.js'
 import Overlay from 'ol/Overlay.js'
 import Geolocation from 'ol/Geolocation.js'
@@ -11,10 +10,6 @@ import Point from 'ol/geom/Point.js'
 import { Vector as VectorLayer } from 'ol/layer.js'
 import { Vector as VectorSource } from 'ol/source.js'
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js'
-import { toStringHDMS } from 'ol/coordinate.js'
-import TileLayer from 'ol/layer/Tile.js'
-import { toLonLat } from 'ol/proj.js'
-import TileJSON from 'ol/source/TileJSON.js'
 import olms from 'ol-mapbox-style'
 
 import { withStyles } from '@material-ui/core'
@@ -145,29 +140,29 @@ class MapDiv extends React.Component {
     this.setState({ markers: newMarkers })
   }
   makeMarkers = _ => {
-    this.props.market &&
-    this.props.markets.forEach(market => {
-      geocoder.geocode(
-        {
-          address: `${market.address}, ${market.city}, ${market.state} ${
-            market.zip_code
-          }`
-        },
-        (results, status) => {
-          if (status == window.google.maps.GeocoderStatus.OK) {
-            this.markerMaker(
-              results[0].geometry.location.lat(),
-              results[0].geometry.location.lng(),
-              market.id,
-              market.market_name,
-              `${market.address}, ${market.city}, ${market.state} ${
-                market.zip_code
-              }`
-            )
+    this.props.markets &&
+      this.props.markets.forEach(market => {
+        geocoder.geocode(
+          {
+            address: `${market.address}, ${market.city}, ${market.state} ${
+              market.zip_code
+            }`
+          },
+          (results, status) => {
+            if (status === window.google.maps.GeocoderStatus.OK) {
+              this.markerMaker(
+                results[0].geometry.location.lat(),
+                results[0].geometry.location.lng(),
+                market.id,
+                market.market_name,
+                `${market.address}, ${market.city}, ${market.state} ${
+                  market.zip_code
+                }`
+              )
+            }
           }
-        }
-      )
-    })
+        )
+      })
     if (this.state.markers.length > 6) {
       new VectorLayer({
         map: this.map,
@@ -187,7 +182,7 @@ class MapDiv extends React.Component {
       <>
         <div ref={this.myRef} id="map" style={{ height: '400px' }} />
         <div id="popup" className={classes.popup}>
-          <a href="#" id="popup-closer" className={classes.closer} />
+          <div href="#" id="popup-closer" className={classes.closer} />
           <div id="popup-content" />
         </div>
       </>

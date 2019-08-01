@@ -55,12 +55,16 @@ const Register = props => {
   const [state, changeState] = useState('')
   const [city, changeCity] = useState('')
   const [zip_code, changeZip] = useState('')
+  const [lon, changeLon] = useState('')
+  const [lat, changeLat] = useState('')
   const input = {
     market_name,
     address,
     state,
     city,
     zip_code,
+    lon,
+    lat,
     vendor_name,
     vendor_logo,
     bio,
@@ -72,6 +76,8 @@ const Register = props => {
     changeState,
     changeCity,
     changeZip,
+    changeLon,
+    changeLat,
     changeVendor_name,
     changeVendor_logo,
     changeBio,
@@ -120,6 +126,8 @@ const Register = props => {
               address,
               city,
               state,
+              lon,
+              lat,
               zip_code,
               phone_num: '',
               market_info: '',
@@ -132,6 +140,8 @@ const Register = props => {
                 props.history.push('/')
               })
               .catch(err => console.log(err.message))
+          break
+        default:
           break
       }
     } else {
