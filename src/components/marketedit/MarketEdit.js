@@ -55,6 +55,7 @@ class MarketEdit extends Component {
     description: '',
     stall_price: '',
     checked: [],
+    changeTime: false,
     days: [
       {
         id: 0,
@@ -299,6 +300,9 @@ class MarketEdit extends Component {
       updated
     )
       .then(res => {
+        this.setState({
+          changeTime: false
+        })
         console.log(res)
       })
       .catch(error => {
@@ -434,6 +438,9 @@ class MarketEdit extends Component {
     )
     this.setState({ days: newDays, checked: newChecked })
   }
+  changeTime = _ => {
+    this.setState({ changeTime: true })
+  }
 
   render() {
     const { classes } = this.props
@@ -519,74 +526,83 @@ class MarketEdit extends Component {
                 onChange={this.changeHandler}
                 className={classes.textField}
               />
-              <List className={classes.list}>
-                {[
-                  { id: 0, day: 'Sunday' },
-                  { id: 1, day: 'Monday' },
-                  { id: 2, day: 'Tuesday' },
-                  { id: 3, day: 'Wednesday' },
-                  { id: 4, day: 'Thursday' },
-                  { id: 5, day: 'Friday' },
-                  { id: 6, day: 'Saturday' }
-                ].map(value => (
-                  <ListItem
-                    className={classes.listItem}
-                    key={value.day}
-                    role={undefined}
-                    dense
-                    button
-                    onClick={_ => this.handleToggle(value)}>
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        checked={this.state.checked.indexOf(value.id) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{
-                          'aria-labelledby': `checkbox-list-label-${value.day}`
-                        }}
+              {this.state.changeTime && (
+                <List className={classes.list}>
+                  {[
+                    { id: 0, day: 'Sunday' },
+                    { id: 1, day: 'Monday' },
+                    { id: 2, day: 'Tuesday' },
+                    { id: 3, day: 'Wednesday' },
+                    { id: 4, day: 'Thursday' },
+                    { id: 5, day: 'Friday' },
+                    { id: 6, day: 'Saturday' }
+                  ].map(value => (
+                    <ListItem
+                      className={classes.listItem}
+                      key={value.day}
+                      role={undefined}
+                      dense
+                      button
+                      onClick={_ => this.handleToggle(value)}>
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={this.state.checked.indexOf(value.id) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{
+                            'aria-labelledby': `checkbox-list-label-${
+                              value.day
+                            }`
+                          }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={`checkbox-list-label-${value.day}`}
+                        primary={value.day}
                       />
-                    </ListItemIcon>
-                    <ListItemText
-                      id={`checkbox-list-label-${value.day}`}
-                      primary={value.day}
-                    />
-                    <ListItemSecondaryAction
-                      style={{
-                        width: '60%',
-                        display: 'flex',
-                        justifyContent: 'flex-end'
-                      }}>
-                      <KeyboardTimePicker
-                        style={{ width: '40%' }}
-                        margin="normal"
-                        id="mui-pickers-time"
-                        label="Opening time"
-                        value={this.state.days[value.id].selectedDate}
-                        onChange={(date, e) =>
-                          this.handleDateChange(date, e, value)
-                        }
-                        KeyboardButtonProps={{
-                          'aria-label': 'change time'
-                        }}
-                      />
-                      <KeyboardTimePicker
-                        style={{ width: '40%' }}
-                        margin="normal"
-                        id="mui-pickers-time"
-                        label="Closing time"
-                        value={this.state.days[value.id].selectedDateClose}
-                        onChange={(date, e) =>
-                          this.handleDateChangeClose(date, e, value)
-                        }
-                        KeyboardButtonProps={{
-                          'aria-label': 'change time'
-                        }}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-              </List>
+                      <ListItemSecondaryAction
+                        style={{
+                          width: '60%',
+                          display: 'flex',
+                          justifyContent: 'flex-end'
+                        }}>
+                        <KeyboardTimePicker
+                          style={{ width: '40%' }}
+                          margin="normal"
+                          id="mui-pickers-time"
+                          label="Opening time"
+                          value={this.state.days[value.id].selectedDate}
+                          onChange={(date, e) =>
+                            this.handleDateChange(date, e, value)
+                          }
+                          KeyboardButtonProps={{
+                            'aria-label': 'change time'
+                          }}
+                        />
+                        <KeyboardTimePicker
+                          style={{ width: '40%' }}
+                          margin="normal"
+                          id="mui-pickers-time"
+                          label="Closing time"
+                          value={this.state.days[value.id].selectedDateClose}
+                          onChange={(date, e) =>
+                            this.handleDateChangeClose(date, e, value)
+                          }
+                          KeyboardButtonProps={{
+                            'aria-label': 'change time'
+                          }}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+              {!this.state.changeTime && (
+                <Button fullWidth onClick={this.changeTime}>
+                  Change hours
+                </Button>
+              )}
               <div className={classes.buttons}>
                 <Button
                   onClick={this.updateProfile}
