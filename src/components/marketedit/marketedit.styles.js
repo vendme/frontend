@@ -4,6 +4,9 @@ const styles = ({ spacing, palette }) => ({
     alignItems: 'center',
     flexDirection: 'column'
   },
+  grid: {
+    width: '60%'
+  },
   addContainer: {
     width: '100%',
     border: '1px solid red',
@@ -50,6 +53,16 @@ const styles = ({ spacing, palette }) => ({
     margin: spacing(1),
     marginTop: spacing(2),
     marginRight: 0
+  },
+  list: {
+    display: 'flex',
+    alignItems: 'space-between',
+    flexDirection: 'column',
+    width: '100%'
+  },
+  listItem: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })
 

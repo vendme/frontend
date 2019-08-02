@@ -72,6 +72,7 @@ function CardInfo(props) {
         const pattern = /\s*;\s*/
         const allTimes = info.hours_open.split(pattern)
         const converted = allTimes.map(times => {
+          console.log(times)
           times = times.split`,`
           return times.map(time => {
             if (time === 'null') {
@@ -133,7 +134,7 @@ function CardInfo(props) {
             className={classes.chip}
             color="secondary"
             variant="outlined"
-            label={info.hours_open}
+            label={hours}
           />
         ) : null}
       </div>
