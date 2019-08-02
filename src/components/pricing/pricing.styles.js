@@ -19,7 +19,7 @@ const styles = theme => {
       flexGrow: 1
     },
     link: {
-      margin: theme.spacing(1, 1.5)
+      margin: theme.spacing(1, 2.5)
     },
     heroContent: {
       padding: theme.spacing(8, 0, 6)

@@ -46,7 +46,6 @@ const tiers = [
 const Pricing = props => {
   const { classes } = props
 
-  const [open, setOpen] = useState(false);
   const [appear, setAppear] = useState(false)
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(false)
@@ -126,7 +125,7 @@ const Pricing = props => {
                 <CardActions>
                   {tier.price === null ? (
                   <Link to="/login">
-                    <Button fullWidth variant={tier.buttonVariant} color="primary">
+                    <Button fullWidth variant={tier.buttonVariant} className={classes.link} color="primary">
                       {tier.buttonText}
                     </Button>
                   </Link>

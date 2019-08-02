@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import Axios from 'axios'
 import { Card, CardMedia, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core'
@@ -10,6 +10,7 @@ function ItemListings(props) {
   const { classes, vendor } = props
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
+
   useEffect(_ => {
     if (data.length === 0 && loading) {
       if (vendor == null) {
@@ -31,12 +32,15 @@ function ItemListings(props) {
           })
       }
     }
+    
   })
   return (
     <>
+      { props.match.path.includes('/itemlistings') ? (
       <Typography component="h6" variant="h4" align="center" className={classes.title}>
         All Product Listings
-      </Typography>
+      </Typography> )
+      : null}
       <div className={classes.root}>
         {data.map(listing => (
           <Link key={'listing-' + listing.id} to={'/itemlisting/' + listing.id}>
@@ -67,4 +71,4 @@ function ItemListings(props) {
   )
 }
 
-export default withStyles(styles)(ItemListings)
+export default withStyles(styles)(withRouter(ItemListings))

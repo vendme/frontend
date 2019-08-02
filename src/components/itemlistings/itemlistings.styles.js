@@ -32,7 +32,7 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       margin: spacing(1)
     },
     title: {
-      padding: spacing(4)
+      padding: spacing(2)
     }
   }
 }
