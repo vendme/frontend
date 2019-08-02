@@ -61,6 +61,9 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
       maxWidth: 1200,
       width: '100%',
       margin: `${spacing(2)}px auto`
+    },
+    title: {
+      margin: spacing(2)
     }
   }
 }

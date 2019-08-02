@@ -11,6 +11,7 @@ import {
 import Axios from 'axios'
 import AddStall from '../addstalls/AddStall'
 import EditStallsTable from './editstallstable/EditStallsTable'
+import Snackbar from '../snackbar/Snackbar'
 import tokenDateChecker from '../../services/tokenDateChecker'
 
 import styles from './marketedit.style.js'
@@ -39,7 +40,10 @@ class MarketEdit extends Component {
     width: '',
     length: '',
     description: '',
-    stall_price: ''
+    stall_price: '',
+    open: false,
+    message: null,
+    error: false
   }
 
   componentDidMount = async () => {
@@ -174,14 +178,29 @@ class MarketEdit extends Component {
             width: '',
             length: '',
             description: '',
-            stall_price: ''
+            stall_price: '',
+            open: true,
+            message: 'Succesfully added stall.',
+            error: false
           })
           this.getStalls()
         })
         .catch(error => {
           console.log(JSON.stringify(error))
+          this.setState({
+            open: true,
+            message:
+              'There was an error saving your changes, please try again later.',
+            error: true
+          })
         })
     }
+  }
+  onClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({ open: false, error: false })
   }
 
   updateProfile = () => {
@@ -207,24 +226,41 @@ class MarketEdit extends Component {
       updated
     )
       .then(res => {
-        console.log(res)
+        this.setState({
+          open: true,
+          message: 'Succesfully updated profile.',
+          error: false
+        })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message:
+            'There was an error updating your profile, please try again.',
+          error: true
+        })
       })
   }
 
   removeStall = cats => {
     Axios.delete(`https://vendme.herokuapp.com/api/stalls/${cats}`)
       .then(res => {
-        console.log('message: ', res)
         const updated = this.state.submittedStallList.filter(stall => {
           return stall.id !== cats ? stall : null
         })
-        this.setState({ submittedStallList: updated })
+        this.setState({ 
+          submittedStallList: updated,
+          open: true,
+          message: 'Succesfully removed stall.',
+          error: false
+        })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'There was an error, please try again.',
+          setError: false
+        })
       })
   }
 
@@ -254,11 +290,18 @@ class MarketEdit extends Component {
           width: '',
           length: '',
           description: '',
-          stall_price: ''
+          stall_price: '',
+          open: true,
+          message: 'Succesfully updated stall.',
+          error: false,
         })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'There was an error, please try again.',
+          error: false
+        })
       })
   }
 
@@ -267,6 +310,12 @@ class MarketEdit extends Component {
 
     return (
       <div className={classes.root}>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.onClose}
+          error={this.state.error}
+          message={this.state.message}
+        />
         <Typography variant="h6" align="left" className={classes.titles}>
           Edit Market Profile
         </Typography>

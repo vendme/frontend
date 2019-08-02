@@ -30,6 +30,9 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
     price: {
       fontWeight: 'bold',
       margin: spacing(1)
+    },
+    title: {
+      padding: spacing(2)
     }
   }
 }

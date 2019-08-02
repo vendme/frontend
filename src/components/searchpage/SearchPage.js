@@ -87,6 +87,12 @@ class SearchPage extends Component {
             <SearchIcon />
           </IconButton>
         </Paper> */}
+        <Typography component="h6" variant="h4" className={classes.title}>
+          Market Listings
+        </Typography>
+        <div className={classes.map}>
+          <Map markets={this.state.markets} theme={this.props.theme} />
+        </div>
         <Typography variant="h6" align="left" className={classes.titles}>
           Markets
         </Typography>
@@ -97,9 +103,6 @@ class SearchPage extends Component {
           className={classes.subtitles}>
           All Markets in your area
         </Typography>
-        <div className={classes.map}>
-          <Map markets={this.state.markets} theme={this.props.theme} />
-        </div>
         <div className={classes.markets}>
           {this.state.markets.map((market, id) => (
             <Link
