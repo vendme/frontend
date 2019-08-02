@@ -1,7 +1,21 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
 import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker
+} from '@material-ui/pickers'
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  Checkbox,
+  IconButton,
+  CommentIcon,
   Typography,
   withStyles,
   TextField,
@@ -13,7 +27,7 @@ import AddStall from '../addstalls/AddStall'
 import EditStallsTable from './editstallstable/EditStallsTable'
 import tokenDateChecker from '../../services/tokenDateChecker'
 
-import styles from './marketedit.style.js'
+import styles from './marketedit.styles.js'
 
 class MarketEdit extends Component {
   state = {
@@ -39,23 +53,95 @@ class MarketEdit extends Component {
     width: '',
     length: '',
     description: '',
-    stall_price: ''
+    stall_price: '',
+    checked: [],
+    days: [
+      {
+        id: 0,
+        open: false,
+        day: 'Sunday',
+        time: '600',
+        timeClose: '1800',
+        selectedDate: new Date('2019-08-01T06:00:00'),
+        selectedDateClose: new Date('2019-08-01T18:00:00')
+      },
+      {
+        id: 1,
+        open: false,
+        day: 'Monday',
+        time: '600',
+        timeClose: '1800',
+        selectedDate: new Date('2019-08-01T06:00:00'),
+        selectedDateClose: new Date('2019-08-01T18:00:00')
+      },
+      {
+        id: 2,
+        open: false,
+        day: 'Tuesday',
+        time: '600',
+        timeClose: '1800',
+        selectedDate: new Date('2019-08-01T06:00:00'),
+        selectedDateClose: new Date('2019-08-01T18:00:00')
+      },
+      {
+        id: 3,
+        open: false,
+        day: 'Wednesday',
+        time: '600',
+        timeClose: '1800',
+        selectedDate: new Date('2019-08-01T06:00:00'),
+        selectedDateClose: new Date('2019-08-01T18:00:00')
+      },
+      {
+        id: 4,
+        open: false,
+        day: 'Thursday',
+        time: '600',
+        timeClose: '1800',
+        selectedDate: new Date('2019-08-01T06:00:00'),
+        selectedDateClose: new Date('2019-08-01T18:00:00')
+      },
+      {
+        id: 5,
+        open: false,
+        day: 'Friday',
+        time: '600',
+        timeClose: '1800',
+        selectedDate: new Date('2019-08-01T06:00:00'),
+        selectedDateClose: new Date('2019-08-01T18:00:00')
+      },
+      {
+        id: 6,
+        open: false,
+        day: 'Saturday',
+        time: '600',
+        timeClose: '1800',
+        selectedDate: new Date('2019-08-01T06:00:00'),
+        selectedDateClose: new Date('2019-08-01T18:00:00')
+      }
+    ]
   }
 
   componentDidMount = async () => {
-    this.getMarket()
-    if (tokenDateChecker()) {
-      const { data } = await Axios.get(
-        'https://vendme.herokuapp.com/auth/verify'
+    if (!this.state.user_market) {
+      this.getMarket()
+      const market = await Axios.get(
+        'https://vendme.herokuapp.com/api/market/' + this.props.match.params.id
       )
-      if (data.id === this.state.user_market) {
-        this.setState({ user_id: data.id })
-        this.getStalls()
+      const { user_market } = market.data
+      if (tokenDateChecker()) {
+        const { data } = await Axios.get(
+          'https://vendme.herokuapp.com/auth/verify'
+        )
+        if (data.id == user_market) {
+          this.setState({ user_id: data.id })
+          this.getStalls()
+        } else {
+          this.props.history.push('/login')
+        }
       } else {
-        this.props.history.push('/404')
+        this.props.history.push('/login')
       }
-    } else {
-      this.props.history.push('/login')
     }
   }
 
@@ -185,6 +271,12 @@ class MarketEdit extends Component {
   }
 
   updateProfile = () => {
+    const newTime = this.state.days.map(day => {
+      return `${day.open ? day.time : 'null'},${
+        day.open ? day.timeClose : 'null'
+      }${day.id !== 6 ? ';' : ''}`
+    }).join``
+    console.log(newTime)
     const updated = {
       id: this.state.id,
       market_name: this.state.market_name,
@@ -196,7 +288,7 @@ class MarketEdit extends Component {
       zip_code: this.state.zip_code,
       phone_num: this.state.phone_num,
       market_info: this.state.market_info,
-      hours_open: this.state.hours_open,
+      hours_open: newTime,
       market_map_file: this.state.market_map_file,
       agreement_file: this.state.agreement_file,
       created_at: this.state.created_at,
@@ -214,12 +306,12 @@ class MarketEdit extends Component {
       })
   }
 
-  removeStall = cats => {
-    Axios.delete(`https://vendme.herokuapp.com/api/stalls/${cats}`)
+  removeStall = id => {
+    Axios.delete(`https://vendme.herokuapp.com/api/stalls/${id}`)
       .then(res => {
         console.log('message: ', res)
         const updated = this.state.submittedStallList.filter(stall => {
-          return stall.id !== cats ? stall : null
+          return stall.id !== id ? stall : null
         })
         this.setState({ submittedStallList: updated })
       })
@@ -262,156 +354,298 @@ class MarketEdit extends Component {
       })
   }
 
+  handleDateChange = (date, givenTime, value) => {
+    let both = givenTime.split` `
+    givenTime = both[0].split`:`.join``
+    if (givenTime[0] == '0') givenTime = givenTime.substring(1)
+    givenTime = Number(givenTime)
+    let ampm = both[1]
+    let official =
+      ampm == 'AM' ? givenTime.toString() : (givenTime + 1200).toString()
+    let twleveCheck =
+      official >= 2400 ? '00' + (official - 2400) : official.toString()
+    const newTime = twleveCheck
+    const newDays = [...this.state.days].map(
+      ({ day, open, id, time, timeClose, selectedDate, selectedDateClose }) => {
+        return {
+          id,
+          day,
+          open: day == value.day ? true : open,
+          time: day == value.day ? newTime : time,
+          timeClose,
+          selectedDate: day == value.day ? date : selectedDate,
+          selectedDateClose
+        }
+      }
+    )
+    console.log(newDays)
+    this.setState({ days: newDays })
+  }
+
+  handleDateChangeClose = (date, givenTime, value) => {
+    let both = givenTime.split` `
+    givenTime = both[0].split`:`.join``
+    if (givenTime[0] == '0') givenTime = givenTime.substring(1)
+    givenTime = Number(givenTime)
+    let ampm = both[1]
+    let official =
+      ampm == 'AM' ? givenTime.toString() : (givenTime + 1200).toString()
+    let twleveCheck =
+      official >= 2400 ? '00' + (official - 2400) : official.toString()
+    const newTime = twleveCheck
+    console.log(newTime)
+    const newDays = [...this.state.days].map(
+      ({ day, open, id, time, timeClose, selectedDate, selectedDateClose }) => {
+        return {
+          id,
+          day,
+          open: day == value.day ? true : open,
+          time,
+          timeClose: day == value.day ? newTime : timeClose,
+          selectedDate,
+          selectedDateClose: day == value.day ? date : selectedDateClose
+        }
+      }
+    )
+    console.log(newDays)
+    this.setState({ days: newDays })
+  }
+
+  handleToggle = value => {
+    const currentIndex = this.state.checked.indexOf(value.id)
+    const newChecked = [...this.state.checked]
+    if (currentIndex === -1) {
+      newChecked.push(value.id)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+    const newDays = [...this.state.days].map(
+      ({ day, open, id, time, timeClose, selectedDate, selectedDateClose }) => {
+        return {
+          id,
+          day,
+          open: id == value.id ? true : open,
+          time,
+          timeClose,
+          selectedDate,
+          selectedDateClose
+        }
+      }
+    )
+    this.setState({ days: newDays, checked: newChecked })
+  }
+
   render() {
     const { classes } = this.props
 
     return (
-      <div className={classes.root}>
-        <Typography variant="h6" align="left" className={classes.titles}>
-          Edit Market Profile
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          gutterBottom
-          align="left"
-          className={classes.subtitles}>
-          Your profile information
-        </Typography>
-        <Paper className={classes.profile}>
-          <Typography variant="h6" gutterBottom>
-            Profile Info
-          </Typography>
-          <TextField
-            id="standard-dense"
-            label="Market Name"
-            margin="dense"
-            name="market_name"
-            value={this.state.market_name}
-            onChange={this.changeHandler}
-            className={classes.textField}
-          />
-          <div className={classes.address}>
-            <TextField
-              id="standard-dense"
-              label="Street"
-              margin="dense"
-              name="address"
-              value={this.state.address}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="State"
-              margin="dense"
-              name="state"
-              value={this.state.state}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="City"
-              margin="dense"
-              name="city"
-              value={this.state.city}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="Zipcode"
-              margin="dense"
-              name="zip_code"
-              value={this.state.zip_code}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="Hours Open"
-              margin="dense"
-              name="hours_open"
-              value={this.state.hours_open}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="Phone Number"
-              margin="dense"
-              name="phone_num"
-              value={this.state.phone_num}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <TextField
-              id="standard-dense"
-              label="Bio"
-              margin="dense"
-              name="market_info"
-              value={this.state.market_info}
-              onChange={this.changeHandler}
-              className={classes.textField}
-            />
-            <div className={classes.buttons}>
-              <Button
-                onClick={this.updateProfile}
-                variant="contained"
-                color="primary"
-                className={classes.button}>
-                Save
-              </Button>
-            </div>
-          </div>
-        </Paper>
-        <>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div className={classes.root}>
           <Typography variant="h6" align="left" className={classes.titles}>
-            Add Stalls
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            align="left"
-            className={classes.subtitles}>
-            Add a stall for vendors to rent
-          </Typography>
-          <AddStall
-            mystate={this.state}
-            changeHandler={this.changeHandler}
-            submitStallToAdd={this.submitStallToAdd}
-            stall_name={this.state.stall_name}
-            width={this.state.width}
-            length={this.state.length}
-            description={this.state.description}
-            stall_price={this.state.stall_price}
-          />
-          <Typography variant="h6" align="left" className={classes.titles}>
-            Available Stalls
+            Edit Market Profile
           </Typography>
           <Typography
             variant="subtitle1"
             gutterBottom
             align="left"
             className={classes.subtitles}>
-            All of your available stalls
+            Your profile information
           </Typography>
-          <div className={classes.table}>
-            <EditStallsTable
-              changeHandler={this.changeHandler}
-              removeStall={this.removeStall}
-              updateStallHandler={this.updateStallHandler}
-              onEdit={this.onEdit}
-              stallInfo={this.state}
-              stalls={this.state.submittedStallList}
+          <Paper className={classes.profile}>
+            <Typography variant="h6" gutterBottom>
+              Profile Info
+            </Typography>
+            <TextField
+              id="standard-dense"
+              label="Market Name"
+              margin="dense"
+              name="market_name"
+              value={this.state.market_name}
+              onChange={this.changeHandler}
+              className={classes.textField}
             />
-          </div>
-          <Link to={"/marketprofile/" + this.state.id}>
-            <Button fullWidth color="primary">
-              Back to Profile
-            </Button>
-          </Link>
-        </>
-      </div>
+            <div className={classes.address}>
+              <TextField
+                id="standard-dense"
+                label="Street"
+                margin="dense"
+                name="address"
+                value={this.state.address}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="State"
+                margin="dense"
+                name="state"
+                value={this.state.state}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="City"
+                margin="dense"
+                name="city"
+                value={this.state.city}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="Zipcode"
+                margin="dense"
+                name="zip_code"
+                value={this.state.zip_code}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="Phone Number"
+                margin="dense"
+                name="phone_num"
+                value={this.state.phone_num}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="Bio"
+                margin="dense"
+                name="market_info"
+                value={this.state.market_info}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <List className={classes.list}>
+                {[
+                  { id: 0, day: 'Sunday' },
+                  { id: 1, day: 'Monday' },
+                  { id: 2, day: 'Tuesday' },
+                  { id: 3, day: 'Wednesday' },
+                  { id: 4, day: 'Thursday' },
+                  { id: 5, day: 'Friday' },
+                  { id: 6, day: 'Saturday' }
+                ].map(value => (
+                  <ListItem
+                    className={classes.listItem}
+                    key={value.day}
+                    role={undefined}
+                    dense
+                    button
+                    onClick={_ => this.handleToggle(value)}>
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={this.state.checked.indexOf(value.id) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{
+                          'aria-labelledby': `checkbox-list-label-${value.day}`
+                        }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      id={`checkbox-list-label-${value.day}`}
+                      primary={value.day}
+                    />
+                    <ListItemSecondaryAction
+                      style={{
+                        width: '60%',
+                        display: 'flex',
+                        justifyContent: 'flex-end'
+                      }}>
+                      <KeyboardTimePicker
+                        style={{ width: '40%' }}
+                        margin="normal"
+                        id="mui-pickers-time"
+                        label="Opening time"
+                        value={this.state.days[value.id].selectedDate}
+                        onChange={(date, e) =>
+                          this.handleDateChange(date, e, value)
+                        }
+                        KeyboardButtonProps={{
+                          'aria-label': 'change time'
+                        }}
+                      />
+                      <KeyboardTimePicker
+                        style={{ width: '40%' }}
+                        margin="normal"
+                        id="mui-pickers-time"
+                        label="Closing time"
+                        value={this.state.days[value.id].selectedDateClose}
+                        onChange={(date, e) =>
+                          this.handleDateChangeClose(date, e, value)
+                        }
+                        KeyboardButtonProps={{
+                          'aria-label': 'change time'
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+              <div className={classes.buttons}>
+                <Button
+                  onClick={this.updateProfile}
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}>
+                  Save
+                </Button>
+              </div>
+            </div>
+          </Paper>
+          <>
+            <Typography variant="h6" align="left" className={classes.titles}>
+              Add Stalls
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              align="left"
+              className={classes.subtitles}>
+              Add a stall for vendors to rent
+            </Typography>
+            <AddStall
+              mystate={this.state}
+              changeHandler={this.changeHandler}
+              submitStallToAdd={this.submitStallToAdd}
+              stall_name={this.state.stall_name}
+              width={this.state.width}
+              length={this.state.length}
+              description={this.state.description}
+              stall_price={this.state.stall_price}
+            />
+            <Typography variant="h6" align="left" className={classes.titles}>
+              Available Stalls
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              align="left"
+              className={classes.subtitles}>
+              All of your available stalls
+            </Typography>
+            <div className={classes.table}>
+              <EditStallsTable
+                changeHandler={this.changeHandler}
+                removeStall={this.removeStall}
+                updateStallHandler={this.updateStallHandler}
+                onEdit={this.onEdit}
+                stallInfo={this.state}
+                stalls={this.state.submittedStallList}
+              />
+            </div>
+            <Link to={'/marketprofile/' + this.state.id}>
+              <Button fullWidth color="primary">
+                Back to Profile
+              </Button>
+            </Link>
+          </>
+        </div>
+      </MuiPickersUtilsProvider>
     )
   }
 }
