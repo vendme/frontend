@@ -557,15 +557,6 @@ class MarketEdit extends Component {
               />
               <TextField
                 id="standard-dense"
-                label="Hours Open"
-                margin="dense"
-                name="hours_open"
-                value={this.state.hours_open}
-                onChange={this.changeHandler}
-                className={classes.textField}
-              />
-              <TextField
-                id="standard-dense"
                 label="Phone Number"
                 margin="dense"
                 name="phone_num"
