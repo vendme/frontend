@@ -2,15 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import Axios from 'axios'
-import {
-  Typography,
-  withStyles
-  // Paper,
-  // InputBase,
-  // IconButton
-} from '@material-ui/core'
+import { Typography, withStyles } from '@material-ui/core'
 import { Create } from '@material-ui/icons'
-import SearchIcon from '@material-ui/icons/Search'
 import StallsTable from './stallstable/StallsTable'
 import CardInfo from '../card/cardinfo/CardInfo'
 import tokenDateChecker from '../../services/tokenDateChecker'
@@ -86,7 +79,7 @@ class MarketProfile extends Component {
         market_map_file,
         agreement_file,
         created_at,
-        user_market,
+        user_market
       })
       try {
         this.getStalls(id)
@@ -115,12 +108,6 @@ class MarketProfile extends Component {
             </Link>
           )}
         </div>
-        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
-          <InputBase className={classes.input} placeholder="Search..." />
-          <IconButton className={classes.iconButton} aria-label="Search">
-            <SearchIcon />
-          </IconButton>
-        </Paper> */}
         <div className={classes.availinfo}>
           <Typography variant="h6" align="left" className={classes.titles}>
             Stalls

@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Axios from 'axios'
-import { withStyles, Paper, InputBase, IconButton } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
+import { withStyles } from '@material-ui/core'
 import Card from '../../card/Card'
-import Map from '../../map/Map'
 import { withAuthorization } from '../../session'
 
 import styles from './vendorslist.styles.js'

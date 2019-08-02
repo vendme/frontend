@@ -94,7 +94,6 @@ const Register = props => {
             'https://vendme.herokuapp.com/auth/verify'
           )
           setUser(data)
-          console.log(data)
           firebase.getIdToken().then(idToken => {
             Axios.defaults.headers.common['Authorization'] = idToken
           })
@@ -119,7 +118,6 @@ const Register = props => {
   }
 
   const changeUserAccount = type => {
-    console.log('user: ', user)
     Axios.put('https://vendme.herokuapp.com/api/users/' + user.id, {
       account_type: type
     }).catch(err => console.log(err.message))

@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import StripeCheckout from 'react-stripe-checkout'
 import axios from 'axios'
 import { withStyles } from '@material-ui/core'
-import { fade } from '@material-ui/core/styles/colorManipulator'
 
 const styles = ({ spacing, palette, transitions, breakpoints }) => {
   return {

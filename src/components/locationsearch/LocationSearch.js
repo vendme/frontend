@@ -65,15 +65,14 @@ class LocationSearch extends React.Component {
             avoidHighways: false,
             avoidTolls: false
           },
-          callback
+          _ => {
+            return false
+          }
         )
         this.setState(newState)
         if (this.props.updateLocation) this.props.updateLocation(newState)
       })
       .catch(error => console.error('Error: ', error))
-    function callback(res, status) {
-      console.log(res.rows[0].elements[0].distance.text + ' away')
-    }
   }
 
   render() {

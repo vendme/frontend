@@ -1,16 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Axios from 'axios'
-import {
-  withStyles,
-  Paper,
-  InputBase,
-  IconButton,
-  Typography
-} from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
+import { withStyles, Typography } from '@material-ui/core'
 import Card from '../card/Card'
-import Map from '../map/Map'
 import { withAuthorization } from '../session'
 
 import styles from './vendorspage.styles'
@@ -35,15 +27,6 @@ class VendorsPage extends Component {
     const { classes } = this.props
     return (
       <div className={classes.root}>
-        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
-          <InputBase className={classes.input} placeholder="Search..." />
-          <IconButton className={classes.iconButton} aria-label="Search">
-            <SearchIcon />
-          </IconButton>
-        </Paper>
-        <div className={classes.map}>
-          <Map theme={this.props.theme} />
-        </div> */}
         <Typography variant="h6" align="left" className={classes.titles}>
           Vendors
         </Typography>

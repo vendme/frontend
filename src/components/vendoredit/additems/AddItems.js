@@ -1,14 +1,5 @@
-import React, { useState } from 'react'
-import Axios from 'axios'
-import {
-  Button,
-  IconButton,
-  withStyles,
-  TextField,
-  Paper
-} from '@material-ui/core'
-import { Attachment, Save } from '@material-ui/icons'
-import AddIcon from '@material-ui/icons/AddCircle'
+import React from 'react'
+import { Button, withStyles, TextField, Paper } from '@material-ui/core'
 import Snackbar from '../../snackbar/Snackbar'
 import styles from './additems.styles.js'
 

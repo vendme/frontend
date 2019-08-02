@@ -75,7 +75,6 @@ class MapDiv extends React.Component {
       }
     })
     this.map.on('click', evt => {
-      var coordinate = evt.coordinate
       var pixel = evt.pixel
       var feature =
         this.map.forEachFeatureAtPixel &&

@@ -114,7 +114,7 @@ const AccountList = props => {
                     </MenuItem>
                     <Link
                       to={
-                        user.account_type == 1
+                        user.account_type === 1
                           ? '/marketprofile/' + type
                           : '/vendorprofile/' + type
                       }>
