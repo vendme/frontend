@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import StripeCheckout from 'react-stripe-checkout'
 import { withStyles } from '@material-ui/core'
 import axios from 'axios'
@@ -34,25 +34,23 @@ const PriceStripeModule = props => {
   const publishableKey = process.env.REACT_APP_STRIPE_KEY
 
   const { setAppear, setMessage, setError } = props
-  
+
   const onToken = token => {
     const body = {
       amount: props.amount,
       token: token
-    };
+    }
 
-    axios.post("https://vendme.herokuapp.com/api/payments", body)
+    axios
+      .post('https://vendme.herokuapp.com/api/payments', body)
       .then(response => {
         setAppear(true)
-        console.log(response)
         setMessage('Purchase was Successful')
         setError(false)
       })
       .catch(error => {
         console.log('Payment Error: ', error)
-        setMessage(
-          'There was an error with your payment, please try again.'
-        )
+        setMessage('There was an error with your payment, please try again.')
         setError(true)
       })
   }

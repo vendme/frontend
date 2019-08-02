@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 
-import gooogleButton2 from './btn_google_signin_light_normal_web@2x.png'
 import styles from './signup.styles'
 
 const SignUpForm = props => {

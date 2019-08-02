@@ -28,7 +28,6 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
 import Snackbar from '../../snackbar/Snackbar'
-import { spacing } from '@material-ui/system'
 
 const styles = theme => ({
   root: {
@@ -57,12 +56,6 @@ const styles = theme => ({
     marginRight: theme.spacing(2)
   }
 })
-
-let id = 0
-function createData(stall_name, width, length) {
-  id += 1
-  return { id, stall_name, width, length }
-}
 
 function StallsTable(props) {
   const { classes, firebase, history } = props
@@ -121,7 +114,6 @@ function StallsTable(props) {
   const selectChange = e => {
     setDuration(e.target.value)
     setAmount(parseInt(chosenStall.stall_price * 100) + e.target.value)
-    console.log(amount)
   }
 
   let days = 1

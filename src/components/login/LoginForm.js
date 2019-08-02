@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 
-import gooogleButton2 from './btn_google_signin_light_normal_web@2x.png'
 import { PasswordForgetLink } from '../passwordforget'
 import styles from './login.styles'
 

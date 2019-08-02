@@ -21,7 +21,7 @@ const ItemListing = props => {
   const { classes } = props
   const [listing, setListing] = useState({})
   const [vendor, setVendor] = useState({})
-  const [market, setMarket] = useState({})
+  // const [market, setMarket] = useState({})
   const [open, setOpen] = useState(false)
   const [openPhone, setOpenPhone] = useState(false)
   useEffect(_ => {
@@ -128,6 +128,7 @@ const ItemListing = props => {
             <img
               className={classes.vendor_pic}
               src="http://lorempixel.com/160/160/business"
+              alt={listing.product_name}
             />
             <Typography variant="subtitle1">{vendor.vendor_name}</Typography>
             <Button

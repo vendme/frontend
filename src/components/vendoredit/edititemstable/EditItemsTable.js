@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
@@ -16,8 +16,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import cloudinaryUpload from '../../../services/cloudinary'
-import { renderComponent } from 'recompose'
 
 const styles = theme => ({
   root: {
@@ -57,7 +55,6 @@ class EditItemsTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     this.setState({
       data: nextProps.items,
       itemsInfo: nextProps.itemsInfo
@@ -163,6 +160,7 @@ class EditItemsTable extends React.Component {
             <img
               className={classes.picture}
               src={this.props.file || this.props.itemsInfo.product_image}
+              alt={this.props.itemsInfo.product_name}
             />
             <Button
               variant="outlined"

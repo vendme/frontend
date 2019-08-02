@@ -1,14 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Axios from 'axios'
-import {
-  withStyles,
-  Paper,
-  InputBase,
-  IconButton,
-  Typography
-} from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
+import { withStyles, Typography } from '@material-ui/core'
 import Card from '../card/Card'
 import Map from '../map/Map'
 import { withAuthorization } from '../session'
@@ -63,7 +56,6 @@ class SearchPage extends Component {
         const sort = this.state.markets_distances.sort((a, b) => {
           return a.distance - b.distance
         })
-        console.log(sort)
         this.setState({ markets: sort })
       }
     )
@@ -81,12 +73,6 @@ class SearchPage extends Component {
     const { classes } = this.props
     return (
       <div className={classes.root}>
-        {/* <Paper className={classes.searchbar} color="primary" elevation={1}>
-          <InputBase className={classes.input} placeholder="Search..." />
-          <IconButton className={classes.iconButton} aria-label="Search">
-            <SearchIcon />
-          </IconButton>
-        </Paper> */}
         <Typography component="h6" variant="h4" className={classes.title}>
           Market Listings
         </Typography>

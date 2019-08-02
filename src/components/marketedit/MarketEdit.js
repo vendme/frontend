@@ -14,8 +14,6 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   Checkbox,
-  IconButton,
-  CommentIcon,
   Typography,
   withStyles,
   TextField,
@@ -34,7 +32,6 @@ class MarketEdit extends Component {
   state = {
     id: null,
     user_id: null,
-    user_market: null,
     market_name: '',
     lon: '',
     lad: '',
@@ -138,7 +135,7 @@ class MarketEdit extends Component {
         const { data } = await Axios.get(
           'https://vendme.herokuapp.com/auth/verify'
         )
-        if (data.id == user_market) {
+        if (data.id === user_market) {
           this.setState({ user_id: data.id })
           this.getStalls()
         } else {
@@ -402,11 +399,11 @@ class MarketEdit extends Component {
   handleDateChange = (date, givenTime, value) => {
     let both = givenTime.split` `
     givenTime = both[0].split`:`.join``
-    if (givenTime[0] == '0') givenTime = givenTime.substring(1)
+    if (givenTime[0] === '0') givenTime = givenTime.substring(1)
     givenTime = Number(givenTime)
     let ampm = both[1]
     let official =
-      ampm == 'AM' ? givenTime.toString() : (givenTime + 1200).toString()
+      ampm === 'AM' ? givenTime.toString() : (givenTime + 1200).toString()
     let twleveCheck =
       official >= 2400 ? '00' + (official - 2400) : official.toString()
     const newTime = twleveCheck
@@ -415,10 +412,10 @@ class MarketEdit extends Component {
         return {
           id,
           day,
-          open: day == value.day ? true : open,
-          time: day == value.day ? newTime : time,
+          open: day === value.day ? true : open,
+          time: day === value.day ? newTime : time,
           timeClose,
-          selectedDate: day == value.day ? date : selectedDate,
+          selectedDate: day === value.day ? date : selectedDate,
           selectedDateClose
         }
       }
@@ -430,11 +427,11 @@ class MarketEdit extends Component {
   handleDateChangeClose = (date, givenTime, value) => {
     let both = givenTime.split` `
     givenTime = both[0].split`:`.join``
-    if (givenTime[0] == '0') givenTime = givenTime.substring(1)
+    if (givenTime[0] === '0') givenTime = givenTime.substring(1)
     givenTime = Number(givenTime)
     let ampm = both[1]
     let official =
-      ampm == 'AM' ? givenTime.toString() : (givenTime + 1200).toString()
+      ampm === 'AM' ? givenTime.toString() : (givenTime + 1200).toString()
     let twleveCheck =
       official >= 2400 ? '00' + (official - 2400) : official.toString()
     const newTime = twleveCheck
@@ -444,11 +441,11 @@ class MarketEdit extends Component {
         return {
           id,
           day,
-          open: day == value.day ? true : open,
+          open: day === value.day ? true : open,
           time,
-          timeClose: day == value.day ? newTime : timeClose,
+          timeClose: day === value.day ? newTime : timeClose,
           selectedDate,
-          selectedDateClose: day == value.day ? date : selectedDateClose
+          selectedDateClose: day === value.day ? date : selectedDateClose
         }
       }
     )
@@ -469,7 +466,7 @@ class MarketEdit extends Component {
         return {
           id,
           day,
-          open: id == value.id ? true : open,
+          open: id === value.id ? true : open,
           time,
           timeClose,
           selectedDate,
