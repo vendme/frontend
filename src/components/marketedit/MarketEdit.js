@@ -25,6 +25,7 @@ import {
 import Axios from 'axios'
 import AddStall from '../addstalls/AddStall'
 import EditStallsTable from './editstallstable/EditStallsTable'
+import Snackbar from '../snackbar/Snackbar'
 import tokenDateChecker from '../../services/tokenDateChecker'
 
 import styles from './marketedit.styles.js'
@@ -120,7 +121,10 @@ class MarketEdit extends Component {
         selectedDate: new Date('2019-08-01T06:00:00'),
         selectedDateClose: new Date('2019-08-01T18:00:00')
       }
-    ]
+    ],
+    open: false,
+    message: null,
+    error: false
   }
 
   componentDidMount = async () => {
@@ -261,14 +265,29 @@ class MarketEdit extends Component {
             width: '',
             length: '',
             description: '',
-            stall_price: ''
+            stall_price: '',
+            open: true,
+            message: 'Succesfully added stall.',
+            error: false
           })
           this.getStalls()
         })
         .catch(error => {
           console.log(JSON.stringify(error))
+          this.setState({
+            open: true,
+            message:
+              'There was an error saving your changes, please try again later.',
+            error: true
+          })
         })
     }
+  }
+  onClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({ open: false, error: false })
   }
 
   updateProfile = () => {
@@ -301,26 +320,41 @@ class MarketEdit extends Component {
     )
       .then(res => {
         this.setState({
-          changeTime: false
+          changeTime: false,
+          open: true,
+          message: 'Succesfully updated profile.',
+          error: false
         })
-        console.log(res)
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message:
+            'There was an error updating your profile, please try again.',
+          error: true
+        })
       })
   }
 
   removeStall = id => {
     Axios.delete(`https://vendme.herokuapp.com/api/stalls/${id}`)
       .then(res => {
-        console.log('message: ', res)
         const updated = this.state.submittedStallList.filter(stall => {
           return stall.id !== id ? stall : null
         })
-        this.setState({ submittedStallList: updated })
+        this.setState({
+          submittedStallList: updated,
+          open: true,
+          message: 'Succesfully removed stall.',
+          error: false
+        })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'There was an error, please try again.',
+          setError: false
+        })
       })
   }
 
@@ -350,11 +384,18 @@ class MarketEdit extends Component {
           width: '',
           length: '',
           description: '',
-          stall_price: ''
+          stall_price: '',
+          open: true,
+          message: 'Succesfully updated stall.',
+          error: false
         })
       })
       .catch(error => {
-        console.log(JSON.stringify(error))
+        this.setState({
+          open: true,
+          message: 'There was an error, please try again.',
+          error: false
+        })
       })
   }
 
@@ -448,6 +489,110 @@ class MarketEdit extends Component {
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <div className={classes.root}>
+          <Snackbar
+            open={this.state.open}
+            onClose={this.onClose}
+            error={this.state.error}
+            message={this.state.message}
+          />
+          <Typography variant="h6" align="left" className={classes.titles}>
+            Edit Market Profile
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            align="left"
+            className={classes.subtitles}>
+            Your profile information
+          </Typography>
+          <Paper className={classes.profile}>
+            <Typography variant="h6" gutterBottom>
+              Profile Info
+            </Typography>
+            <TextField
+              id="standard-dense"
+              label="Market Name"
+              margin="dense"
+              name="market_name"
+              value={this.state.market_name}
+              onChange={this.changeHandler}
+              className={classes.textField}
+            />
+            <div className={classes.address}>
+              <TextField
+                id="standard-dense"
+                label="Street"
+                margin="dense"
+                name="address"
+                value={this.state.address}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="State"
+                margin="dense"
+                name="state"
+                value={this.state.state}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="City"
+                margin="dense"
+                name="city"
+                value={this.state.city}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="Zipcode"
+                margin="dense"
+                name="zip_code"
+                value={this.state.zip_code}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="Hours Open"
+                margin="dense"
+                name="hours_open"
+                value={this.state.hours_open}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="Phone Number"
+                margin="dense"
+                name="phone_num"
+                value={this.state.phone_num}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <TextField
+                id="standard-dense"
+                label="Bio"
+                margin="dense"
+                name="market_info"
+                value={this.state.market_info}
+                onChange={this.changeHandler}
+                className={classes.textField}
+              />
+              <div className={classes.buttons}>
+                <Button
+                  onClick={this.updateProfile}
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}>
+                  Save
+                </Button>
+              </div>
+            </div>
+          </Paper>
           <Typography variant="h6" align="left" className={classes.titles}>
             Edit Market Profile
           </Typography>

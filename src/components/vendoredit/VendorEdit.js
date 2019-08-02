@@ -75,7 +75,7 @@ class VendorEdit extends Component {
             product_image: '',
             open: true,
             message: 'Succesfully added item.',
-            setError: false,
+            error: false,
             file: null
           })
           this.getProducts()
@@ -85,7 +85,7 @@ class VendorEdit extends Component {
             open: true,
             message:
               'There was an error saving your changes, please try again later.',
-            setError: true
+            error: true
           })
         })
     }
@@ -94,7 +94,7 @@ class VendorEdit extends Component {
     if (reason === 'clickaway') {
       return
     }
-    this.setState({ open: false, setError: false })
+    this.setState({ open: false, error: false })
   }
 
   getVendor = async () => {
@@ -155,7 +155,7 @@ class VendorEdit extends Component {
         this.setState({
           open: true,
           message: 'Succesfully updated profile.',
-          setError: false
+          error: false
         })
       })
       .catch(error => {
@@ -163,7 +163,7 @@ class VendorEdit extends Component {
           open: true,
           message:
             'There was an error updating your profile, please try again.',
-          setError: true
+          error: true
         })
       })
   }
@@ -177,13 +177,13 @@ class VendorEdit extends Component {
           products: updated,
           open: true,
           message: 'Succesfully removed item.',
-          setError: false
+          error: false
         })
       })
       .catch(error => {
         this.setState({
           open: true,
-          message: 'Succesfully updated profile.',
+          message: 'There was an error, please try again.',
           setError: false
         })
       })
@@ -224,15 +224,15 @@ class VendorEdit extends Component {
           file: null,
           open: true,
           message: 'Succesfully updated item.',
-          setError: false,
+          error: false,
           editing: false
         })
       })
       .catch(error => {
         this.setState({
           open: true,
-          message: 'Succesfully updated profile.',
-          setError: false
+          message: 'There was an error, please try again.',
+          error: false
         })
       })
   }
