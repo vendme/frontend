@@ -69,7 +69,9 @@ const AccountList = props => {
   function handleLogout(event) {
     props.firebase
       .doSignOut()
-      .then(authUser => {})
+      .then(authUser => {
+        window.location.reload()
+      })
       .catch(error => {
         console.log(error.message)
       })
