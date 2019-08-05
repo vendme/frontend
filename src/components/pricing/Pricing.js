@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -60,7 +60,12 @@ const Pricing = props => {
 
   return (
     <React.Fragment>
-      <Snackbar open={appear} onClose={onClose} error={error} message={message} />
+      <Snackbar
+        open={appear}
+        onClose={onClose}
+        error={error}
+        message={message}
+      />
       <CssBaseline />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
@@ -122,18 +127,23 @@ const Pricing = props => {
                     ))}
                   </ul>
                 </CardContent>
-                <CardActions>
+                <CardActions
+                  style={{ display: 'flex', justifyContent: 'center' }}>
                   {tier.price === null ? (
-                  <Link to="/login">
-                    <Button fullWidth variant={tier.buttonVariant} className={classes.link} color="primary">
-                      {tier.buttonText}
-                    </Button>
-                  </Link>
+                    <Link to="/login">
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        className={classes.link}
+                        color="primary">
+                        {tier.buttonText}
+                      </Button>
+                    </Link>
                   ) : (
                     <PriceStripeModule
-                      setAppear={setAppear} 
-                      setMessage={setMessage} 
-                      setError={setError}  
+                      setAppear={setAppear}
+                      setMessage={setMessage}
+                      setError={setError}
                       amount={tier.price}
                     />
                   )}

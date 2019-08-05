@@ -6,6 +6,9 @@ import axios from 'axios'
 const styles = ({ spacing, palette, transitions, breakpoints }) => {
   return {
     stripe: {
+      minWidth: 64,
+      letterSpacing: '0.02857em',
+      verticalAlign: 'middle',
       boxShadow:
         '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12) !important',
       background: palette.primary.main + ' !important',
@@ -15,7 +18,11 @@ const styles = ({ spacing, palette, transitions, breakpoints }) => {
         background: palette.primary.dark + ' !important'
       },
       '& span': {
+        display: 'flex',
+        alignItems: 'center',
         fontWeight: 'normal !important',
+        boxSizing: 'border-box',
+        margin: '3px 8px !important',
         background: palette.primary.main + ' !important',
         boxShadow: 'none !important',
         textShadow: 'none !important',
@@ -60,7 +67,7 @@ const PriceStripeModule = props => {
       label="GET STARTED" //Component button text
       name="Vendme" //Modal Header
       description="Add text here."
-      panelLabel="Rent Stall for " //Submit button in modal
+      panelLabel="Get a premium vendme account for " //Submit button in modal
       amount={props.amount} //Amount in cents $9.99
       token={onToken}
       stripeKey={publishableKey}
